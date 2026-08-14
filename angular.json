@@ -36,6 +36,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/app-escores/",
               "budgets": [
                 {
                   "type": "initial",
