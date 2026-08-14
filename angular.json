@@ -31,7 +31,7 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/app-escores/",
+              "baseHref": "/app-scores/",
               "outputMode": "static",
               "budgets": [
                 {
