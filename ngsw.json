@@ -1,7 +1,7 @@
 {
   "configVersion": 1,
-  "timestamp": 1786731359833,
-  "index": "/app-escores/index.csr.html",
+  "timestamp": 1786731797078,
+  "index": "/app-escores/index.html",
   "assetGroups": [
     {
       "name": "app",
@@ -12,7 +12,6 @@
       },
       "urls": [
         "/app-escores/favicon.ico",
-        "/app-escores/index.csr.html",
         "/app-escores/index.html",
         "/app-escores/main-A6U5MX47.js",
         "/app-escores/manifest.webmanifest",
@@ -51,8 +50,7 @@
     "/app-escores/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/app-escores/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/app-escores/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/app-escores/index.csr.html": "f312ca46f231ab3f27f728d43da85d67b9b3fdd5",
-    "/app-escores/index.html": "174b7a474f4f69171dab2c846f17986c8dd2be41",
+    "/app-escores/index.html": "2d73ad9545236e1f300f2ff87b98a8ef43962adb",
     "/app-escores/main-A6U5MX47.js": "ef5444b276c13028433dfd4d8d06b1c6acc0aa81",
     "/app-escores/manifest.webmanifest": "3a50f3abca392142bf78492ba9375b679e7239cb",
     "/app-escores/styles-5INURTSO.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
