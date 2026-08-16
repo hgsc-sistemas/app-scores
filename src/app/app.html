@@ -9,6 +9,7 @@
       <button
         type="button"
         class="score-tab"
+        id="{{ option.key }}-tab"
         [class.active]="selectedScore() === option.key"
         (click)="selectedScore.set(option.key)"
       >
@@ -145,7 +146,7 @@
     }
 
     @if (selectedScore() === 'saps2') {
-      <section class="card form-card">
+      <section class="card form-card saps2-form">
         <div class="card-header">
           <div>
             <span class="mini-label">UTI</span>
