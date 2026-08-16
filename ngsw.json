@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1786908735417,
+  "timestamp": 1786911713433,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/app-scores/favicon.ico",
         "/app-scores/index.html",
-        "/app-scores/main-R6OMAJB4.js",
+        "/app-scores/main-V4ESJXHX.js",
         "/app-scores/manifest.webmanifest",
         "/app-scores/styles-5INURTSO.css"
       ],
@@ -50,9 +50,9 @@
     "/app-scores/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/app-scores/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/app-scores/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/app-scores/index.html": "d15d9e393dc6980f710bfaf7cbb05cce2b29abbf",
-    "/app-scores/main-R6OMAJB4.js": "b257563b087a64aeb7be1622706721def7506932",
-    "/app-scores/manifest.webmanifest": "3a50f3abca392142bf78492ba9375b679e7239cb",
+    "/app-scores/index.html": "82687c45487c6c0b7ef153cca2b43c31949bd8f7",
+    "/app-scores/main-V4ESJXHX.js": "7627a3e3f76686ea2450da8d0c657b4cd7680f3b",
+    "/app-scores/manifest.webmanifest": "84dd68618b2286f431e061a6da39e254438992c0",
     "/app-scores/styles-5INURTSO.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
   },
   "navigationUrls": [
