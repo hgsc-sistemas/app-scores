@@ -58,9 +58,9 @@ const NEWS2_DEFAULT: News2Values = {
 
 const SAPS2_DEFAULT: Saps2Values = {
   age: 35,
-  heartRate: 80,
+  heartRate: 95,
   systolicBp: 140,
-  temperature: 37,
+  temperature: 37.2,
   gcs: 15,
   oxygenSaturation: 98,
   pH: 7.4,
