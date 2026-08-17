@@ -113,8 +113,8 @@ export function calculateNews2Score(values: News2Values): number {
   ]);
 
   total += getRangeScore(values.temperature, [
-    { max: 35, score: 1 },
-    { min: 35.1, max: 36, score: 0 },
+    { max: 35, score: 3 },
+    { min: 35.1, max: 36, score: 1 },
     { min: 36.1, max: 38, score: 0 },
     { min: 38.1, max: 39, score: 1 },
     { min: 39.1, score: 2 },
@@ -374,8 +374,8 @@ export class App {
       { label: '≥ 25', value: 25, color: 'vermelho' }, // Score 3
     ],
     oxygenSaturation: [
-      { label: '≤ 90', value: 88, color: 'vermelho' }, // Score 3
-      { label: '91–93', value: 92, color: 'laranja' }, // Score 2
+      { label: '≤ 91', value: 88, color: 'vermelho' }, // Score 3
+      { label: '92–93', value: 92, color: 'laranja' }, // Score 2
       { label: '94–95', value: 95, color: 'amarelo' }, // Score 1
       { label: '≥ 96', value: 96, color: 'verde' }, // Score 0
     ],
