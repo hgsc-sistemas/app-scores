@@ -824,17 +824,17 @@ export class App {
       {
         label: '40–59',
         value: 50,
-        color: 'laranja',
+        color: 'amarelo',
       },
       {
         label: '60–69',
         value: 65,
-        color: 'vermelho',
+        color: 'laranja',
       },
       {
         label: '70–74',
         value: 72,
-        color: 'vermelho-escuro',
+        color: 'vermelho',
       },
       {
         label: '75–79',

@@ -32,7 +32,6 @@
           "configurations": {
             "production": {
               "baseHref": "/app-scores/",
-              "outputMode": "static",
               "budgets": [
                 {
                   "type": "initial",
