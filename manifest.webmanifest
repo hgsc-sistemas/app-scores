@@ -3,7 +3,7 @@
   "short_name": "app-escores-hgsc",
   "display": "standalone",
   "scope": "/app-scores/",
-  "start_url": "/app-scores/index.html",
+  "start_url": "./",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
