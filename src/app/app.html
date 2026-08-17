@@ -36,7 +36,7 @@
               @for (option of news2FieldOptions.respiratoryRate; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().respiratoryRate === option.value"
                   (click)="setNews2Value('respiratoryRate', option.value)"
                 >
@@ -52,7 +52,7 @@
               @for (option of news2FieldOptions.oxygenSaturation; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().oxygenSaturation === option.value"
                   (click)="setNews2Value('oxygenSaturation', option.value)"
                 >
@@ -68,7 +68,7 @@
               @for (option of news2FieldOptions.systolicBp; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().systolicBp === option.value"
                   (click)="setNews2Value('systolicBp', option.value)"
                 >
@@ -84,7 +84,7 @@
               @for (option of news2FieldOptions.heartRate; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().heartRate === option.value"
                   (click)="setNews2Value('heartRate', option.value)"
                 >
@@ -100,7 +100,7 @@
               @for (option of news2FieldOptions.temperature; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().temperature === option.value"
                   (click)="setNews2Value('temperature', option.value)"
                 >
@@ -116,7 +116,7 @@
               @for (option of news2FieldOptions.consciousness; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().consciousness === option.value"
                   (click)="setNews2Value('consciousness', option.value)"
                 >
@@ -132,7 +132,7 @@
               @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="news2Values().oxygenSupplement === option.value"
                   (click)="setNews2Value('oxygenSupplement', option.value)"
                 >
@@ -162,7 +162,7 @@
               @for (option of saps2FieldOptions.age; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().age === option.value"
                   (click)="setSaps2Value('age', option.value)"
                 >
@@ -178,7 +178,7 @@
               @for (option of saps2FieldOptions.heartRate; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' +  option.color"
                   [class.selected]="saps2Values().heartRate === option.value"
                   (click)="setSaps2Value('heartRate', option.value)"
                 >
@@ -194,7 +194,7 @@
               @for (option of saps2FieldOptions.systolicBp; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().systolicBp === option.value"
                   (click)="setSaps2Value('systolicBp', option.value)"
                 >
@@ -210,7 +210,7 @@
               @for (option of saps2FieldOptions.temperature; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().temperature === option.value"
                   (click)="setSaps2Value('temperature', option.value)"
                 >
@@ -226,7 +226,7 @@
               @for (option of saps2FieldOptions.gcs; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().gcs === option.value"
                   (click)="setSaps2Value('gcs', option.value)"
                 >
@@ -242,7 +242,7 @@
               @for (option of saps2FieldOptions.oxygenSaturation; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().oxygenSaturation === option.value"
                   (click)="setSaps2Value('oxygenSaturation', option.value)"
                 >
@@ -258,7 +258,7 @@
               @for (option of saps2FieldOptions.pH; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().pH === option.value"
                   (click)="setSaps2Value('pH', option.value)"
                 >
@@ -274,7 +274,7 @@
               @for (option of saps2FieldOptions.sodium; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().sodium === option.value"
                   (click)="setSaps2Value('sodium', option.value)"
                 >
@@ -290,7 +290,7 @@
               @for (option of saps2FieldOptions.potassium; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().potassium === option.value"
                   (click)="setSaps2Value('potassium', option.value)"
                 >
@@ -306,7 +306,7 @@
               @for (option of saps2FieldOptions.bicarbonate; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().bicarbonate === option.value"
                   (click)="setSaps2Value('bicarbonate', option.value)"
                 >
@@ -322,7 +322,7 @@
               @for (option of saps2FieldOptions.bilirubin; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().bilirubin === option.value"
                   (click)="setSaps2Value('bilirubin', option.value)"
                 >
@@ -338,7 +338,7 @@
               @for (option of saps2FieldOptions.creatinine; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().creatinine === option.value"
                   (click)="setSaps2Value('creatinine', option.value)"
                 >
@@ -354,7 +354,7 @@
               @for (option of saps2FieldOptions.hematocrit; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().hematocrit === option.value"
                   (click)="setSaps2Value('hematocrit', option.value)"
                 >
@@ -370,7 +370,7 @@
               @for (option of saps2FieldOptions.leukocytes; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().leukocytes === option.value"
                   (click)="setSaps2Value('leukocytes', option.value)"
                 >
@@ -386,7 +386,7 @@
               @for (option of saps2FieldOptions.mechanicalVentilation; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().mechanicalVentilation === option.value"
                   (click)="setSaps2Value('mechanicalVentilation', option.value)"
                 >
@@ -402,7 +402,7 @@
               @for (option of saps2FieldOptions.chronicDisease; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().chronicDisease === option.value"
                   (click)="setSaps2Value('chronicDisease', option.value)"
                 >
@@ -418,7 +418,7 @@
               @for (option of saps2FieldOptions.cancer; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().cancer === option.value"
                   (click)="setSaps2Value('cancer', option.value)"
                 >
@@ -434,7 +434,7 @@
               @for (option of saps2FieldOptions.dialysis; track option.label) {
                 <button
                   type="button"
-                  class="option-button"
+                  [class]="'option-button ' + option.color"
                   [class.selected]="saps2Values().dialysis === option.value"
                   (click)="setSaps2Value('dialysis', option.value)"
                 >

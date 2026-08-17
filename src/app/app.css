@@ -157,6 +157,7 @@ h1 {
     display: flex;
     gap: 0.2rem;
     width: 100%;
+    margin-top: 0.5rem;
 }
 
 .option-button {
@@ -172,14 +173,8 @@ h1 {
     cursor: pointer;
     transition: all 0.15s ease;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     min-width: fit-content;
-}
-
-.option-button:hover {
-    border-color: #5f8dd1;
-    background: #f0f6ff;
 }
 
 .option-button.selected {
@@ -187,6 +182,37 @@ h1 {
     border-color: transparent;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(44, 106, 229, 0.25);
+}
+
+.option-button::after {
+    display: block;
+    content: '';
+    position: relative;
+    top: -35px;
+    left: -5px;
+    width: calc(100% + 10px);
+    height: 3px;
+    border-radius: 3px;
+}
+
+.option-button.verde::after {
+    background-color: #0f7a4d;
+}
+
+.option-button.amarelo::after {
+    background-color: #ffc107;
+}
+
+.option-button.laranja::after {
+    background-color: #fd7e14;
+}
+
+.option-button.vermelho::after {
+    background-color: #dc3545;
+}
+
+.option-button.vermelho-escuro::after {
+    background-color: #8b0000;
 }
 
 .score-tab:focus,
