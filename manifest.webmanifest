@@ -2,8 +2,8 @@
   "name": "app-escores-hgsc",
   "short_name": "app-escores-hgsc",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "/app-scores/src/index.html",
+  "scope": "/app-scores/",
+  "start_url": "/app-scores/index.html",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

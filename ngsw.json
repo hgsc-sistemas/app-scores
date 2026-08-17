@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1786974592209,
+  "timestamp": 1786975581127,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -52,7 +52,7 @@
     "/app-scores/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
     "/app-scores/index.html": "f7f8b61741731b262f9b3c31fcec46f7295d953b",
     "/app-scores/main-XWM6NT66.js": "6209d82c44d35fba86c9223f261863a1b7b01dec",
-    "/app-scores/manifest.webmanifest": "84dd68618b2286f431e061a6da39e254438992c0",
+    "/app-scores/manifest.webmanifest": "c7db8b85e63633003f0ecbbd17e46fa123a03a47",
     "/app-scores/styles-5INURTSO.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
   },
   "navigationUrls": [
