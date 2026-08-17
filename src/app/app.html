@@ -6,486 +6,419 @@
 
   <nav class="score-switcher" aria-label="Escolha do score">
     @for (option of scoreOptions; track option.key) {
-      <button
-        type="button"
-        class="score-tab"
-        id="{{ option.key }}-tab"
-        [class.active]="selectedScore() === option.key"
-        (click)="selectedScore.set(option.key)"
-      >
-        {{ option.label }}
-      </button>
+    <button type="button" class="score-tab" id="{{ option.key }}-tab" [class.active]="selectedScore() === option.key"
+      (click)="selectedScore.set(option.key)">
+      {{ option.label }}
+    </button>
     }
   </nav>
 
   <main class="dashboard">
     @if (selectedScore() === 'news2') {
-      <section class="card form-card">
-        <div class="card-header">
-          <div>
-            <span class="mini-label">Enfermaria</span>
-            <h2>NEWS2</h2>
+    <section class="card form-card">
+      <div class="card-header">
+        <div>
+          <span class="mini-label">Enfermaria</span>
+          <h2>NEWS2</h2>
+        </div>
+        <button type="button" class="ghost-button" (click)="resetNews2()">Resetar</button>
+      </div>
+
+      <div class="score-table">
+        <div class="table-row">
+          <div class="metric-label">Frequência respiratória</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.respiratoryRate; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().respiratoryRate === option.value"
+              (click)="setNews2Value('respiratoryRate', option.value)">
+              {{ option.label }}
+            </button>
+            }
           </div>
-          <button type="button" class="ghost-button" (click)="resetNews2()">Resetar</button>
         </div>
 
-        <div class="score-table">
-          <div class="table-row">
-            <div class="metric-label">Frequência respiratória</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.respiratoryRate; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().respiratoryRate === option.value"
-                  (click)="setNews2Value('respiratoryRate', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Saturação de O2</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.oxygenSaturation; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().oxygenSaturation === option.value"
-                  (click)="setNews2Value('oxygenSaturation', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">PA sistólica</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.systolicBp; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().systolicBp === option.value"
-                  (click)="setNews2Value('systolicBp', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">FC</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.heartRate; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().heartRate === option.value"
-                  (click)="setNews2Value('heartRate', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Temperatura</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.temperature; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().temperature === option.value"
-                  (click)="setNews2Value('temperature', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Consciência</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.consciousness; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().consciousness === option.value"
-                  (click)="setNews2Value('consciousness', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row bool-row">
-            <div class="metric-label">Oxigênio suplementar</div>
-            <div class="option-group">
-              @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="news2Values().oxygenSupplement === option.value"
-                  (click)="setNews2Value('oxygenSupplement', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
+        <div class="table-row">
+          <div class="metric-label">Saturação de O2</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.oxygenSaturation; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().oxygenSaturation === option.value"
+              (click)="setNews2Value('oxygenSaturation', option.value)">
+              {{ option.label }}
+            </button>
+            }
           </div>
         </div>
-      </section>
+
+        <div class="table-row">
+          <div class="metric-label">PA sistólica</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.systolicBp; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().systolicBp === option.value"
+              (click)="setNews2Value('systolicBp', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="table-row">
+          <div class="metric-label">FC</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.heartRate; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().heartRate === option.value"
+              (click)="setNews2Value('heartRate', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="table-row">
+          <div class="metric-label">Temperatura</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.temperature; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().temperature === option.value"
+              (click)="setNews2Value('temperature', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="table-row">
+          <div class="metric-label">Consciência</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.consciousness; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().consciousness === option.value"
+              (click)="setNews2Value('consciousness', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="table-row bool-row">
+          <div class="metric-label">Oxigênio suplementar</div>
+          <div class="option-group">
+            @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="news2Values().oxygenSupplement === option.value"
+              (click)="setNews2Value('oxygenSupplement', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
     }
 
-    @if (selectedScore() === 'saps2') {
-      <section class="card form-card saps2-form">
-        <div class="card-header">
-          <div>
-            <span class="mini-label">UTI</span>
-            <h2>SAPS 2</h2>
+ @if (selectedScore() === 'saps2') {
+    <section class="card form-card saps2-form">
+      <div class="card-header">
+        <div>
+          <span class="mini-label">UTI</span>
+          <h2>SAPS 2</h2>
+        </div>
+        <button type="button" class="ghost-button" (click)="resetSaps2()">Resetar</button>
+      </div>
+
+      <div class="score-table">
+        <!-- Idade -->
+        <div class="table-row">
+          <div class="metric-label">Idade</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.age; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().age === option.value" (click)="setSaps2Value('age', option.value)">
+              {{ option.label }}
+            </button>
+            }
           </div>
-          <button type="button" class="ghost-button" (click)="resetSaps2()">Resetar</button>
         </div>
 
-        <div class="score-table">
-          <div class="table-row">
-            <div class="metric-label">Idade</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.age; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().age === option.value"
-                  (click)="setSaps2Value('age', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">FC</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.heartRate; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' +  option.color"
-                  [class.selected]="saps2Values().heartRate === option.value"
-                  (click)="setSaps2Value('heartRate', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">PA sistólica</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.systolicBp; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().systolicBp === option.value"
-                  (click)="setSaps2Value('systolicBp', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Temperatura</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.temperature; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().temperature === option.value"
-                  (click)="setSaps2Value('temperature', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">GCS</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.gcs; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().gcs === option.value"
-                  (click)="setSaps2Value('gcs', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Saturação de O2</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.oxygenSaturation; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().oxygenSaturation === option.value"
-                  (click)="setSaps2Value('oxygenSaturation', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">pH</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.pH; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().pH === option.value"
-                  (click)="setSaps2Value('pH', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Sódio</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.sodium; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().sodium === option.value"
-                  (click)="setSaps2Value('sodium', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Potássio</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.potassium; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().potassium === option.value"
-                  (click)="setSaps2Value('potassium', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Bicarbonato</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.bicarbonate; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().bicarbonate === option.value"
-                  (click)="setSaps2Value('bicarbonate', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Bilirrubina</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.bilirubin; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().bilirubin === option.value"
-                  (click)="setSaps2Value('bilirubin', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Creatinina</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.creatinine; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().creatinine === option.value"
-                  (click)="setSaps2Value('creatinine', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Hematócrito</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.hematocrit; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().hematocrit === option.value"
-                  (click)="setSaps2Value('hematocrit', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row">
-            <div class="metric-label">Leucócitos</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.leukocytes; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().leukocytes === option.value"
-                  (click)="setSaps2Value('leukocytes', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row bool-row">
-            <div class="metric-label">Ventilação mecânica</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.mechanicalVentilation; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().mechanicalVentilation === option.value"
-                  (click)="setSaps2Value('mechanicalVentilation', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row bool-row">
-            <div class="metric-label">Doença crônica</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.chronicDisease; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().chronicDisease === option.value"
-                  (click)="setSaps2Value('chronicDisease', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row bool-row">
-            <div class="metric-label">Oncologia</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.cancer; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().cancer === option.value"
-                  (click)="setSaps2Value('cancer', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div class="table-row bool-row">
-            <div class="metric-label">Diálise</div>
-            <div class="option-group">
-              @for (option of saps2FieldOptions.dialysis; track option.label) {
-                <button
-                  type="button"
-                  [class]="'option-button ' + option.color"
-                  [class.selected]="saps2Values().dialysis === option.value"
-                  (click)="setSaps2Value('dialysis', option.value)"
-                >
-                  {{ option.label }}
-                </button>
-              }
-            </div>
+        <!-- Frequência Cardíaca -->
+        <div class="table-row">
+          <div class="metric-label">FC (bpm)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.heartRate; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().heartRate === option.value"
+              (click)="setSaps2Value('heartRate', option.value)">
+              {{ option.label }}
+            </button>
+            }
           </div>
         </div>
-      </section>
+
+        <!-- Pressão Arterial Sistólica -->
+        <div class="table-row">
+          <div class="metric-label">PA sistólica (mmHg)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.systolicBp; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().systolicBp === option.value"
+              (click)="setSaps2Value('systolicBp', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Temperatura -->
+        <div class="table-row">
+          <div class="metric-label">Temperatura (°C)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.temperature; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().temperature === option.value"
+              (click)="setSaps2Value('temperature', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Escala de Coma de Glasgow -->
+        <div class="table-row">
+          <div class="metric-label">Glasgow (GCS)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.gcs; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().gcs === option.value" (click)="setSaps2Value('gcs', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Tipo de Admissão -->
+        <div class="table-row">
+          <div class="metric-label">Tipo de Admissão</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.admissionType; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().admissionType === option.value"
+              (click)="setSaps2Value('admissionType', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Ventilação mecânica -->
+        <div class="table-row bool-row">
+          <div class="metric-label">Ventilação mecânica</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.mechanicalVentilation; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().mechanicalVentilation === option.value"
+              (click)="setSaps2Value('mechanicalVentilation', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        @if (saps2Values().mechanicalVentilation) {
+          <!-- PaO2/FiO2 -->
+          <div class="table-row">
+            <div class="metric-label">PaO₂/FiO₂</div>
+            <div class="option-group">
+              @for (option of saps2FieldOptions.pao2Fio2; track option.label) {
+              <button type="button" [class]="'option-button ' + option.color"
+                [class.selected]="saps2Values().pao2Fio2 === option.value" (click)="setSaps2Value('pao2Fio2', option.value)">
+                {{ option.label }}
+              </button>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Débito Urinário -->
+        <div class="table-row">
+          <div class="metric-label">Débito Urinário (mL/24h)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.urineOutput; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().urineOutput === option.value"
+              (click)="setSaps2Value('urineOutput', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Ureia (BUN) -->
+        <div class="table-row">
+          <div class="metric-label">Ureia (BUN)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.bun; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().bun === option.value" (click)="setSaps2Value('bun', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Sódio -->
+        <div class="table-row">
+          <div class="metric-label">Sódio (mEq/L)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.sodium; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().sodium === option.value" (click)="setSaps2Value('sodium', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Potássio -->
+        <div class="table-row">
+          <div class="metric-label">Potássio (mEq/L)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.potassium; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().potassium === option.value"
+              (click)="setSaps2Value('potassium', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Bicarbonato -->
+        <div class="table-row">
+          <div class="metric-label">Bicarbonato (mEq/L)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.bicarbonate; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().bicarbonate === option.value"
+              (click)="setSaps2Value('bicarbonate', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Bilirrubina -->
+        <div class="table-row">
+          <div class="metric-label">Bilirrubina (mg/dL)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.bilirubin; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().bilirubin === option.value"
+              (click)="setSaps2Value('bilirubin', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Leucócitos -->
+        <div class="table-row">
+          <div class="metric-label">Leucócitos (10³/mm³)</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.leukocytes; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().leukocytes === option.value"
+              (click)="setSaps2Value('leukocytes', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Câncer Metastático -->
+        <div class="table-row bool-row">
+          <div class="metric-label">Câncer Metastático</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.metastaticCancer; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().metastaticCancer === option.value"
+              (click)="setSaps2Value('metastaticCancer', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Neoplasia Hematológica -->
+        <div class="table-row bool-row">
+          <div class="metric-label">Neoplasia Hematológica</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.hematologicMalignancy; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().hematologicMalignancy === option.value"
+              (click)="setSaps2Value('hematologicMalignancy', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- AIDS -->
+        <div class="table-row bool-row">
+          <div class="metric-label">AIDS</div>
+          <div class="option-group">
+            @for (option of saps2FieldOptions.aids; track option.label) {
+            <button type="button" [class]="'option-button ' + option.color"
+              [class.selected]="saps2Values().aids === option.value"
+              (click)="setSaps2Value('aids', option.value)">
+              {{ option.label }}
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
     }
 
-    <aside
-      class="card result-card"
+    <aside class="card result-card"
       [class.low]="selectedScore() === 'news2' ? news2Result().tone === 'low' : saps2Result().tone === 'low'"
       [class.medium]="selectedScore() === 'news2' ? news2Result().tone === 'medium' : saps2Result().tone === 'medium'"
       [class.high]="selectedScore() === 'news2' ? news2Result().tone === 'high' : saps2Result().tone === 'high'"
-      [class.critical]="selectedScore() === 'news2' ? news2Result().tone === 'critical' : saps2Result().tone === 'critical'"
-    >
+      [class.critical]="selectedScore() === 'news2' ? news2Result().tone === 'critical' : saps2Result().tone === 'critical'">
       <div class="result-topline">
         <span class="mini-label">Resultado</span>
         @if (selectedScore() === 'news2') {
-          <span class="result-tag">{{ news2Result().label }}</span>
+        <span class="result-tag">{{ news2Result().label }}</span>
         } @else {
-          <span class="result-tag">{{ saps2Result().label }}</span>
+        <span class="result-tag">{{ saps2Result().label }}</span>
         }
       </div>
 
       <div class="score-value">
         @if (selectedScore() === 'news2') {
-          {{ news2Result().total }}
+        {{ news2Result().total }}
         } @else {
-          {{ saps2Result().total }}
+        {{ saps2Result().total }}
         }
       </div>
 
       <p class="estimate">
         @if (selectedScore() === 'news2') {
-          {{ news2Result().estimate }}
+        {{ news2Result().estimate }}
         } @else {
-          {{ saps2Result().estimate }}
+        {{ saps2Result().estimate }}
         }
       </p>
 
       <div class="guidance-box">
         @if (selectedScore() === 'news2') {
-          <strong>Conduta sugerida</strong>
-          <p>{{ news2Result().guidance }}</p>
+        <strong>Conduta sugerida</strong>
+        <p>{{ news2Result().guidance }}</p>
         } @else {
-          <strong>Conduta sugerida</strong>
-          <p>{{ saps2Result().guidance }}</p>
+        <strong>Conduta sugerida</strong>
+        <p>{{ saps2Result().guidance }}</p>
         }
       </div>
     </aside>

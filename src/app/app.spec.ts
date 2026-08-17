@@ -45,25 +45,26 @@ describe('App', () => {
   });
 
   it('should calculate a SAPS 2 score and classify urgency', () => {
+    // Objeto atualizado com as variáveis reais do SAPS 2
     const score = calculateSaps2Score({
       age: 74,
       heartRate: 130,
       systolicBp: 80,
       temperature: 39.1,
       gcs: 12,
-      oxygenSaturation: 88,
-      pH: 7.28,
       sodium: 138,
       potassium: 5.7,
       bicarbonate: 16,
       bilirubin: 6,
-      creatinine: 2.3,
-      hematocrit: 25,
       leukocytes: 18,
       mechanicalVentilation: true,
-      chronicDisease: true,
-      cancer: false,
-      dialysis: false,
+      pao2Fio2: 95,
+      urineOutput: 400,
+      bun: 85,
+      admissionType: 'medical',
+      metastaticCancer: false,
+      hematologicMalignancy: false,
+      aids: false,
     });
 
     expect(score).toBeGreaterThan(30);
