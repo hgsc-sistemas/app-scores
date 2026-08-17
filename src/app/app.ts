@@ -165,7 +165,7 @@ export function calculateSaps2Score(values: Saps2Values): number {
   ]);
 
   total += getRangeScore(values.temperature, [
-    { max: 37.5, score: 0 },
+    { max: 38.9, score: 0 },
     { min: 39, score: 3 },
   ]);
 
@@ -182,7 +182,7 @@ export function calculateSaps2Score(values: Saps2Values): number {
     total += getRangeScore(values.pao2Fio2, [
       { max: 99, score: 11 },
       { min: 100, max: 199, score: 9 },
-      { min: 200, score: 0 },
+      { min: 200, score: 6 },
     ]);
   }
 
@@ -451,7 +451,7 @@ protected readonly saps2FieldOptions = {
         { label: 'Sim', value: true, color: 'amarelo' }, // O uso em si não pontua direto, mas abre a PaO2/FiO2
       ],
       pao2Fio2: [
-        { label: '≥ 200 (ou não ventilado)', value: 400, color: 'verde' }, // 0 pts
+        { label: '≥ 200', value: 400, color: 'laranja' }, // 6 pts
         { label: '100–199', value: 150, color: 'vermelho' }, // 9 pts
         { label: '< 100', value: 80, color: 'vermelho' }, // 11 pts
       ],
@@ -667,7 +667,7 @@ protected readonly saps2FieldOptions = {
       return getRangeScore(value as number, [
         { max: 99, score: 11 },
         { min: 100, max: 199, score: 9 },
-        { min: 200, score: 0 },
+        { min: 200, score: 6 },
       ]);
     }
 
@@ -872,7 +872,7 @@ protected getSaps2OptionScore(field: keyof Saps2Values, value: any): number {
       return getRangeScore(value as number, [
         { max: 99, score: 11 },
         { min: 100, max: 199, score: 9 },
-        { min: 200, score: 0 },
+        { min: 200, score: 6 },
       ]);
     }
 
