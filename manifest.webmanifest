@@ -1,6 +1,6 @@
 {
-  "name": "app-escores-hgsc",
-  "short_name": "app-escores-hgsc",
+  "name": "hgsc-scores",
+  "short_name": "hgsc-scores",
   "display": "standalone",
   "scope": "/app-scores/",
   "start_url": "./",
