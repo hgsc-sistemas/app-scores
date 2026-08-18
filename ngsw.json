@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1787058785162,
+  "timestamp": 1787059636666,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -43,11 +43,11 @@
   "hashTable": {
     "/app-scores/favicon.ico": "329f441b155dcfbec8ccfaf1dba083dbdeefcbdd",
     "/app-scores/icons/icon-128x128.png": "ddfc5b9ff5ac616f81b8a972692645547c98c507",
-    "/app-scores/icons/icon-144x144.png": "9a5c03350bc9b88f574ba8366852abf24a49f4c7",
-    "/app-scores/icons/icon-152x152.png": "1e440159c4f7d517224155403250dba9c2045db7",
-    "/app-scores/icons/icon-192x192.png": "1b581d4f42ccd022ba6eb6b3732292f416c640e3",
-    "/app-scores/icons/icon-384x384.png": "9a39822998934a50a7f43db854ea40710f74512e",
-    "/app-scores/icons/icon-512x512.png": "1b438a7fd35c3f32c5d7beb83581e1bdba347691",
+    "/app-scores/icons/icon-144x144.png": "27c9650df6d604293a408a14569aa56c13586407",
+    "/app-scores/icons/icon-152x152.png": "2b9782852ee94652ae70f4012a091c959f822369",
+    "/app-scores/icons/icon-192x192.png": "730088945d0a0132ac615ced49ae267b0b9a62f9",
+    "/app-scores/icons/icon-384x384.png": "8e3d8541733fb74e7948f7025cdf1e7c13b6aecc",
+    "/app-scores/icons/icon-512x512.png": "f2b942bdc884cd2424d443f7d142039f1f8e2c97",
     "/app-scores/icons/icon-72x72.png": "9556b5d51c6f094619f5b918885422de74c6b10b",
     "/app-scores/icons/icon-96x96.png": "295f7732f8ad4135235d4749602509c661774404",
     "/app-scores/index.html": "471be393e065c884e0895e2a19770ec53b2586ac",
