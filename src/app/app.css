@@ -1,9 +1,10 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100%;
-  background: #eef6ff;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #eef6ff;
 }
 
 :host {
@@ -37,6 +38,19 @@ select {
 
 .topbar {
     padding: 0.5rem 0 2.5rem;
+}
+
+.container-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.logo-itga-main {
+    width: auto;
+    height: 4.5rem;
+    margin: auto;
 }
 
 .eyebrow,
@@ -387,7 +401,7 @@ h1 {
 }
 
 @media (max-width: 400px) {
-    .option-button{
+    .option-button {
         font-size: 0.6rem !important;
         padding: 0.8rem 0.1rem !important;
     }
