@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1786993369335,
+  "timestamp": 1787058031910,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -41,15 +41,15 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/app-scores/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/app-scores/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/app-scores/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/app-scores/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/app-scores/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/app-scores/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/app-scores/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/app-scores/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/app-scores/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/app-scores/favicon.ico": "329f441b155dcfbec8ccfaf1dba083dbdeefcbdd",
+    "/app-scores/icons/icon-128x128.png": "7ffb03200ac2d0eb2c90d1cd904fae85608ac278",
+    "/app-scores/icons/icon-144x144.png": "9a5c03350bc9b88f574ba8366852abf24a49f4c7",
+    "/app-scores/icons/icon-152x152.png": "1e440159c4f7d517224155403250dba9c2045db7",
+    "/app-scores/icons/icon-192x192.png": "1b581d4f42ccd022ba6eb6b3732292f416c640e3",
+    "/app-scores/icons/icon-384x384.png": "9a39822998934a50a7f43db854ea40710f74512e",
+    "/app-scores/icons/icon-512x512.png": "1b438a7fd35c3f32c5d7beb83581e1bdba347691",
+    "/app-scores/icons/icon-72x72.png": "f047e490ba556e82102d2d165ec98e88595faf35",
+    "/app-scores/icons/icon-96x96.png": "aaf5eaf452749d0a76f48c6cc2a1fb1729cde1e8",
     "/app-scores/index.html": "471be393e065c884e0895e2a19770ec53b2586ac",
     "/app-scores/main-JNVXCM4S.js": "c03d8b438f25e63e0d66a9e246779603a9ccf0ca",
     "/app-scores/manifest.webmanifest": "49c2931771d19cecfd97f20ca474ee510d0c2b83",
