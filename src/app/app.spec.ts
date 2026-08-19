@@ -8,6 +8,10 @@ describe('App', () => {
     }).compileComponents();
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
@@ -16,6 +20,9 @@ describe('App', () => {
 
   it('should render the score selector', async () => {
     const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    app.showPresentation.set(false);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Calculadora de escores');
@@ -24,6 +31,9 @@ describe('App', () => {
 
   it('should render button-based selectors for the score table', async () => {
     const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    app.showPresentation.set(false);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelectorAll('.option-button').length).toBeGreaterThan(0);
@@ -69,5 +79,51 @@ describe('App', () => {
 
     expect(score).toBeGreaterThan(30);
     expect(summarizeSaps2(score).label).toContain('Gravidade');
+  });
+
+  it('should display the hospital presentation component on startup', async () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(app.showPresentation()).toBe(true);
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-hospital-presentation')).toBeTruthy();
+    expect(compiled.querySelector('.presentation-title')?.textContent).toContain('Hospital & Centro de Saúde');
+    expect(compiled.querySelectorAll('.service-card').length).toBeGreaterThanOrEqual(6);
+  });
+
+  it('should close presentation when closePresentation is called', async () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(app.showPresentation()).toBe(true);
+
+    app.closePresentation();
+    fixture.detectChanges();
+    expect(app.showPresentation()).toBe(false);
+    expect(fixture.nativeElement.querySelector('app-hospital-presentation')).toBeFalsy();
+  });
+
+  it('should allow reopening the presentation from the topbar button', async () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    app.closePresentation();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(app.showPresentation()).toBe(false);
+
+    // Click "Conheça o Hospital" button in topbar
+    const infoBtn = fixture.nativeElement.querySelector('.btn-hospital-info') as HTMLButtonElement;
+    expect(infoBtn).toBeTruthy();
+    infoBtn.click();
+    fixture.detectChanges();
+
+    expect(app.showPresentation()).toBe(true);
+    expect(fixture.nativeElement.querySelector('app-hospital-presentation')).toBeTruthy();
   });
 });

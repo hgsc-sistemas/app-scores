@@ -4,14 +4,14 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100%;
-    background: #eef6ff;
+    background: var(--color-bg-app);
 }
 
 :host {
     display: block;
     min-height: 100vh;
-    background: linear-gradient(180deg, #eef6ff 0%, #f5f8ff 100%);
-    color: #10213a;
+    background: linear-gradient(180deg, var(--color-bg-app) 0%, var(--color-bg-subtle) 100%);
+    color: var(--color-text-main);
     font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
@@ -28,7 +28,7 @@ select {
 .app-shell {
     width: min(1200px, calc(100% - 0.5rem));
     margin: 0 auto;
-    padding: 0rem 0 1rem;
+    padding: 0rem 0.5rem 1rem;
 }
 
 .saps2-form .app-shell {
@@ -62,7 +62,7 @@ select {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #5a6b8c;
+    color: var(--color-text-muted);
 }
 
 h1 {
@@ -73,7 +73,7 @@ h1 {
 
 .topbar p {
     margin: 0;
-    color: #4d5a72;
+    color: var(--color-text-muted);
     font-size: 1rem;
 }
 
@@ -86,9 +86,9 @@ h1 {
 
 .score-tab {
     appearance: none;
-    border: 1px solid #d5ddea;
-    background: #ffffff;
-    color: #1c2d4d;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-surface);
+    color: var(--color-text-main);
     border-radius: 0.875rem;
     padding: 0.9rem 1rem;
     font-weight: 700;
@@ -97,8 +97,8 @@ h1 {
 }
 
 .score-tab.active {
-    background: linear-gradient(135deg, #113a74 0%, #1d5ed3 100%);
-    color: #fff;
+    background: linear-gradient(135deg, var(--color-primary-navy) 0%, var(--color-primary) 100%);
+    color: #ffffff;
     border-color: transparent;
     box-shadow: 0 12px 24px rgba(29, 94, 211, 0.22);
 }
@@ -111,8 +111,8 @@ h1 {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid #dfeaf9;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-subtle);
     border-radius: 1.1rem;
     box-shadow: 0 8px 30px rgba(16, 33, 58, 0.06);
 }
@@ -137,7 +137,7 @@ h1 {
 .ghost-button {
     border: 1px solid #d7e4ff;
     background: #f5f8ff;
-    color: #24498d;
+    color: var(--color-primary-medium);
     border-radius: 999px;
     padding: 0.55rem 0.9rem;
     font-weight: 700;
@@ -154,16 +154,16 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    border: 1px solid #d4e1ff;
+    border: 1px solid var(--color-border-subtle);
     border-radius: 0.75rem;
     padding: 0.6rem 0.5rem;
-    background: #f8fafc;
+    background: var(--color-bg-subtle);
 }
 
 .metric-label {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #1f3a6a;
+    color: var(--color-text-title);
     text-align: center;
 }
 
@@ -177,9 +177,9 @@ h1 {
 .option-button {
     flex: 1;
     min-width: 0;
-    border: 1.5px solid #8bb0ff;
-    background: #ffffff;
-    color: #2c5aa0;
+    border: 1.5px solid var(--color-primary-light);
+    background: var(--color-bg-surface);
+    color: var(--color-primary-medium);
     border-radius: 0.55rem;
     padding: 1rem 0.4rem;
     font-size: 0.75rem;
@@ -192,7 +192,7 @@ h1 {
 }
 
 .option-button.selected {
-    background: linear-gradient(135deg, #163d7a 0%, #2c6ae5 100%);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     border-color: transparent;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(44, 106, 229, 0.25);
@@ -210,23 +210,23 @@ h1 {
 }
 
 .option-button.verde::after {
-    background-color: #0f7a4d;
+    background-color: var(--color-risk-low);
 }
 
 .option-button.amarelo::after {
-    background-color: #ffc107;
+    background-color: var(--color-warning);
 }
 
 .option-button.laranja::after {
-    background-color: #fd7e14;
+    background-color: var(--color-orange);
 }
 
 .option-button.vermelho::after {
-    background-color: #dc3545;
+    background-color: var(--color-danger);
 }
 
 .option-button.vermelho-escuro::after {
-    background-color: #8b0000;
+    background-color: var(--color-danger-dark);
 }
 
 .score-tab:focus,
@@ -235,8 +235,6 @@ h1 {
     outline: 3px solid rgba(63, 126, 255, 0.22);
     outline-offset: 2px;
 }
-
-
 
 .result-card {
     padding: 1.1rem;
@@ -256,7 +254,7 @@ h1 {
     display: inline-flex;
     border-radius: 999px;
     background: rgba(17, 58, 116, 0.1);
-    color: #12396e;
+    color: var(--color-primary-navy);
     padding: 0.35rem 0.7rem;
     font-size: 0.75rem;
     font-weight: 700;
@@ -279,7 +277,7 @@ h1 {
 .guidance-box {
     border-radius: 0.9rem;
     background: #f3f7ff;
-    border: 1px solid #dfeaf9;
+    border: 1px solid var(--color-border-subtle);
     padding: 0.85rem 0.9rem;
 }
 
@@ -299,43 +297,43 @@ h1 {
 }
 
 .result-card.low {
-    border-color: rgba(29, 164, 109, 0.3);
-    background: linear-gradient(180deg, rgba(231, 250, 240, 0.95), rgba(255, 255, 255, 0.92));
+    border-color: var(--color-risk-low-border);
+    background: linear-gradient(180deg, var(--color-risk-low-bg), var(--color-bg-card));
 }
 
 .result-card.low .result-tag {
-    background: rgba(29, 164, 109, 0.12);
-    color: #0f7a4d;
+    background: var(--color-risk-low-tag);
+    color: var(--color-risk-low);
 }
 
 .result-card.medium {
-    border-color: rgba(255, 176, 0, 0.35);
-    background: linear-gradient(180deg, rgba(255, 246, 219, 0.95), rgba(255, 255, 255, 0.92));
+    border-color: var(--color-risk-medium-border);
+    background: linear-gradient(180deg, var(--color-risk-medium-bg), var(--color-bg-card));
 }
 
 .result-card.medium .result-tag {
-    background: rgba(255, 176, 0, 0.12);
-    color: #9c6300;
+    background: var(--color-risk-medium-tag);
+    color: var(--color-risk-medium);
 }
 
 .result-card.high {
-    border-color: rgba(255, 107, 53, 0.36);
-    background: linear-gradient(180deg, rgba(255, 236, 228, 0.95), rgba(255, 255, 255, 0.92));
+    border-color: var(--color-risk-high-border);
+    background: linear-gradient(180deg, var(--color-risk-high-bg), var(--color-bg-card));
 }
 
 .result-card.high .result-tag {
-    background: rgba(255, 107, 53, 0.12);
-    color: #b74313;
+    background: var(--color-risk-high-tag);
+    color: var(--color-risk-high);
 }
 
 .result-card.critical {
-    border-color: rgba(210, 52, 52, 0.35);
-    background: linear-gradient(180deg, rgba(255, 225, 225, 0.95), rgba(255, 255, 255, 0.92));
+    border-color: var(--color-risk-critical-border);
+    background: linear-gradient(180deg, var(--color-risk-critical-bg), var(--color-bg-card));
 }
 
 .result-card.critical .result-tag {
-    background: rgba(210, 52, 52, 0.12);
-    color: #9a2323;
+    background: var(--color-risk-critical-tag);
+    color: var(--color-risk-critical);
 }
 
 .saps2-form {
@@ -404,5 +402,56 @@ h1 {
     .option-button {
         font-size: 0.6rem !important;
         padding: 0.8rem 0.1rem !important;
+    }
+}
+
+/* ============================================================================
+ * TOPBAR INSTITUTIONAL BUTTON & FLEX HEADER
+ * ========================================================================== */
+
+.topbar-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.topbar-header-flex h1 {
+    margin: 0;
+}
+
+.btn-hospital-info {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-primary-navy);
+    background: var(--color-primary-subtle);
+    border: 1px solid var(--color-primary-border);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(29, 94, 211, 0.08);
+}
+
+.btn-hospital-info:hover {
+    background: #d4e7ff;
+    border-color: var(--color-primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(29, 94, 211, 0.15);
+}
+
+.btn-hospital-info:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .topbar-header-flex {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

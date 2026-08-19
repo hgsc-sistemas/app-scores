@@ -1,1 +1,68 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================================
+ * DESIGN TOKENS & CSS VARIABLES (Cores Principais da Aplicação)
+ * ========================================================================== */
+
+:root {
+  /* Paleta Primária / Azul Institucional */
+  --color-primary-dark: #0a2347;
+  --color-primary-navy: #113a74;
+  --color-primary: #1d5ed3;
+  --color-primary-hover: #1752bd;
+  --color-primary-medium: #2c5aa0;
+  --color-primary-light: #8bb0ff;
+  --color-primary-subtle: #e4efff;
+  --color-primary-border: #b9d5ff;
+
+  /* Superfícies e Fundos */
+  --color-bg-app: #eef6ff;
+  --color-bg-surface: #ffffff;
+  --color-bg-subtle: #f8fafc;
+  --color-bg-card: rgba(255, 255, 255, 0.92);
+  --color-border: #d5ddea;
+  --color-border-subtle: #dfeaf9;
+
+  /* Tipografia */
+  --color-text-main: #10213a;
+  --color-text-title: #0e2444;
+  --color-text-muted: #556885;
+  --color-text-light: #d1e2fc;
+
+  /* Cores de Risco Clínico (Escores NEWS2 & SAPS II) */
+  --color-risk-low: #0f7a4d;
+  --color-risk-low-bg: rgba(231, 250, 240, 0.95);
+  --color-risk-low-border: rgba(29, 164, 109, 0.3);
+  --color-risk-low-tag: rgba(29, 164, 109, 0.12);
+
+  --color-risk-medium: #9c6300;
+  --color-risk-medium-bg: rgba(255, 246, 219, 0.95);
+  --color-risk-medium-border: rgba(255, 176, 0, 0.35);
+  --color-risk-medium-tag: rgba(255, 176, 0, 0.12);
+  --color-warning: #ffc107;
+
+  --color-risk-high: #b74313;
+  --color-risk-high-bg: rgba(255, 236, 228, 0.95);
+  --color-risk-high-border: rgba(255, 107, 53, 0.36);
+  --color-risk-high-tag: rgba(255, 107, 53, 0.12);
+  --color-orange: #fd7e14;
+
+  --color-risk-critical: #9a2323;
+  --color-risk-critical-bg: rgba(255, 225, 225, 0.95);
+  --color-risk-critical-border: rgba(210, 52, 52, 0.35);
+  --color-risk-critical-tag: rgba(210, 52, 52, 0.12);
+  --color-danger: #dc3545;
+  --color-danger-dark: #8b0000;
+
+  /* Acentos */
+  --color-accent-green: #00d084;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: var(--color-bg-app);
+  color: var(--color-text-main);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}

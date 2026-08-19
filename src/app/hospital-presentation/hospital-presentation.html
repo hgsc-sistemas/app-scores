@@ -1,0 +1,146 @@
+<div class="presentation-page" role="region" aria-label="Apresentação Institucional do Hospital">
+  <div class="presentation-content-wrapper">
+    <!-- Header com identidade visual do hospital -->
+    <header class="presentation-header">
+      <div class="presentation-brand">
+        <img class="presentation-logo" src="images/itga-icon.png" alt="Logo do Hospital">
+        <div class="presentation-brand-text">
+          <h1 id="presentation-title" class="presentation-title">Hospital & Centro de Saúde</h1>
+          <p class="presentation-tagline">Referência em atendimento humanizado, suporte intensivo e medicina de alta complexidade.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Seção de Boas-Vindas / Missão -->
+    <section class="presentation-hero-banner">
+      <div class="hero-text-block">
+        <h2>Cuidar de você é a nossa vocação diária</h2>
+        <p>
+          Com uma estrutura moderna, equipe multidisciplinar altamente qualificada e equipamentos com tecnologia de ponta, 
+          estamos preparados para oferecer o melhor atendimento médico e hospitalar para você e sua família a qualquer momento.
+        </p>
+      </div>
+    </section>
+
+    <!-- Grade de Serviços Prestados / Propaganda Institucional -->
+    <section class="presentation-section">
+      <div class="section-headline">
+        <span class="section-kicker">NOSSOS SERVIÇOS</span>
+        <h3>Estrutura Completa ao Seu Cuidado</h3>
+        <p>Conheça as principais especialidades e serviços médicos disponíveis na nossa unidade hospitalar:</p>
+      </div>
+
+      <div class="services-grid">
+        @for (service of hospitalServices; track service.title) {
+        <article class="service-card" [class.highlight]="service.highlight">
+          <div class="service-header">
+            <span class="service-icon" aria-hidden="true">{{ service.icon }}</span>
+            <span class="service-tag">{{ service.tag }}</span>
+          </div>
+          <h4 class="service-title">{{ service.title }}</h4>
+          <p class="service-desc">{{ service.description }}</p>
+        </article>
+        }
+      </div>
+    </section>
+
+    <!-- Infraestrutura & Tecnologia -->
+    <section class="presentation-section">
+      <div class="section-headline">
+        <span class="section-kicker">TECNOLOGIA & SEGURANÇA</span>
+        <h3>Infraestrutura Avançada</h3>
+        <p>Garantia de precisão diagnóstica, agilidade assistencial e conforto durante toda a sua permanência.</p>
+      </div>
+
+      <div class="infra-grid">
+        @for (item of hospitalInfrastructure; track item.title) {
+        <div class="infra-card">
+          <span class="infra-icon">{{ item.icon }}</span>
+          <div class="infra-content">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- Diferenciais Institucionais -->
+    <section class="presentation-section">
+      <div class="section-headline">
+        <span class="section-kicker">QUALIDADE & COMPROMISSO</span>
+        <h3>Nossos Diferenciais</h3>
+        <p>Adoção de protocolos clínicos internacionais para assegurar a melhor conduta terapêutica.</p>
+      </div>
+
+      <div class="differentials-wrapper">
+        <div class="differentials-grid">
+          @for (diff of hospitalDifferentials; track diff.title) {
+          <div class="differential-item">
+            <span class="differential-icon">{{ diff.icon }}</span>
+            <div class="differential-content">
+              <strong>{{ diff.title }}</strong>
+              <p>{{ diff.description }}</p>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato e Atendimento 24h -->
+    <section class="presentation-section contact-section">
+      <div class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div class="contact-info">
+          <h3>Central de Atendimento & Plantão 24 Horas</h3>
+          <p>Pronto Atendimento aberto 24h todos os dias da semana, sem necessidade de agendamento prévio.</p>
+          <span class="contact-tag">Atendimento Emergencial • UTI • Internação</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Espaçador para o final da página não ficar coberto pela barra fixa -->
+    <div class="bottom-scroll-spacer" aria-hidden="true"></div>
+  </div>
+
+  <!-- BARRA FIXA NA PARTE INFERIOR DA TELA COM BARRA DE PROGRESSO E BOTÃO DE ACESSO -->
+  <aside class="fixed-bottom-bar" aria-label="Controle de acesso à calculadora">
+    <div class="fixed-bottom-container">
+      <!-- Barra de Progresso acima do botão -->
+      <div class="progress-section">
+        <div class="progress-info-row">
+          @if (canClose()) {
+            <span class="progress-status-label ready">
+              <span class="check-icon">✓</span>
+              Leitura concluída! Acesso liberado (100%)
+            </span>
+          }
+        </div>
+
+        <div class="progress-bar-track" role="progressbar" [attr.aria-valuenow]="scrollProgress()" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" [style.width.%]="scrollProgress()"></div>
+        </div>
+      </div>
+
+      <!-- Botão de ir para a calculadora -->
+      <button
+        type="button"
+        class="presentation-action-btn"
+        [class.unlocked]="canClose()"
+        [disabled]="!canClose()"
+        (click)="handleClose()"
+        aria-label="Ir para a calculadora de escores clínicos">
+        @if (!canClose()) {
+          <span class="btn-label-locked">
+            🔒 Role até o final para liberar ({{ scrollProgress() }}%)
+          </span>
+        } @else {
+          <span class="btn-label-ready">
+            Ir para a Calculadora de Escores →
+          </span>
+        }
+      </button>
+    </div>
+  </aside>
+</div>

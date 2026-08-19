@@ -4,6 +4,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
+import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
 
 /* ============================================================================
  * TYPES
@@ -58,6 +59,7 @@ export interface ScoreOption {
   value: number | string | boolean;
   color: string;
 }
+
 
 interface ScoreRange {
   min?: number;
@@ -587,11 +589,29 @@ function calculateSaps2Mortality(
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [HospitalPresentation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  /* ==========================================================================
+   * PRESENTATION MODAL STATE
+   * ======================================================================== */
+
+  public readonly showPresentation = signal<boolean>(true);
+
+  public closePresentation(): void {
+    this.showPresentation.set(false);
+  }
+
+  public openPresentation(): void {
+    this.showPresentation.set(true);
+  }
+
+  /* ==========================================================================
+   * CLINICAL SCORE STATE
+   * ======================================================================== */
   protected readonly selectedScore =
     signal<ScoreType>('news2');
 

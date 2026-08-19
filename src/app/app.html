@@ -1,8 +1,16 @@
-﻿<div class="app-shell">
+﻿@if (showPresentation()) {
+  <app-hospital-presentation (closed)="closePresentation()" />
+} @else {
+  <div class="app-shell">
   <header class="topbar">
     <div class="container-logo"><img class="logo-itga-main" src="images/itga-icon.png" alt=""></div>
     <div class="topbar-content">
-      <h1>Calculadora de escores</h1>
+      <div class="topbar-header-flex">
+        <h1>Calculadora de escores</h1>
+        <button type="button" class="btn-hospital-info" (click)="openPresentation()" title="Conheça os serviços do hospital">
+          🏥 Conheça o Hospital
+        </button>
+      </div>
     </div>
     <p>Seleção rápida do score clínico para enfermaria e UTI.</p>
   </header>
@@ -426,4 +434,6 @@
       </div>
     </aside>
   </main>
-</div>
+  </div>
+}
+
