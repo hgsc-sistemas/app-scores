@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1787080223063,
+  "timestamp": 1787106596207,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -51,7 +51,7 @@
     "/app-scores/icons/icon-512x512.png": "f2b942bdc884cd2424d443f7d142039f1f8e2c97",
     "/app-scores/icons/icon-72x72.png": "9556b5d51c6f094619f5b918885422de74c6b10b",
     "/app-scores/icons/icon-96x96.png": "295f7732f8ad4135235d4749602509c661774404",
-    "/app-scores/images/itga-icon.png": "f01254f40d97a7a86a80caa7de4146046e30f8c8",
+    "/app-scores/images/itga-icon.png": "46218a95451eb2651461878b6e9622ff872134c8",
     "/app-scores/index.html": "e9fb495aaef7ea47d60992e16996542744a2c7c6",
     "/app-scores/main-2XDLWC5M.js": "b32d36051f3ab056afd39532941e431e8d542a4b",
     "/app-scores/manifest.webmanifest": "8e8780142c9fd829e047ed3e12d4bc4463630269",
