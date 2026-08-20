@@ -128,6 +128,7 @@ describe('App', () => {
     fixture.detectChanges();
 
     expect(app.showPresentation()).toBe(true);
+    expect(app.presentationMode()).toBe('free');
     expect(fixture.nativeElement.querySelector('app-hospital-presentation')).toBeTruthy();
   });
 });

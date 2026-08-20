@@ -597,16 +597,18 @@ function calculateSaps2Mortality(
 })
 export class App {
   /* ==========================================================================
-   * PRESENTATION MODAL STATE
+   * PRESENTATION STATE
    * ======================================================================== */
 
   public readonly showPresentation = signal<boolean>(true);
+  public readonly presentationMode = signal<'onboarding' | 'free'>('onboarding');
 
   public closePresentation(): void {
     this.showPresentation.set(false);
   }
 
   public openPresentation(): void {
+    this.presentationMode.set('free');
     this.showPresentation.set(true);
   }
 

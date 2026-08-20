@@ -1,4 +1,17 @@
-import { ChangeDetectionStrategy, Component, output } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostListener,
+  inject,
+  input,
+  OnInit,
+  output,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 
 export interface HospitalServiceItem {
   icon: string;
@@ -27,9 +40,34 @@ export interface HospitalInfrastructure {
   templateUrl: './hospital-presentation.html',
   styleUrl: './hospital-presentation.css',
 })
-export class HospitalPresentation {
-  /** Evento disparado quando o usuário clica para voltar para a calculadora */
+export class HospitalPresentation implements OnInit, AfterViewInit {
+  private readonly platformId = inject(PLATFORM_ID);
+
+  /**
+   * Quando `true` (modo de entrada/recarregamento inicial do site):
+   * O usuário deve rolar até o final da página para que a barra atinja 100% e libere o botão para a calculadora.
+   *
+   * Quando `false` (quando o usuário clica em "Conhecer o Hospital" na calculadora):
+   * A tela funciona como uma página normal livre, com botão de voltar no topo e no rodapé liberados a qualquer momento.
+   */
+  public readonly isInitialOnboarding = input<boolean>(true);
+
+  /** Evento disparado quando o usuário fecha/sai da apresentação */
   public readonly closed = output<void>();
+
+  /** Percentual de rolagem da página (0 a 100) */
+  public readonly scrollProgress = signal<number>(0);
+
+  /** Indica se o usuário já atingiu o final da página no modo de rolagem */
+  public readonly hasReachedBottom = signal<boolean>(false);
+
+  /** No modo livre é sempre true; no modo onboarding precisa ter chegado ao fim */
+  public readonly canClose = computed(
+    () =>
+      !this.isInitialOnboarding() ||
+      this.hasReachedBottom() ||
+      this.scrollProgress() >= 100,
+  );
 
   protected readonly hospitalServices: readonly HospitalServiceItem[] = [
     {
@@ -120,7 +158,85 @@ export class HospitalPresentation {
     },
   ];
 
+  ngOnInit(): void {
+    if (this.isInitialOnboarding()) {
+      this.updateScrollProgress();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.isInitialOnboarding()) {
+      this.updateScrollProgress();
+    }
+  }
+
+  @HostListener('window:scroll')
+  public onWindowScroll(): void {
+    if (this.isInitialOnboarding()) {
+      this.updateScrollProgress();
+    }
+  }
+
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    if (this.isInitialOnboarding()) {
+      this.updateScrollProgress();
+    }
+  }
+
+  public updateScrollProgress(): void {
+    if (!this.isInitialOnboarding()) {
+      return;
+    }
+
+    if (!isPlatformBrowser(this.platformId)) {
+      this.scrollProgress.set(100);
+      this.hasReachedBottom.set(true);
+      return;
+    }
+
+    const scrollY =
+      window.scrollY ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight || 0;
+    const documentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight,
+      document.body.clientHeight,
+      document.documentElement.clientHeight,
+    );
+
+    const maxScroll = documentHeight - viewportHeight;
+
+    if (viewportHeight > 0 && documentHeight > 0 && maxScroll <= 15) {
+      this.scrollProgress.set(100);
+      this.hasReachedBottom.set(true);
+      return;
+    }
+
+    if (maxScroll > 15) {
+      const rawPercent = (scrollY / maxScroll) * 100;
+      const percent = Math.min(100, Math.max(0, Math.round(rawPercent)));
+
+      if (percent > this.scrollProgress()) {
+        this.scrollProgress.set(percent);
+      }
+
+      if (scrollY + viewportHeight >= documentHeight - 30 || percent >= 98) {
+        this.scrollProgress.set(100);
+        this.hasReachedBottom.set(true);
+      }
+    }
+  }
+
   public handleClose(): void {
-    this.closed.emit();
+    if (this.canClose()) {
+      this.closed.emit();
+    }
   }
 }

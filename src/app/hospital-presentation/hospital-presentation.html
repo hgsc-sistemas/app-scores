@@ -1,6 +1,7 @@
-<div class="presentation-page" role="region" aria-label="Apresentação Institucional do Hospital">
+<div class="presentation-page" [class.onboarding-mode]="isInitialOnboarding()" role="region" aria-label="Apresentação Institucional do Hospital">
   <div class="presentation-content-wrapper">
-    <!-- Barra Superior de Navegação -->
+    <!-- Barra Superior de Navegação (Visível somente no modo livre / ao clicar no banner) -->
+    @if (!isInitialOnboarding()) {
     <nav class="presentation-top-nav" aria-label="Navegação de retorno">
       <button
         type="button"
@@ -12,6 +13,7 @@
         <span>Voltar para a Calculadora</span>
       </button>
     </nav>
+    }
 
     <!-- Header com identidade visual do hospital -->
     <header class="presentation-header">
@@ -113,17 +115,71 @@
       </div>
     </section>
 
-    <!-- Ação de Retorno no Final da Página -->
+    <!-- Ação de Retorno no Final da Página (Visível somente no modo livre) -->
+    @if (!isInitialOnboarding()) {
     <div class="presentation-bottom-action">
       <button
         type="button"
         class="presentation-action-btn"
         (click)="handleClose()"
-        aria-label="Ir para a calculadora de escores clínicos">
+        aria-label="Voltar para a calculadora de escores clínicos">
         <span class="btn-label-ready">
           ← Voltar para a Calculadora de Escores
         </span>
       </button>
     </div>
+    }
+
+    <!-- Espaçador de rolagem no modo onboarding inicial -->
+    @if (isInitialOnboarding()) {
+    <div class="bottom-scroll-spacer" aria-hidden="true"></div>
+    }
   </div>
+
+  <!-- BARRA FIXA INFERIOR COM BARRA DE PROGRESSO (Visível somente no Onboarding Inicial) -->
+  @if (isInitialOnboarding()) {
+  <aside class="fixed-bottom-bar" aria-label="Controle de acesso à calculadora">
+    <div class="fixed-bottom-container">
+      <!-- Barra de Progresso acima do botão -->
+      <div class="progress-section">
+        <div class="progress-info-row">
+          @if (!canClose()) {
+            <span class="progress-status-label">
+              <span class="scroll-arrow-anim">↓</span>
+              Role até o final da página para liberar o acesso: <strong>{{ scrollProgress() }}%</strong>
+            </span>
+          } @else {
+            <span class="progress-status-label ready">
+              <span class="check-icon">✓</span>
+              Leitura concluída! Acesso liberado (100%)
+            </span>
+          }
+        </div>
+
+        <div class="progress-bar-track" role="progressbar" [attr.aria-valuenow]="scrollProgress()" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" [style.width.%]="scrollProgress()"></div>
+        </div>
+      </div>
+
+      <!-- Botão de ir para a calculadora -->
+      <button
+        type="button"
+        class="presentation-action-btn fixed-action-btn"
+        [class.unlocked]="canClose()"
+        [disabled]="!canClose()"
+        (click)="handleClose()"
+        aria-label="Ir para a calculadora de escores clínicos">
+        @if (!canClose()) {
+          <span class="btn-label-locked">
+            🔒 Role até o final para liberar ({{ scrollProgress() }}%)
+          </span>
+        } @else {
+          <span class="btn-label-ready">
+            Ir para a Calculadora de Escores →
+          </span>
+        }
+      </button>
+    </div>
+  </aside>
+  }
 </div>

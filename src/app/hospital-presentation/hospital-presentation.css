@@ -27,8 +27,12 @@
     gap: 1.25rem;
 }
 
+.presentation-page.onboarding-mode .presentation-content-wrapper {
+    padding: 1.25rem 0 150px;
+}
+
 /* ============================================================================
- * TOP NAVIGATION (BOTÃO VOLTAR)
+ * TOP NAVIGATION (BOTÃO VOLTAR NO MODO LIVRE)
  * ========================================================================== */
 
 .presentation-top-nav {
@@ -386,7 +390,7 @@
 }
 
 /* ============================================================================
- * BOTTOM ACTION (BOTÃO VOLTAR NO FINAL DA PÁGINA)
+ * BOTTOM ACTION (BOTÃO VOLTAR NO MODO LIVRE)
  * ========================================================================== */
 
 .presentation-bottom-action {
@@ -426,6 +430,155 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+}
+
+.bottom-scroll-spacer {
+    height: 30px;
+}
+
+/* ============================================================================
+ * FIXED BOTTOM BAR (BARRA DE PROGRESSO & BOTÃO NO MODO ONBOARDING INICIAL)
+ * ========================================================================== */
+
+.fixed-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1.5px solid var(--color-primary-border);
+    box-shadow: 0 -8px 30px rgba(10, 30, 65, 0.14);
+}
+
+.fixed-bottom-container {
+    width: min(920px, calc(100% - 1.5rem));
+    margin: 0 auto;
+    padding: 0.75rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Progress Section */
+.progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.progress-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.progress-status-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.progress-status-label.ready {
+    color: var(--color-risk-low);
+    font-weight: 700;
+    animation: presFadeIn 0.3s ease;
+}
+
+.scroll-arrow-anim {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 800;
+    animation: presBounceArrow 1.2s infinite;
+}
+
+.check-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    background: var(--color-risk-low);
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 6px;
+    background: var(--color-border-subtle);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-green) 100%);
+    border-radius: 999px;
+    transition: width 0.15s ease-out;
+}
+
+/* Fixed Action Button (Onboarding) */
+.fixed-action-btn {
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid var(--color-border);
+    background: #e8f0fa;
+    color: #7b8fa8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.fixed-action-btn.unlocked {
+    background: linear-gradient(135deg, var(--color-primary-navy) 0%, var(--color-primary) 100%);
+    color: #ffffff;
+    border-color: transparent;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(30, 96, 213, 0.35);
+    animation: presPulseGlow 2s infinite;
+}
+
+.fixed-action-btn.unlocked:hover {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-hover) 100%);
+    box-shadow: 0 8px 24px rgba(30, 96, 213, 0.45);
+}
+
+.btn-label-locked {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Animations */
+@keyframes presFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes presBounceArrow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(3px);
+    }
+}
+
+@keyframes presPulseGlow {
+    0%, 100% {
+        box-shadow: 0 6px 20px rgba(30, 96, 213, 0.35);
+    }
+    50% {
+        box-shadow: 0 8px 26px rgba(30, 96, 213, 0.55);
+    }
 }
 
 /* Mobile adjustments */

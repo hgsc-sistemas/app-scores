@@ -1,5 +1,7 @@
 @if (showPresentation()) {
-  <app-hospital-presentation (closed)="closePresentation()" />
+  <app-hospital-presentation
+    [isInitialOnboarding]="presentationMode() === 'onboarding'"
+    (closed)="closePresentation()" />
 } @else {
   <div class="app-shell">
   <header class="topbar">
