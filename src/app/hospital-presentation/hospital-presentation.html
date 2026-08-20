@@ -1,6 +1,6 @@
-<div class="presentation-page" [class.onboarding-mode]="isInitialOnboarding()" role="region" aria-label="Apresentação Institucional do Hospital">
+<div class="presentation-page" [class.onboarding-mode]="isInitialOnboarding()" role="region" aria-label="Apresentação Institucional do ITGA">
   <div class="presentation-content-wrapper">
-    <!-- Barra Superior de Navegação (Visível somente no modo livre / ao clicar no banner) -->
+    <!-- Barra Superior de Navegação (Visível no modo livre / ao clicar no banner) -->
     @if (!isInitialOnboarding()) {
     <nav class="presentation-top-nav" aria-label="Navegação de retorno">
       <button
@@ -15,107 +15,225 @@
     </nav>
     }
 
-    <!-- Header com identidade visual do hospital -->
+    <!-- Header com identidade visual do ITGA -->
     <header class="presentation-header">
       <div class="presentation-brand">
-        <img class="presentation-logo" src="images/itga-icon.png" alt="Logo do Hospital">
+        <img class="presentation-logo" src="images/itga-icon.png" alt="Logo do ITGA">
         <div class="presentation-brand-text">
-          <h1 id="presentation-title" class="presentation-title">Hospital & Centro de Saúde</h1>
-          <p class="presentation-tagline">Referência em atendimento humanizado, suporte intensivo e medicina de alta complexidade.</p>
+          <div class="header-badges">
+            <span class="badge-os">Organização Social • Lei Federal nº 9.637/98</span>
+            <span class="badge-utilidade">Utilidade Pública & Interesse Social</span>
+          </div>
+          <h1 id="presentation-title" class="presentation-title">Instituto de Tecnologia em Gestão Aplicada (ITGA)</h1>
+          <p class="presentation-tagline">Proporcionando bem-estar social e acesso à saúde pública com equidade, modernidade e excelência.</p>
         </div>
       </div>
     </header>
 
-    <!-- Seção de Boas-Vindas / Missão -->
+    <!-- Quem Somos & Métricas de Impacto -->
     <section class="presentation-hero-banner">
-      <div class="hero-text-block">
-        <h2>Cuidar de você é a nossa vocação diária</h2>
-        <p>
-          Com uma estrutura moderna, equipe multidisciplinar altamente qualificada e equipamentos com tecnologia de ponta, 
-          estamos preparados para oferecer o melhor atendimento médico e hospitalar para você e sua família a qualquer momento.
-        </p>
+      <div class="about-grid">
+        <div class="about-text-column">
+          <span class="section-kicker">QUEM SOMOS</span>
+          <h2>Tradição, Tecnologia e Humanização na Saúde</h2>
+          <p>
+            O <strong>Instituto de Tecnologia em Gestão Aplicada - ITGA</strong> foi fundado há 8 anos e é reconhecido como entidade de Utilidade Pública e de Interesse Social, qualificado como Organização Social (OS) de Direito Privado sem fins lucrativos.
+          </p>
+          <p>
+            Colocamos à disposição da Saúde Pública nossa experiência de <strong>mais de 20 anos na gestão de serviços médicos</strong>, sempre focados no bem-estar social, na humanização do atendimento e no fortalecimento do Sistema Único de Saúde (SUS).
+          </p>
+        </div>
+        <div class="about-image-column">
+          <img class="hospital-hero-img" src="images/fachada-hospital.jpeg" alt="Fachada da Unidade Hospitalar">
+          <span class="image-caption">Unidade Hospitalar sob gestão do ITGA</span>
+        </div>
+      </div>
+
+      <!-- Números de Impacto do PDF -->
+      <div class="impact-metrics-row">
+        <div class="metric-box">
+          <span class="metric-number">+35.000</span>
+          <span class="metric-label">Cirurgias Entregues</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-number">+20 Anos</span>
+          <span class="metric-label">Experiência Médica</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-number">Milhares</span>
+          <span class="metric-label">Internações & UTI</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-number">12+</span>
+          <span class="metric-label">Especialidades Integradas</span>
+        </div>
       </div>
     </section>
 
-    <!-- Grade de Serviços Prestados / Propaganda Institucional -->
+    <!-- Missão e Visão (Conforme o PDF) -->
+    <section class="mission-vision-section">
+      <div class="mission-vision-grid">
+        <div class="mv-card mission-card">
+          <div class="mv-header">
+            <span class="mv-icon">🎯</span>
+            <h3>MISSÃO</h3>
+          </div>
+          <p>
+            Oferecer soluções em saúde com qualidade e modernidade sempre centrada no cliente, dando ênfase na humanização do atendimento e na excelência.
+          </p>
+        </div>
+
+        <div class="mv-card vision-card">
+          <div class="mv-header">
+            <span class="mv-icon">🌐</span>
+            <h3>VISÃO</h3>
+          </div>
+          <p>
+            Ser uma referência global em inovação na área da saúde, garantindo o acesso universal a serviços de excelência, empoderando indivíduos para tomar decisões informadas sobre sua saúde e liderando esforços para eliminar as disparidades de saúde em todo o mundo.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Serviços em Destaque com Imagens Reais -->
     <section class="presentation-section">
       <div class="section-headline">
-        <span class="section-kicker">NOSSOS SERVIÇOS</span>
-        <h3>Estrutura Completa ao Seu Cuidado</h3>
-        <p>Conheça as principais especialidades e serviços médicos disponíveis na nossa unidade hospitalar:</p>
+        <span class="section-kicker">SERVIÇOS DE EXCELÊNCIA</span>
+        <h2>Estrutura Hospitalar & Diagnóstica</h2>
+        <p>Soluções completas com tecnologia biomédica avançada e corpo clínico especializado:</p>
       </div>
 
-      <div class="services-grid">
-        @for (service of hospitalServices; track service.title) {
-        <article class="service-card" [class.highlight]="service.highlight">
-          <div class="service-header">
-            <span class="service-icon" aria-hidden="true">{{ service.icon }}</span>
-            <span class="service-tag">{{ service.tag }}</span>
+      <div class="featured-services-grid">
+        @for (service of featuredServices; track service.title) {
+        <article class="featured-service-card">
+          <div class="service-image-wrapper">
+            <img class="service-card-photo" [src]="service.image" [alt]="service.title">
+            <span class="service-tag-badge">{{ service.tag }}</span>
           </div>
-          <h4 class="service-title">{{ service.title }}</h4>
-          <p class="service-desc">{{ service.description }}</p>
+          <div class="service-card-body">
+            <div class="service-card-title-row">
+              <span class="service-mini-icon">{{ service.icon }}</span>
+              <h3>{{ service.title }}</h3>
+            </div>
+            <p>{{ service.description }}</p>
+          </div>
         </article>
         }
       </div>
+
+      <!-- Serviços Complementares -->
+      <div class="complementary-services-grid">
+        @for (service of additionalServices; track service.title) {
+        <div class="complementary-card">
+          <div class="comp-header">
+            <span class="comp-icon">{{ service.icon }}</span>
+            <span class="comp-tag">{{ service.tag }}</span>
+          </div>
+          <h4>{{ service.title }}</h4>
+          <p>{{ service.description }}</p>
+        </div>
+        }
+      </div>
     </section>
 
-    <!-- Infraestrutura & Tecnologia -->
+    <!-- Equipe Multidisciplinar & Especialidades (Colmeia do PDF) -->
     <section class="presentation-section">
       <div class="section-headline">
-        <span class="section-kicker">TECNOLOGIA & SEGURANÇA</span>
-        <h3>Infraestrutura Avançada</h3>
-        <p>Garantia de precisão diagnóstica, agilidade assistencial e conforto durante toda a sua permanência.</p>
+        <span class="section-kicker">CORPO CLÍNICO</span>
+        <h2>Equipe Multidisciplinar Especializada</h2>
+        <p>Especialistas de alta qualificação atuando em conjunto para o cuidado integral:</p>
       </div>
 
-      <div class="infra-grid">
-        @for (item of hospitalInfrastructure; track item.title) {
-        <div class="infra-card">
-          <span class="infra-icon">{{ item.icon }}</span>
-          <div class="infra-content">
-            <h4>{{ item.title }}</h4>
-            <p>{{ item.description }}</p>
+      <div class="specialties-chips-grid">
+        @for (spec of medicalSpecialties; track spec) {
+        <div class="specialty-chip">
+          <span class="chip-dot">●</span>
+          <span>{{ spec }}</span>
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- Valores Institucionais (Conforme o PDF) -->
+    <section class="presentation-section">
+      <div class="section-headline">
+        <span class="section-kicker">PRINCÍPIOS & CONDUTA</span>
+        <h2>Nossos Valores</h2>
+        <p>Fundamentos que guiam todas as nossas práticas assistenciais e administrativas:</p>
+      </div>
+
+      <div class="values-grid">
+        @for (val of institutionalValues; track val.title) {
+        <div class="value-card">
+          <span class="value-icon">{{ val.icon }}</span>
+          <div class="value-content">
+            <strong>{{ val.title }}</strong>
+            <p>{{ val.description }}</p>
           </div>
         </div>
         }
       </div>
     </section>
 
-    <!-- Diferenciais Institucionais -->
+    <!-- Pilares de Gestão e Governança do ITGA -->
     <section class="presentation-section">
       <div class="section-headline">
-        <span class="section-kicker">QUALIDADE & COMPROMISSO</span>
-        <h3>Nossos Diferenciais</h3>
-        <p>Adoção de protocolos clínicos internacionais para assegurar a melhor conduta terapêutica.</p>
+        <span class="section-kicker">MODELO DE GESTÃO</span>
+        <h2>Gestão Estratégica & Governança</h2>
+        <p>Inovação na gestão pública com total transparência e responsabilidade:</p>
       </div>
 
-      <div class="differentials-wrapper">
-        <div class="differentials-grid">
-          @for (diff of hospitalDifferentials; track diff.title) {
-          <div class="differential-item">
-            <span class="differential-icon">{{ diff.icon }}</span>
-            <div class="differential-content">
-              <strong>{{ diff.title }}</strong>
-              <p>{{ diff.description }}</p>
-            </div>
+      <div class="pillars-grid">
+        @for (pillar of managementPillars; track pillar.title) {
+        <div class="pillar-card">
+          <span class="pillar-icon">{{ pillar.icon }}</span>
+          <div class="pillar-content">
+            <h4>{{ pillar.title }}</h4>
+            <p>{{ pillar.description }}</p>
           </div>
-          }
+        </div>
+        }
+      </div>
+    </section>
+
+    <!-- Contato Oficial e Endereço (Dados Oficiais do PDF) -->
+    <section class="presentation-section contact-official-section">
+      <div class="section-headline">
+        <span class="section-kicker">FALE CONOSCO</span>
+        <h2>Central de Atendimento & Localização</h2>
+      </div>
+
+      <div class="contact-details-grid">
+        <div class="contact-block">
+          <span class="contact-block-icon">📞</span>
+          <div class="contact-block-text">
+            <strong>TELEFONE / WHATSAPP</strong>
+            <p>(62) 98401-0008</p>
+            <p>(62) 98625-4617</p>
+          </div>
+        </div>
+
+        <div class="contact-block">
+          <span class="contact-block-icon">🌐</span>
+          <div class="contact-block-text">
+            <strong>WEBSITE OFICIAL</strong>
+            <p><a href="https://www.itga.org.br" target="_blank" rel="noopener noreferrer">www.itga.org.br</a></p>
+            <span class="contact-sub-badge">Entidade de Utilidade Pública</span>
+          </div>
+        </div>
+
+        <div class="contact-block address-block">
+          <span class="contact-block-icon">📍</span>
+          <div class="contact-block-text">
+            <strong>ENDEREÇO DA UNIDADE</strong>
+            <p>Avenida Itapuia, S/N, Qd. A 14, Lt. 9 a 13, Vila Manchester</p>
+            <p>SENADOR CANEDO - GO • CEP: 75.251-394</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Contato e Atendimento 24h -->
-    <section class="presentation-section contact-section">
-      <div class="contact-card">
-        <div class="contact-icon">📞</div>
-        <div class="contact-info">
-          <h3>Central de Atendimento & Plantão 24 Horas</h3>
-          <p>Pronto Atendimento aberto 24h todos os dias da semana, sem necessidade de agendamento prévio.</p>
-          <span class="contact-tag">Atendimento Emergencial • UTI • Internação</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Ação de Retorno no Final da Página (Visível somente no modo livre) -->
+    <!-- Ação de Retorno no Final da Página (Visível no modo livre) -->
     @if (!isInitialOnboarding()) {
     <div class="presentation-bottom-action">
       <button
@@ -130,13 +248,13 @@
     </div>
     }
 
-    <!-- Espaçador de rolagem no modo onboarding inicial -->
+    <!-- Espaçador no modo onboarding -->
     @if (isInitialOnboarding()) {
     <div class="bottom-scroll-spacer" aria-hidden="true"></div>
     }
   </div>
 
-  <!-- BARRA FIXA INFERIOR COM BARRA DE PROGRESSO (Visível somente no Onboarding Inicial) -->
+  <!-- BARRA FIXA INFERIOR COM BARRA DE PROGRESSO (Modo Onboarding Inicial) -->
   @if (isInitialOnboarding()) {
   <aside class="fixed-bottom-bar" aria-label="Controle de acesso à calculadora">
     <div class="fixed-bottom-container">

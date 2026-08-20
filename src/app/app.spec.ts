@@ -90,8 +90,8 @@ describe('App', () => {
     expect(app.showPresentation()).toBe(true);
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('app-hospital-presentation')).toBeTruthy();
-    expect(compiled.querySelector('.presentation-title')?.textContent).toContain('Hospital & Centro de Saúde');
-    expect(compiled.querySelectorAll('.service-card').length).toBeGreaterThanOrEqual(6);
+    expect(compiled.querySelector('.presentation-title')?.textContent).toContain('Instituto de Tecnologia em Gestão Aplicada');
+    expect(compiled.querySelectorAll('.featured-service-card').length).toBe(3);
   });
 
   it('should close presentation when closePresentation is called', async () => {

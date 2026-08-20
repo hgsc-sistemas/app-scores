@@ -18,16 +18,17 @@ export interface HospitalServiceItem {
   title: string;
   description: string;
   tag: string;
+  image?: string;
   highlight?: boolean;
 }
 
-export interface HospitalDifferential {
+export interface HospitalValue {
   icon: string;
   title: string;
   description: string;
 }
 
-export interface HospitalInfrastructure {
+export interface HospitalManagementPillar {
   icon: string;
   title: string;
   description: string;
@@ -69,92 +70,137 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
       this.scrollProgress() >= 100,
   );
 
-  protected readonly hospitalServices: readonly HospitalServiceItem[] = [
+  /** Serviços principais com imagens reais do hospital e do ITGA */
+  protected readonly featuredServices: readonly HospitalServiceItem[] = [
     {
-      icon: '🚨',
-      title: 'Pronto Atendimento & Emergência 24h',
+      icon: '🏥',
+      title: 'Gestão Hospitalar & Pronto Atendimento 24h',
       description:
-        'Atendimento médico ininterrupto para casos de urgência e emergência, com triagem protocolar ágil e suporte imediato à vida.',
-      tag: 'Plantão 24h',
-      highlight: true,
-    },
-    {
-      icon: '🩺',
-      title: 'Unidade de Terapia Intensiva (UTI)',
-      description:
-        'Leitos de alta complexidade com monitorização multiparamétrica contínua, suporte ventilatório avançado e equipe de intensivistas.',
-      tag: 'Alta Complexidade',
+        'Administração hospitalar e gestão em saúde pelo ITGA com atendimento humanizado, triagem qualificada, leitos de enfermaria e suporte integral ao SUS.',
+      tag: 'Plantão 24h • SUS',
+      image: 'images/fachada-hospital.jpeg',
       highlight: true,
     },
     {
       icon: '🔬',
-      title: 'Centro Cirúrgico Avançado',
+      title: 'Centro Cirúrgico & Procedimentos de Alta Complexidade',
       description:
-        'Salas cirúrgicas modernas e seguras para cirurgias eletivas, procedimentos de urgência e recuperação pós-anestésica completa.',
-      tag: 'Segurança Cirúrgica',
+        'Mais de 35.000 cirurgias entregues com excelência técnica: cirurgia geral, ortopédica, oftalmológica, urológica, ginecológica e vascular.',
+      tag: '+35.000 Cirurgias',
+      image: 'images/medicos-fazendo-cirurgia.jpeg',
+      highlight: true,
     },
     {
       icon: '🧪',
-      title: 'Centro de Diagnóstico por Imagem & Laboratório',
+      title: 'Centro de Diagnóstico por Imagem & Métodos Gráficos',
       description:
-        'Exames de tomografia computadorizada, raio-X digital, ultrassonografia e análises clínicas laboratoriais com laudos rápidos.',
-      tag: 'Diagnóstico Ágil',
+        'Tomografia computadorizada, ultrassonografia com e sem Doppler, endoscopia digestiva alta, colonoscopia, biópsias guiadas e histeroscopias.',
+      tag: 'Diagnóstico de Precisão',
+      image: 'images/equipamento-ressonancia-magnetica.jpeg',
+      highlight: true,
+    },
+  ];
+
+  /** Outros serviços hospitalares complementares */
+  protected readonly additionalServices: readonly HospitalServiceItem[] = [
+    {
+      icon: '🩺',
+      title: 'Unidade de Terapia Intensiva (UTI)',
+      description:
+        'Leitos equipados com monitorização multiparamétrica contínua e equipe de intensivistas especializados em cuidados críticos.',
+      tag: 'Alta Complexidade',
     },
     {
       icon: '👨‍⚕️',
       title: 'Ambulatório de Especialidades Médicas',
       description:
-        'Consultas com especialistas em cardiologia, pneumologia, clínica médica, neurologia, ortopedia e cirurgia geral.',
+        'Consultas clínicas especializadas em cardiologia, ortopedia, ginecologia, pediatria, clínica geral e neurologia.',
       tag: 'Corpo Clínico',
     },
     {
       icon: '💊',
-      title: 'Internação & Enfermarias Humanizadas',
+      title: 'Internação Humanizada & Enfermarias',
       description:
-        'Acomodações acolhedoras com foco na segurança do paciente, prevenção de riscos assistenciais e plano terapêutico individualizado.',
+        'Milhares de diárias de internação clínica executadas com foco na recuperação segura e no acolhimento familiar.',
       tag: 'Cuidado Contínuo',
     },
   ];
 
-  protected readonly hospitalDifferentials: readonly HospitalDifferential[] = [
-    {
-      icon: '⭐',
-      title: 'Atendimento Humanizado 24h',
-      description:
-        'Acolhimento empático com foco no bem-estar integral de cada paciente e de sua família.',
-    },
-    {
-      icon: '🛡️',
-      title: 'Protocolos Clínicos Validados',
-      description:
-        'Adoção rigorosa de escores internacionais validados (como NEWS2 e SAPS II) para decisões terapêuticas seguras.',
-    },
+  /** Especialidades médicas do corpo clínico multidisciplinar (conforme o PDF) */
+  protected readonly medicalSpecialties: readonly string[] = [
+    'Cirurgia Geral',
+    'Ortopedia & Cirurgiões Ortopedistas',
+    'Médicos Cardiologistas',
+    'Médicos Intensivistas (UTI)',
+    'Médicos Pediatras',
+    'Ginecologia e Obstetrícia',
+    'Cirurgia Vascular',
+    'Cirurgia Urológica',
+    'Cirurgia Oftalmológica',
+    'Anestesistas',
+    'Médicos Clínicos Generalistas',
+    'Cirurgia Bucomaxilofacial',
+  ];
+
+  /** Valores institucionais do ITGA */
+  protected readonly institutionalValues: readonly HospitalValue[] = [
     {
       icon: '🤝',
-      title: 'Equipe Multidisciplinar Integrada',
-      description:
-        'Médicos, enfermeiros, fisioterapeutas, nutricionistas e farmacêuticos atuando em total sintonia.',
+      title: 'Humanização',
+      description: 'Acolhimento empático com foco no bem-estar integral.',
+    },
+    {
+      icon: '👤',
+      title: 'Respeito à Individualidade',
+      description: 'Atenção personalizada às necessidades de cada paciente.',
+    },
+    {
+      icon: '🔍',
+      title: 'Transparência no Exercício',
+      description: 'Ética rigorosa, compliance e prestação de contas pública.',
+    },
+    {
+      icon: '💚',
+      title: 'Comprometimento com a Saúde',
+      description: 'Dedicação diária com qualidade técnica e resolutividade.',
+    },
+    {
+      icon: '⚖️',
+      title: 'Ética e Moral',
+      description: 'Princípios sólidos em todas as condutas assistenciais.',
+    },
+    {
+      icon: '🌍',
+      title: 'Responsabilidade Social & Pública',
+      description: 'Compromisso com o acesso universal e equitativo à saúde.',
     },
   ];
 
-  protected readonly hospitalInfrastructure: readonly HospitalInfrastructure[] = [
+  /** Pilares de gestão e governança do ITGA (conforme o PDF) */
+  protected readonly managementPillars: readonly HospitalManagementPillar[] = [
     {
-      icon: '🏢',
-      title: 'Instalações Modernas',
+      icon: '🏛️',
+      title: 'Governança & Contrato de Gestão',
       description:
-        'Ambientes climatizados, acessíveis e projetados de acordo com os mais rigorosos padrões de segurança hospitalar.',
+        'Qualificação como Organização Social (Lei Federal nº 9.637/98), com Compliance, Balancete Mensal, Planejamento Trimestral e Auditoria Anual.',
     },
     {
-      icon: '⚡',
-      title: 'Tecnologia de Ponta',
+      icon: '💻',
+      title: 'Sistemas de Informação & LGPD',
       description:
-        'Equipamentos biomédicos de última geração para monitorização em tempo real e diagnósticos de alta precisão.',
+        'Prontuário eletrônico, telemedicina, aplicativos de saúde e monitoramento contínuo para suporte e precisão nas decisões clínicas.',
     },
     {
-      icon: '🚑',
-      title: 'Suporte de Transferência & Resgate',
+      icon: '👥',
+      title: 'Recursos Humanos & Educação',
       description:
-        'Ambulâncias UTI móvel preparadas para suporte avançado à vida e remoções inter-hospitalares seguras.',
+        'Investimento permanente na capacitação, educação continuada e ambiente saudável para os profissionais de saúde.',
+    },
+    {
+      icon: '🌱',
+      title: 'Gestão em Meio Ambiente',
+      description:
+        'Práticas de interdisciplinaridade voltadas para a sustentabilidade, preservação e utilização racional dos recursos naturais.',
     },
   ];
 

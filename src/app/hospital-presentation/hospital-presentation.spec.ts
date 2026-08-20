@@ -22,17 +22,20 @@ describe('HospitalPresentation', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render hospital branding, services cards, infrastructure and differentials', async () => {
+  it('should render ITGA branding, metrics, featured service cards with images and specialties', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.presentation-title')?.textContent).toContain(
-      'Hospital & Centro de Saúde',
+      'Instituto de Tecnologia em Gestão Aplicada',
     );
-    expect(compiled.querySelectorAll('.service-card').length).toBeGreaterThanOrEqual(6);
-    expect(compiled.querySelectorAll('.infra-card').length).toBeGreaterThanOrEqual(3);
-    expect(compiled.querySelectorAll('.differential-item').length).toBeGreaterThanOrEqual(3);
+    expect(compiled.querySelectorAll('.metric-box').length).toBe(4);
+    expect(compiled.querySelectorAll('.featured-service-card').length).toBe(3);
+    expect(compiled.querySelectorAll('.service-card-photo').length).toBe(3);
+    expect(compiled.querySelectorAll('.specialty-chip').length).toBeGreaterThanOrEqual(10);
+    expect(compiled.querySelectorAll('.value-card').length).toBe(6);
+    expect(compiled.querySelectorAll('.pillar-card').length).toBe(4);
   });
 
   describe('Initial Onboarding Mode (isInitialOnboarding: true - ao carregar o site)', () => {
