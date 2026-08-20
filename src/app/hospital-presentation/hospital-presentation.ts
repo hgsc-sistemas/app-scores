@@ -1,16 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostListener,
-  inject,
-  OnInit,
-  output,
-  PLATFORM_ID,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 
 export interface HospitalServiceItem {
   icon: string;
@@ -39,22 +27,9 @@ export interface HospitalInfrastructure {
   templateUrl: './hospital-presentation.html',
   styleUrl: './hospital-presentation.css',
 })
-export class HospitalPresentation implements OnInit, AfterViewInit {
-  private readonly platformId = inject(PLATFORM_ID);
-
-  /** Evento disparado quando o usuário clica no botão após rolar até o final da página */
+export class HospitalPresentation {
+  /** Evento disparado quando o usuário clica para voltar para a calculadora */
   public readonly closed = output<void>();
-
-  /** Percentual de rolagem da página (0 a 100) */
-  public readonly scrollProgress = signal<number>(0);
-
-  /** Indica se o usuário já atingiu o final da página */
-  public readonly hasReachedBottom = signal<boolean>(false);
-
-  /** O botão é liberado assim que o usuário atinge o fim da página (100%) */
-  public readonly canClose = computed(
-    () => this.hasReachedBottom() || this.scrollProgress() >= 100,
-  );
 
   protected readonly hospitalServices: readonly HospitalServiceItem[] = [
     {
@@ -145,76 +120,7 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
     },
   ];
 
-  ngOnInit(): void {
-    this.updateScrollProgress();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateScrollProgress();
-  }
-
-  @HostListener('window:scroll')
-  public onWindowScroll(): void {
-    this.updateScrollProgress();
-  }
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.updateScrollProgress();
-  }
-
-  public updateScrollProgress(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      this.scrollProgress.set(100);
-      this.hasReachedBottom.set(true);
-      return;
-    }
-
-    const scrollY =
-      window.scrollY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-    const viewportHeight =
-      window.innerHeight || document.documentElement.clientHeight || 0;
-    const documentHeight = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight,
-      document.body.clientHeight,
-      document.documentElement.clientHeight,
-    );
-
-    const maxScroll = documentHeight - viewportHeight;
-
-    if (viewportHeight > 0 && documentHeight > 0 && maxScroll <= 15) {
-      // Se a página for pequena o suficiente para caber na tela sem rolagem
-      this.scrollProgress.set(100);
-      this.hasReachedBottom.set(true);
-      return;
-    }
-
-    if (maxScroll > 15) {
-      const rawPercent = (scrollY / maxScroll) * 100;
-      const percent = Math.min(100, Math.max(0, Math.round(rawPercent)));
-
-      // Atualiza a barra sempre com o maior progresso atingido pelo usuário
-      if (percent > this.scrollProgress()) {
-        this.scrollProgress.set(percent);
-      }
-
-      // Libera quando o usuário atinge o final da página (com margem de 30px de tolerância)
-      if (scrollY + viewportHeight >= documentHeight - 30 || percent >= 98) {
-        this.scrollProgress.set(100);
-        this.hasReachedBottom.set(true);
-      }
-    }
-  }
-
   public handleClose(): void {
-    if (this.canClose()) {
-      this.closed.emit();
-    }
+    this.closed.emit();
   }
 }

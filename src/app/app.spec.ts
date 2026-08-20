@@ -108,7 +108,7 @@ describe('App', () => {
     expect(fixture.nativeElement.querySelector('app-hospital-presentation')).toBeFalsy();
   });
 
-  it('should allow reopening the presentation from the topbar button', async () => {
+  it('should render the promo banner on calculator and allow reopening the presentation', async () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
     app.closePresentation();
@@ -117,10 +117,14 @@ describe('App', () => {
 
     expect(app.showPresentation()).toBe(false);
 
-    // Click "Conheça o Hospital" button in topbar
-    const infoBtn = fixture.nativeElement.querySelector('.btn-hospital-info') as HTMLButtonElement;
-    expect(infoBtn).toBeTruthy();
-    infoBtn.click();
+    // Banner is rendered
+    const banner = fixture.nativeElement.querySelector('app-hospital-banner');
+    expect(banner).toBeTruthy();
+
+    // Click banner CTA button
+    const bannerBtn = fixture.nativeElement.querySelector('.banner-cta-button') as HTMLButtonElement;
+    expect(bannerBtn).toBeTruthy();
+    bannerBtn.click();
     fixture.detectChanges();
 
     expect(app.showPresentation()).toBe(true);

@@ -1,4 +1,4 @@
-﻿@if (showPresentation()) {
+@if (showPresentation()) {
   <app-hospital-presentation (closed)="closePresentation()" />
 } @else {
   <div class="app-shell">
@@ -7,9 +7,6 @@
     <div class="topbar-content">
       <div class="topbar-header-flex">
         <h1>Calculadora de escores</h1>
-        <button type="button" class="btn-hospital-info" (click)="openPresentation()" title="Conheça os serviços do hospital">
-          🏥 Conheça o Hospital
-        </button>
       </div>
     </div>
     <p>Seleção rápida do score clínico para enfermaria e UTI.</p>
@@ -434,6 +431,8 @@
       </div>
     </aside>
   </main>
+
+  <app-hospital-banner (open)="openPresentation()" />
   </div>
 }
 

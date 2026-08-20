@@ -1,0 +1,54 @@
+<aside class="hospital-promo-banner" aria-label="Propaganda institucional do hospital">
+  <div class="banner-container">
+    <!-- Logo / Ícone de Destaque -->
+    <div class="banner-logo-wrapper">
+      <img class="banner-logo" src="images/itga-icon.png" alt="Hospital">
+    </div>
+
+    <!-- Conteúdo Animado do Slide Atual -->
+    <div class="banner-content" [class.animating]="isAnimating()">
+      <div class="banner-slide-badge-row">
+        <span class="banner-slide-icon" aria-hidden="true">{{ currentSlide().icon }}</span>
+        <span class="banner-slide-tag">{{ currentSlide().tag }}</span>
+      </div>
+
+      <div class="banner-slide-text">
+        <strong class="banner-slide-title">{{ currentSlide().title }}</strong>
+        <p class="banner-slide-subtitle">{{ currentSlide().subtitle }}</p>
+      </div>
+    </div>
+
+    <!-- Ação & Navegação -->
+    <div class="banner-actions">
+      <!-- Indicadores de Slides (Dots) -->
+      <div class="banner-dots" aria-label="Navegação dos serviços">
+        @for (slide of slides; track slide.id) {
+        <button
+          type="button"
+          class="banner-dot"
+          [class.active]="currentSlideIndex() === slide.id"
+          [class.is-cta]="slide.isCta"
+          [attr.aria-label]="'Ir para ' + slide.title"
+          (click)="goToSlide(slide.id)">
+        </button>
+        }
+      </div>
+
+      <!-- Botão de Ação para a Tela de Apresentação -->
+      <button
+        type="button"
+        class="banner-cta-button"
+        [class.highlight]="currentSlide().isCta"
+        (click)="handleOpenPresentation()"
+        aria-label="Abrir tela de apresentação do hospital">
+        <span class="btn-text">
+          @if (currentSlide().isCta) {
+            Conhecer Hospital
+          } @else {
+            Saiba Mais
+          }
+        </span>
+      </button>
+    </div>
+  </div>
+</aside>

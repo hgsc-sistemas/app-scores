@@ -28,12 +28,12 @@ select {
 .app-shell {
     width: min(1200px, calc(100% - 0.5rem));
     margin: 0 auto;
-    padding: 0rem 0.5rem 1rem;
+    padding: 0rem 0.5rem 6.5rem;
 }
 
 .saps2-form .app-shell {
     width: min(1200px, calc(100% - 0.25rem));
-    padding: 0rem 0 0.5rem;
+    padding: 0rem 0 6.5rem;
 }
 
 .topbar {

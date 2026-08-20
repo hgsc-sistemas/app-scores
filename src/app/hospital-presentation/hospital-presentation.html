@@ -1,5 +1,18 @@
 <div class="presentation-page" role="region" aria-label="Apresentação Institucional do Hospital">
   <div class="presentation-content-wrapper">
+    <!-- Barra Superior de Navegação -->
+    <nav class="presentation-top-nav" aria-label="Navegação de retorno">
+      <button
+        type="button"
+        class="btn-back-nav"
+        (click)="handleClose()"
+        title="Voltar para a calculadora de escores"
+        aria-label="Voltar para a Calculadora">
+        <span class="back-arrow" aria-hidden="true">←</span>
+        <span>Voltar para a Calculadora</span>
+      </button>
+    </nav>
+
     <!-- Header com identidade visual do hospital -->
     <header class="presentation-header">
       <div class="presentation-brand">
@@ -100,47 +113,17 @@
       </div>
     </section>
 
-    <!-- Espaçador para o final da página não ficar coberto pela barra fixa -->
-    <div class="bottom-scroll-spacer" aria-hidden="true"></div>
-  </div>
-
-  <!-- BARRA FIXA NA PARTE INFERIOR DA TELA COM BARRA DE PROGRESSO E BOTÃO DE ACESSO -->
-  <aside class="fixed-bottom-bar" aria-label="Controle de acesso à calculadora">
-    <div class="fixed-bottom-container">
-      <!-- Barra de Progresso acima do botão -->
-      <div class="progress-section">
-        <div class="progress-info-row">
-          @if (canClose()) {
-            <span class="progress-status-label ready">
-              <span class="check-icon">✓</span>
-              Leitura concluída! Acesso liberado (100%)
-            </span>
-          }
-        </div>
-
-        <div class="progress-bar-track" role="progressbar" [attr.aria-valuenow]="scrollProgress()" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar-fill" [style.width.%]="scrollProgress()"></div>
-        </div>
-      </div>
-
-      <!-- Botão de ir para a calculadora -->
+    <!-- Ação de Retorno no Final da Página -->
+    <div class="presentation-bottom-action">
       <button
         type="button"
         class="presentation-action-btn"
-        [class.unlocked]="canClose()"
-        [disabled]="!canClose()"
         (click)="handleClose()"
         aria-label="Ir para a calculadora de escores clínicos">
-        @if (!canClose()) {
-          <span class="btn-label-locked">
-            🔒 Role até o final para liberar ({{ scrollProgress() }}%)
-          </span>
-        } @else {
-          <span class="btn-label-ready">
-            Ir para a Calculadora de Escores →
-          </span>
-        }
+        <span class="btn-label-ready">
+          ← Voltar para a Calculadora de Escores
+        </span>
       </button>
     </div>
-  </aside>
+  </div>
 </div>

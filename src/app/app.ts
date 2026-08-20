@@ -5,6 +5,7 @@ import {
   signal,
 } from '@angular/core';
 import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
+import { HospitalBanner } from './hospital-banner/hospital-banner';
 
 /* ============================================================================
  * TYPES
@@ -589,7 +590,7 @@ function calculateSaps2Mortality(
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HospitalPresentation],
+  imports: [HospitalPresentation, HospitalBanner],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',
