@@ -86,6 +86,10 @@ h1 {
 
 .score-tab {
     appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     border: 1px solid var(--color-border);
     background: var(--color-bg-surface);
     color: var(--color-text-main);
@@ -94,6 +98,11 @@ h1 {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+.score-tab .tab-icon {
+    font-size: 1.25rem;
+    color: inherit;
 }
 
 .score-tab.active {
@@ -135,13 +144,26 @@ h1 {
 }
 
 .ghost-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     border: 1px solid #d7e4ff;
     background: #f5f8ff;
     color: var(--color-primary-medium);
     border-radius: 999px;
-    padding: 0.55rem 0.9rem;
+    padding: 0.5rem 0.9rem;
     font-weight: 700;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ghost-button:hover {
+    background: #e8f0fe;
+    border-color: var(--color-primary-light);
+}
+
+.ghost-button mat-icon {
+    font-size: 1.05rem;
 }
 
 .score-table {
@@ -289,9 +311,21 @@ h1 {
     padding: 0.85rem 0.9rem;
 }
 
-.guidance-box strong {
-    display: block;
+.guidance-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-bottom: 0.4rem;
+}
+
+.guidance-title-row mat-icon {
+    font-size: 1.15rem;
+    color: var(--color-primary-navy);
+}
+
+.guidance-title-row strong {
+    display: inline-block;
+    margin: 0;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -386,6 +420,9 @@ h1 {
 }
 
 .saps3-box-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     font-size: 0.68rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -394,6 +431,10 @@ h1 {
     color: #ffffff;
     padding: 0.2rem 0.45rem;
     border-radius: 0.35rem;
+}
+
+.saps3-box-badge mat-icon {
+    font-size: 0.95rem;
 }
 
 /* Grade de Comorbidades */
@@ -467,9 +508,16 @@ h1 {
 }
 
 .mortality-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--color-primary-navy);
+}
+
+.mortality-badge mat-icon {
+    font-size: 1rem;
 }
 
 .mortality-val {

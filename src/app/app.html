@@ -18,7 +18,8 @@
     @for (option of scoreOptions; track option.key) {
     <button type="button" class="score-tab" id="{{ option.key }}-tab" [class.active]="selectedScore() === option.key"
       (click)="selectedScore.set(option.key)">
-      {{ option.label }}
+      <mat-icon class="tab-icon">{{ option.icon }}</mat-icon>
+      <span>{{ option.label }}</span>
     </button>
     }
   </nav>
@@ -34,7 +35,10 @@
           <span class="mini-label">Enfermaria</span>
           <h2>NEWS2</h2>
         </div>
-        <button type="button" class="ghost-button" (click)="resetNews2()">Resetar</button>
+        <button type="button" class="ghost-button" (click)="resetNews2()">
+          <mat-icon>restart_alt</mat-icon>
+          Resetar
+        </button>
       </div>
 
       <div class="score-table">
@@ -104,7 +108,7 @@
         </div>
 
         <div class="table-row">
-          <div class="metric-label">Consciência</div>
+          <div class="metric-label">Nível de consciência</div>
           <div class="option-group">
             @for (option of news2FieldOptions.consciousness; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -117,7 +121,7 @@
         </div>
 
         <div class="table-row bool-row">
-          <div class="metric-label">Oxigênio suplementar</div>
+          <div class="metric-label">Suporte de oxigênio</div>
           <div class="option-group">
             @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -133,22 +137,25 @@
     }
 
     <!-- ====================================================================
-     * SAPS 3 (Unidade de Terapia Intensiva - UTI)
+     * SAPS 3 (UTI - Algoritmo Oficial)
      * ==================================================================== -->
     @if (selectedScore() === 'saps3') {
     <section class="card form-card saps3-form">
       <div class="card-header">
         <div>
-          <span class="mini-label">UTI • Algoritmo Oficial</span>
+          <span class="mini-label">UTI</span>
           <h2>SAPS 3</h2>
         </div>
-        <button type="button" class="ghost-button" (click)="resetSaps3()">Resetar</button>
+        <button type="button" class="ghost-button" (click)="resetSaps3()">
+          <mat-icon>restart_alt</mat-icon>
+          Resetar
+        </button>
       </div>
 
       <div class="score-table">
         <!-- ================= BOX I: PRÉ-UTI ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box I</span>
+          <span class="saps3-box-badge"><mat-icon>person</mat-icon>Box I</span>
           <strong>Características Pré-UTI</strong>
         </div>
 
@@ -258,7 +265,7 @@
 
         <!-- ================= BOX II: CIRCUNSTÂNCIAS DA ADMISSÃO ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box II</span>
+          <span class="saps3-box-badge"><mat-icon>medical_information</mat-icon>Box II</span>
           <strong>Circunstâncias da Admissão</strong>
         </div>
 
@@ -408,8 +415,8 @@
 
         <!-- ================= BOX III: FISIOLOGIA AGUDA ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box III</span>
-          <strong>Variáveis Fisiológicas (Pior valor na 1ª hora)</strong>
+          <span class="saps3-box-badge"><mat-icon>monitor_heart</mat-icon>Box III</span>
+          <strong>Variáveis Fisiológicas (Piores valores na 1ª hora na UTI)</strong>
         </div>
 
         <!-- Glasgow Coma Scale -->
@@ -454,9 +461,9 @@
           </div>
         </div>
 
-        <!-- Creatinina (mg/dL) -->
+        <!-- Creatinina sérica (mg/dL) -->
         <div class="table-row">
-          <div class="metric-label">Creatinina (mg/dL)</div>
+          <div class="metric-label">Creatinina sérica (mg/dL)</div>
           <div class="option-group">
             @for (option of saps3FieldOptions.creatinine; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -468,7 +475,7 @@
           </div>
         </div>
 
-        <!-- Frequência Cardíaca (bpm) -->
+        <!-- Frequência cardíaca (bpm) -->
         <div class="table-row">
           <div class="metric-label">Frequência cardíaca (bpm)</div>
           <div class="option-group">
@@ -482,9 +489,9 @@
           </div>
         </div>
 
-        <!-- Leucócitos (G/L) -->
+        <!-- Leucócitos (G/L ou mil/mm³) -->
         <div class="table-row">
-          <div class="metric-label">Leucócitos (G/L ou mil/mm³)</div>
+          <div class="metric-label">Leucócitos (G/L)</div>
           <div class="option-group">
             @for (option of saps3FieldOptions.leukocytes; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -510,9 +517,9 @@
           </div>
         </div>
 
-        <!-- Plaquetas (G/L) -->
+        <!-- Plaquetas (G/L ou mil/mm³) -->
         <div class="table-row">
-          <div class="metric-label">Plaquetas (G/L ou mil/mm³)</div>
+          <div class="metric-label">Plaquetas (G/L)</div>
           <div class="option-group">
             @for (option of saps3FieldOptions.platelets; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -524,9 +531,9 @@
           </div>
         </div>
 
-        <!-- Pressão arterial sistólica (mmHg) -->
+        <!-- Pressão arterial sistólica (PAS - mmHg) -->
         <div class="table-row">
-          <div class="metric-label">Pressão arterial sistólica (mmHg)</div>
+          <div class="metric-label">Pressão arterial sistólica (PAS - mmHg)</div>
           <div class="option-group">
             @for (option of saps3FieldOptions.systolicBp; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -538,9 +545,9 @@
           </div>
         </div>
 
-        <!-- Oxigenação & Ventilação Mecânica -->
+        <!-- Ventilação Mecânica -->
         <div class="table-row bool-row">
-          <div class="metric-label">Ventilação Mecânica (VM)</div>
+          <div class="metric-label">Ventilação Mecânica</div>
           <div class="option-group">
             @for (option of saps3FieldOptions.mechanicalVentilation; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
@@ -593,7 +600,7 @@
       [class.high]="selectedScore() === 'news2' ? news2Result().tone === 'high' : saps3Result().tone === 'high'"
       [class.critical]="selectedScore() === 'news2' ? news2Result().tone === 'critical' : saps3Result().tone === 'critical'">
       <div class="result-topline">
-        <span class="mini-label">Resultado</span>
+        <span class="mini-label"><mat-icon style="font-size: 0.95rem;">analytics</mat-icon>Resultado</span>
         @if (selectedScore() === 'news2') {
         <span class="result-tag">{{ news2Result().label }}</span>
         } @else {
@@ -614,18 +621,21 @@
       } @else {
         <div class="mortality-breakdown">
           <div class="mortality-item primary-mortality">
-            <span class="mortality-badge">América Latina (Brasil)</span>
+            <span class="mortality-badge"><mat-icon>flag</mat-icon> América Latina (Brasil)</span>
             <span class="mortality-val">{{ saps3Result().mortalityLatAm }}%</span>
           </div>
           <div class="mortality-item secondary-mortality">
-            <span class="mortality-badge">Padrão Global</span>
+            <span class="mortality-badge"><mat-icon>public</mat-icon> Padrão Global</span>
             <span class="mortality-val">{{ saps3Result().mortalityGlobal }}%</span>
           </div>
         </div>
       }
 
       <div class="guidance-box">
-        <strong>Conduta sugerida</strong>
+        <div class="guidance-title-row">
+          <mat-icon>assignment</mat-icon>
+          <strong>Conduta sugerida</strong>
+        </div>
         @if (selectedScore() === 'news2') {
         <p>{{ news2Result().guidance }}</p>
         } @else {

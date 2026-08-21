@@ -9,7 +9,7 @@
         (click)="handleClose()"
         title="Voltar para a calculadora de escores"
         aria-label="Voltar para a Calculadora">
-        <span class="back-arrow" aria-hidden="true">←</span>
+        <mat-icon class="back-arrow" aria-hidden="true">arrow_back</mat-icon>
         <span>Voltar para a Calculadora</span>
       </button>
     </nav>
@@ -75,7 +75,7 @@
       <div class="mission-vision-grid">
         <div class="mv-card mission-card">
           <div class="mv-header">
-            <span class="mv-icon">🎯</span>
+            <mat-icon class="mv-icon">track_changes</mat-icon>
             <h3>MISSÃO</h3>
           </div>
           <p>
@@ -85,7 +85,7 @@
 
         <div class="mv-card vision-card">
           <div class="mv-header">
-            <span class="mv-icon">🌐</span>
+            <mat-icon class="mv-icon">visibility</mat-icon>
             <h3>VISÃO</h3>
           </div>
           <p>
@@ -112,7 +112,7 @@
           </div>
           <div class="service-card-body">
             <div class="service-card-title-row">
-              <span class="service-mini-icon">{{ service.icon }}</span>
+              <mat-icon class="service-mini-icon">{{ service.icon }}</mat-icon>
               <h3>{{ service.title }}</h3>
             </div>
             <p>{{ service.description }}</p>
@@ -126,7 +126,7 @@
         @for (service of additionalServices; track service.title) {
         <div class="complementary-card">
           <div class="comp-header">
-            <span class="comp-icon">{{ service.icon }}</span>
+            <mat-icon class="comp-icon">{{ service.icon }}</mat-icon>
             <span class="comp-tag">{{ service.tag }}</span>
           </div>
           <h4>{{ service.title }}</h4>
@@ -165,7 +165,7 @@
       <div class="values-grid">
         @for (val of institutionalValues; track val.title) {
         <div class="value-card">
-          <span class="value-icon">{{ val.icon }}</span>
+          <mat-icon class="value-icon">{{ val.icon }}</mat-icon>
           <div class="value-content">
             <strong>{{ val.title }}</strong>
             <p>{{ val.description }}</p>
@@ -186,7 +186,7 @@
       <div class="pillars-grid">
         @for (pillar of managementPillars; track pillar.title) {
         <div class="pillar-card">
-          <span class="pillar-icon">{{ pillar.icon }}</span>
+          <mat-icon class="pillar-icon">{{ pillar.icon }}</mat-icon>
           <div class="pillar-content">
             <h4>{{ pillar.title }}</h4>
             <p>{{ pillar.description }}</p>
@@ -205,7 +205,7 @@
 
       <div class="contact-details-grid">
         <div class="contact-block">
-          <span class="contact-block-icon">📞</span>
+          <mat-icon class="contact-block-icon">phone</mat-icon>
           <div class="contact-block-text">
             <strong>TELEFONE / WHATSAPP</strong>
             <p>(62) 98401-0008</p>
@@ -214,7 +214,7 @@
         </div>
 
         <div class="contact-block">
-          <span class="contact-block-icon">🌐</span>
+          <mat-icon class="contact-block-icon">language</mat-icon>
           <div class="contact-block-text">
             <strong>WEBSITE OFICIAL</strong>
             <p><a href="https://www.itga.org.br" target="_blank" rel="noopener noreferrer">www.itga.org.br</a></p>
@@ -223,7 +223,7 @@
         </div>
 
         <div class="contact-block address-block">
-          <span class="contact-block-icon">📍</span>
+          <mat-icon class="contact-block-icon">location_on</mat-icon>
           <div class="contact-block-text">
             <strong>ENDEREÇO DA UNIDADE</strong>
             <p>Avenida Itapuia, S/N, Qd. A 14, Lt. 9 a 13, Vila Manchester</p>
@@ -242,7 +242,8 @@
         (click)="handleClose()"
         aria-label="Voltar para a calculadora de escores clínicos">
         <span class="btn-label-ready">
-          ← Voltar para a Calculadora de Escores
+          <mat-icon style="font-size: 1.1rem; margin-right: 0.3rem;">arrow_back</mat-icon>
+          Voltar para a Calculadora de Escores
         </span>
       </button>
     </div>
@@ -263,12 +264,12 @@
         <div class="progress-info-row">
           @if (!canClose()) {
             <span class="progress-status-label">
-              <span class="scroll-arrow-anim">↓</span>
+              <mat-icon class="scroll-arrow-anim">south</mat-icon>
               Role até o final da página para liberar o acesso: <strong>{{ scrollProgress() }}%</strong>
             </span>
           } @else {
             <span class="progress-status-label ready">
-              <span class="check-icon">✓</span>
+              <mat-icon class="check-icon">check_circle</mat-icon>
               Leitura concluída! Acesso liberado (100%)
             </span>
           }
@@ -289,11 +290,13 @@
         aria-label="Ir para a calculadora de escores clínicos">
         @if (!canClose()) {
           <span class="btn-label-locked">
-            🔒 Role até o final para liberar ({{ scrollProgress() }}%)
+            <mat-icon style="font-size: 1.1rem; vertical-align: middle; margin-right: 0.35rem;">lock</mat-icon>
+            Role até o final para liberar ({{ scrollProgress() }}%)
           </span>
         } @else {
           <span class="btn-label-ready">
-            Ir para a Calculadora de Escores →
+            Ir para a Calculadora de Escores
+            <mat-icon style="font-size: 1.1rem; vertical-align: middle; margin-left: 0.35rem;">arrow_forward</mat-icon>
           </span>
         }
       </button>

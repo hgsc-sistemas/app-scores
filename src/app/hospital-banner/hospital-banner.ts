@@ -10,6 +10,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 export interface BannerSlide {
   id: number;
@@ -24,6 +25,7 @@ export interface BannerSlide {
 @Component({
   selector: 'app-hospital-banner',
   standalone: true,
+  imports: [MatIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hospital-banner.html',
   styleUrl: './hospital-banner.css',
@@ -38,7 +40,7 @@ export class HospitalBanner implements OnInit, OnDestroy {
   public readonly slides: readonly BannerSlide[] = [
     {
       id: 0,
-      icon: '🚨',
+      icon: 'emergency',
       tag: 'Plantão 24h',
       title: 'Pronto Atendimento & Emergência 24h',
       subtitle:
@@ -47,7 +49,7 @@ export class HospitalBanner implements OnInit, OnDestroy {
     },
     {
       id: 1,
-      icon: '🩺',
+      icon: 'monitor_heart',
       tag: 'Alta Complexidade',
       title: 'UTI Adulto & Pediátrica',
       subtitle:
@@ -56,7 +58,7 @@ export class HospitalBanner implements OnInit, OnDestroy {
     },
     {
       id: 2,
-      icon: '🔬',
+      icon: 'medical_services',
       tag: 'Centro Cirúrgico',
       title: 'Centro Cirúrgico Avançado',
       subtitle:
@@ -65,7 +67,7 @@ export class HospitalBanner implements OnInit, OnDestroy {
     },
     {
       id: 3,
-      icon: '🧪',
+      icon: 'radiology',
       tag: 'Diagnóstico Ágil',
       title: 'Diagnóstico & Laboratório',
       subtitle:
@@ -74,7 +76,7 @@ export class HospitalBanner implements OnInit, OnDestroy {
     },
     {
       id: 4,
-      icon: '👨‍⚕️',
+      icon: 'groups',
       tag: 'Especialidades',
       title: 'Ambulatório de Especialidades',
       subtitle:
@@ -83,13 +85,13 @@ export class HospitalBanner implements OnInit, OnDestroy {
     },
     {
       id: 5,
-      icon: '🏥',
+      icon: 'local_hospital',
       tag: 'Institucional',
       title: 'Conheça o Nosso Hospital',
       subtitle:
         'Infraestrutura completa, atendimento humanizado e compromisso com a vida.',
       isCta: true,
-      durationMs: 7000, // Fica mais tempo visível antes de reiniciar o loop
+      durationMs: 7000,
     },
   ];
 

@@ -4,6 +4,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
 import { HospitalBanner } from './hospital-banner/hospital-banner';
 
@@ -825,7 +826,7 @@ export function summarizeSaps3(total: number): ScoreResult {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HospitalPresentation, HospitalBanner],
+  imports: [HospitalPresentation, HospitalBanner, MatIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -863,8 +864,8 @@ export class App {
   );
 
   public readonly scoreOptions = [
-    { key: 'news2' as const, label: 'Enfermaria • NEWS2' },
-    { key: 'saps3' as const, label: 'UTI • SAPS 3' },
+    { key: 'news2' as const, label: 'Enfermaria • NEWS2', icon: 'local_hospital' },
+    { key: 'saps3' as const, label: 'UTI • SAPS 3', icon: 'monitor_heart' },
   ];
 
   /* ==========================================================================

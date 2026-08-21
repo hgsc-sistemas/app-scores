@@ -12,6 +12,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 export interface HospitalServiceItem {
   icon: string;
@@ -37,6 +38,7 @@ export interface HospitalManagementPillar {
 @Component({
   selector: 'app-hospital-presentation',
   standalone: true,
+  imports: [MatIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hospital-presentation.html',
   styleUrl: './hospital-presentation.css',
@@ -73,7 +75,7 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
   /** Serviços principais com imagens reais do hospital e do ITGA */
   protected readonly featuredServices: readonly HospitalServiceItem[] = [
     {
-      icon: '🏥',
+      icon: 'local_hospital',
       title: 'Gestão Hospitalar & Pronto Atendimento 24h',
       description:
         'Administração hospitalar e gestão em saúde pelo ITGA com atendimento humanizado, triagem qualificada, leitos de enfermaria e suporte integral ao SUS.',
@@ -82,7 +84,7 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
       highlight: true,
     },
     {
-      icon: '🔬',
+      icon: 'medical_services',
       title: 'Centro Cirúrgico & Procedimentos de Alta Complexidade',
       description:
         'Mais de 35.000 cirurgias entregues com excelência técnica: cirurgia geral, ortopédica, oftalmológica, urológica, ginecológica e vascular.',
@@ -91,7 +93,7 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
       highlight: true,
     },
     {
-      icon: '🧪',
+      icon: 'radiology',
       title: 'Centro de Diagnóstico por Imagem & Métodos Gráficos',
       description:
         'Tomografia computadorizada, ultrassonografia com e sem Doppler, endoscopia digestiva alta, colonoscopia, biópsias guiadas e histeroscopias.',
@@ -104,21 +106,21 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
   /** Outros serviços hospitalares complementares */
   protected readonly additionalServices: readonly HospitalServiceItem[] = [
     {
-      icon: '🩺',
+      icon: 'monitor_heart',
       title: 'Unidade de Terapia Intensiva (UTI)',
       description:
         'Leitos equipados com monitorização multiparamétrica contínua e equipe de intensivistas especializados em cuidados críticos.',
       tag: 'Alta Complexidade',
     },
     {
-      icon: '👨‍⚕️',
+      icon: 'stethoscope',
       title: 'Ambulatório de Especialidades Médicas',
       description:
         'Consultas clínicas especializadas em cardiologia, ortopedia, ginecologia, pediatria, clínica geral e neurologia.',
       tag: 'Corpo Clínico',
     },
     {
-      icon: '💊',
+      icon: 'medication',
       title: 'Internação Humanizada & Enfermarias',
       description:
         'Milhares de diárias de internação clínica executadas com foco na recuperação segura e no acolhimento familiar.',
@@ -145,32 +147,32 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
   /** Valores institucionais do ITGA */
   protected readonly institutionalValues: readonly HospitalValue[] = [
     {
-      icon: '🤝',
+      icon: 'volunteer_activism',
       title: 'Humanização',
       description: 'Acolhimento empático com foco no bem-estar integral.',
     },
     {
-      icon: '👤',
+      icon: 'person',
       title: 'Respeito à Individualidade',
       description: 'Atenção personalizada às necessidades de cada paciente.',
     },
     {
-      icon: '🔍',
+      icon: 'policy',
       title: 'Transparência no Exercício',
       description: 'Ética rigorosa, compliance e prestação de contas pública.',
     },
     {
-      icon: '💚',
+      icon: 'favorite',
       title: 'Comprometimento com a Saúde',
       description: 'Dedicação diária com qualidade técnica e resolutividade.',
     },
     {
-      icon: '⚖️',
+      icon: 'balance',
       title: 'Ética e Moral',
       description: 'Princípios sólidos em todas as condutas assistenciais.',
     },
     {
-      icon: '🌍',
+      icon: 'public',
       title: 'Responsabilidade Social & Pública',
       description: 'Compromisso com o acesso universal e equitativo à saúde.',
     },
@@ -179,25 +181,25 @@ export class HospitalPresentation implements OnInit, AfterViewInit {
   /** Pilares de gestão e governança do ITGA (conforme o PDF) */
   protected readonly managementPillars: readonly HospitalManagementPillar[] = [
     {
-      icon: '🏛️',
+      icon: 'account_balance',
       title: 'Governança & Contrato de Gestão',
       description:
         'Qualificação como Organização Social (Lei Federal nº 9.637/98), com Compliance, Balancete Mensal, Planejamento Trimestral e Auditoria Anual.',
     },
     {
-      icon: '💻',
+      icon: 'terminal',
       title: 'Sistemas de Informação & LGPD',
       description:
         'Prontuário eletrônico, telemedicina, aplicativos de saúde e monitoramento contínuo para suporte e precisão nas decisões clínicas.',
     },
     {
-      icon: '👥',
+      icon: 'groups',
       title: 'Recursos Humanos & Educação',
       description:
         'Investimento permanente na capacitação, educação continuada e ambiente saudável para os profissionais de saúde.',
     },
     {
-      icon: '🌱',
+      icon: 'eco',
       title: 'Gestão em Meio Ambiente',
       description:
         'Práticas de interdisciplinaridade voltadas para a sustentabilidade, preservação e utilização racional dos recursos naturais.',

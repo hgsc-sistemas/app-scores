@@ -8,7 +8,7 @@
     <!-- Conteúdo Animado do Slide Atual -->
     <div class="banner-content" [class.animating]="isAnimating()">
       <div class="banner-slide-badge-row">
-        <span class="banner-slide-icon" aria-hidden="true">{{ currentSlide().icon }}</span>
+        <mat-icon class="banner-slide-icon" aria-hidden="true">{{ currentSlide().icon }}</mat-icon>
         <span class="banner-slide-tag">{{ currentSlide().tag }}</span>
       </div>
 
