@@ -231,8 +231,8 @@ h1 {
     content: '';
     position: relative;
     top: -2.1rem;
-    left: -8px;
-    width: calc(100% + 19px);
+    left: -5px;
+    width: calc(100% + 10px);
     height: 3px;
     border-radius: 3px;
 }
