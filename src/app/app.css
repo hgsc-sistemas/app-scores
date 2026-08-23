@@ -191,7 +191,9 @@ h1 {
 
 .option-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.2rem;
+    row-gap: 1rem;
     width: 100%;
     margin-top: 0.5rem;
 }
@@ -224,9 +226,9 @@ h1 {
     display: block;
     content: '';
     position: relative;
-    top: -35px;
-    left: -5px;
-    width: calc(100% + 10px);
+    top: -32px;
+    left: -2px;
+    width: calc(100% + 5px);
     height: 3px;
     border-radius: 3px;
 }
@@ -387,7 +389,7 @@ h1 {
 }
 
 .saps3-form .score-table {
-    gap: 0.35rem;
+    gap: 1rem;
 }
 
 .saps3-form .table-row {
@@ -398,6 +400,7 @@ h1 {
 
 .saps3-form .metric-label {
     font-size: 0.82rem;
+    margin: 0.25rem 0 0.5rem 0;
 }
 
 .saps3-form .option-button {
