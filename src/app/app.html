@@ -311,17 +311,27 @@
           </div>
         </div>
 
-        <!-- Infecção aguda na admissão -->
+        <!-- Infecção aguda na admissão (Cumulativas) -->
         <div class="table-row">
-          <div class="metric-label">Infecção aguda na admissão</div>
+          <div class="metric-label">Infecção aguda na admissão (Cumulativas • Selecione todas aplicáveis)</div>
           <div class="option-group">
-            @for (option of saps3FieldOptions.acuteInfection; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().acuteInfection === option.value"
-              (click)="setSaps3Value('acuteInfection', option.value)">
-              {{ option.label }}
+            <button type="button" class="option-button verde"
+              [class.selected]="hasNoSaps3AcuteInfections()"
+              (click)="clearSaps3AcuteInfections()">
+              Nenhuma (0 pts)
             </button>
-            }
+
+            <button type="button" class="option-button laranja"
+              [class.selected]="saps3Values().acuteInfections.nosocomial"
+              (click)="toggleSaps3AcuteInfection('nosocomial')">
+              Nosocomial / Hospitalar (+4 pts)
+            </button>
+
+            <button type="button" class="option-button vermelho"
+              [class.selected]="saps3Values().acuteInfections.respiratory"
+              (click)="toggleSaps3AcuteInfection('respiratory')">
+              Respiratória (+5 pts)
+            </button>
           </div>
         </div>
 

@@ -24,7 +24,7 @@ export interface News2Values {
   systolicBp: number;
   heartRate: number;
   temperature: number;
-  consciousness: 'A' | 'V' | 'P' | 'U';
+  consciousness: 'A' | 'C' | 'V' | 'P' | 'U';
   oxygenSupplement: boolean;
 }
 
@@ -50,10 +50,10 @@ export type Saps3SurgerySite =
   | 'cabgWithoutValvularRepair'
   | 'neurosurgeryForStroke';
 
-export type Saps3AcuteInfection =
-  | 'none'
-  | 'nosocomial'
-  | 'respiratory';
+export interface Saps3AcuteInfections {
+  nosocomial?: boolean;
+  respiratory?: boolean;
+}
 
 export interface Saps3AdmissionReasons {
   /* Cardiovascular */
@@ -95,7 +95,7 @@ export interface Saps3Values {
   admissionReasons: Saps3AdmissionReasons;
   surgicalStatus: Saps3SurgicalStatus;
   surgerySite: Saps3SurgerySite;
-  acuteInfection: Saps3AcuteInfection;
+  acuteInfections: Saps3AcuteInfections;
 
   /* Box III — Fisiologia Aguda (Piores valores na 1ª hora na UTI) */
   gcs: number;
@@ -266,9 +266,8 @@ export const SAPS3_RULES = {
     otherOrNone: 0,
   },
 
-  /* Box II — Infecção aguda na admissão */
-  acuteInfection: {
-    none: 0,
+  /* Box II — Infecção aguda na admissão (Cumulativas no modelo multivariado oficial) */
+  acuteInfections: {
     nosocomial: 4,
     respiratory: 5,
   },
@@ -383,7 +382,7 @@ export const SAPS3_DEFAULT: Saps3Values = {
   admissionReasons: {},
   surgicalStatus: 'scheduledSurgery',
   surgerySite: 'otherOrNone',
-  acuteInfection: 'none',
+  acuteInfections: {},
 
   /* Box III */
   gcs: 15,
@@ -552,7 +551,7 @@ export function calculateSaps3Box2(values: Saps3Values): number {
   const reasonScore = getSaps3AdmissionReasonScore(values.admissionReasons);
   const surgicalStatusScore = getSaps3SurgicalStatusScore(values.surgicalStatus);
   const surgerySiteScore = getSaps3SurgerySiteScore(values.surgerySite);
-  const infectionScore = getSaps3InfectionScore(values.acuteInfection);
+  const infectionScore = getSaps3InfectionScore(values.acuteInfections);
 
   return (
     admissionTypeScore +
@@ -707,9 +706,16 @@ export function getSaps3SurgerySiteScore(
 }
 
 export function getSaps3InfectionScore(
-  infection: Saps3AcuteInfection,
+  infections: Saps3AcuteInfections,
 ): number {
-  return SAPS3_RULES.acuteInfection[infection] ?? 0;
+  let score = 0;
+  if (infections?.nosocomial) {
+    score += SAPS3_RULES.acuteInfections.nosocomial;
+  }
+  if (infections?.respiratory) {
+    score += SAPS3_RULES.acuteInfections.respiratory;
+  }
+  return score;
 }
 
 /**
@@ -910,9 +916,10 @@ export class App {
     ],
     consciousness: [
       { label: 'A', value: 'A', color: 'verde' },
+      { label: 'C', value: 'C', color: 'vermelho' },
       { label: 'V', value: 'V', color: 'vermelho' },
-      { label: 'P', value: 'P', color: 'vermelho-escuro' },
-      { label: 'U', value: 'U', color: 'vermelho-escuro' },
+      { label: 'P', value: 'P', color: 'vermelho' },
+      { label: 'U', value: 'U', color: 'vermelho' },
     ],
     oxygenSupplement: [
       { label: 'Não', value: false, color: 'verde' },
@@ -976,13 +983,6 @@ export class App {
       { label: 'Trauma isolado/múltiplo (-8 pts)', value: 'trauma' as Saps3SurgerySite, color: 'verde' },
       { label: 'CABG sem reparo valvar (-6 pts)', value: 'cabgWithoutValvularRepair' as Saps3SurgerySite, color: 'verde' },
       { label: 'Neurocirurgia por AVC (+5 pts)', value: 'neurosurgeryForStroke' as Saps3SurgerySite, color: 'laranja' },
-    ],
-
-    /* Box II: Infecção aguda na admissão */
-    acuteInfection: [
-      { label: 'Nenhuma (0 pts)', value: 'none' as Saps3AcuteInfection, color: 'verde' },
-      { label: 'Nosocomial (+4 pts)', value: 'nosocomial' as Saps3AcuteInfection, color: 'laranja' },
-      { label: 'Respiratória (+5 pts)', value: 'respiratory' as Saps3AcuteInfection, color: 'vermelho' },
     ],
 
     /* Box III: Glasgow Coma Scale */
@@ -1154,6 +1154,30 @@ export class App {
   public readonly hasNoSaps3AdmissionReasons = computed(() => {
     const r = this.saps3Values().admissionReasons;
     return !Object.values(r).some(Boolean);
+  });
+
+  public toggleSaps3AcuteInfection(
+    infection: keyof Saps3AcuteInfections,
+  ): void {
+    this.saps3Values.update((current) => ({
+      ...current,
+      acuteInfections: {
+        ...current.acuteInfections,
+        [infection]: !current.acuteInfections[infection],
+      },
+    }));
+  }
+
+  public clearSaps3AcuteInfections(): void {
+    this.saps3Values.update((current) => ({
+      ...current,
+      acuteInfections: {},
+    }));
+  }
+
+  public readonly hasNoSaps3AcuteInfections = computed(() => {
+    const inf = this.saps3Values().acuteInfections;
+    return !inf?.nosocomial && !inf?.respiratory;
   });
 
   /* ==========================================================================

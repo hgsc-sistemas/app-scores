@@ -212,10 +212,11 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
       expect(getSaps3SurgerySiteScore('otherOrNone')).toBe(0);
     });
 
-    it('should score acute infection', () => {
-      expect(getSaps3InfectionScore('none')).toBe(0);
-      expect(getSaps3InfectionScore('nosocomial')).toBe(4);
-      expect(getSaps3InfectionScore('respiratory')).toBe(5);
+    it('should score acute infection as cumulative independent variables', () => {
+      expect(getSaps3InfectionScore({})).toBe(0);
+      expect(getSaps3InfectionScore({ nosocomial: true })).toBe(4);
+      expect(getSaps3InfectionScore({ respiratory: true })).toBe(5);
+      expect(getSaps3InfectionScore({ nosocomial: true, respiratory: true })).toBe(9);
     });
 
     it('should score individual admission reasons correctly', () => {
@@ -436,7 +437,9 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
         },
         surgicalStatus: 'emergencySurgery', // 6 pts
         surgerySite: 'neurosurgeryForStroke', // 5 pts
-        acuteInfection: 'respiratory', // 5 pts
+        acuteInfections: {
+          respiratory: true, // 5 pts
+        },
 
         /* Box III */
         gcs: 6, // 7 pts
