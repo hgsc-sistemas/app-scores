@@ -226,7 +226,7 @@ h1 {
     display: block;
     content: '';
     position: relative;
-    top: -32px;
+    top: -2.3rem;
     left: -2px;
     width: calc(100% + 5px);
     height: 3px;
@@ -486,14 +486,39 @@ h1 {
 
 /* Painel de Estimativa de Mortalidade */
 .mortality-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0.65rem 0 0.85rem;
+    padding: 0.75rem 0.85rem;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.85rem;
+}
+
+.mortality-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0 0.35rem;
+}
+
+.mortality-title-row strong {
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.mortality-subtitle {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+}
+
+.mortality-items-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.45rem;
-    margin: 0.65rem 0 0.85rem;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.65);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: 0.75rem;
 }
 
 .mortality-item {
@@ -501,20 +526,25 @@ h1 {
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    padding: 0.3rem 0.45rem;
-    border-radius: 0.45rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 0.55rem;
 }
 
 .mortality-item.primary-mortality {
     background: var(--color-primary-subtle);
-    border: 1px solid var(--color-primary-border);
+    border: 1.5px solid var(--color-primary-border);
+}
+
+.mortality-item.secondary-mortality {
+    background: #f8fafc;
+    border: 1px solid var(--color-border-subtle);
 }
 
 .mortality-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.75rem;
+    font-size: 0.76rem;
     font-weight: 700;
     color: var(--color-primary-navy);
 }
@@ -524,7 +554,7 @@ h1 {
 }
 
 .mortality-val {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: var(--color-primary-dark);
 }
@@ -534,7 +564,7 @@ h1 {
 }
 
 .secondary-mortality .mortality-val {
-    font-size: 0.92rem;
+    font-size: 0.98rem;
     color: var(--color-text-main);
 }
 
@@ -577,6 +607,10 @@ h1 {
     .option-button {
         font-size: 0.6rem !important;
         padding: 0.8rem 0.1rem !important;
+    }
+
+    .option-button:after {
+        top: -1.9rem
     }
 }
 

@@ -240,13 +240,13 @@ export const SAPS3_RULES = {
     rhythmAndSeizuresCombined: -4, // Regra oficial: ritmo + convulsões juntos = -4 (não -9)
     hypovolemicShockHemorrhagic: 3,
     hypovolemicShockNonHemorrhagic: 3,
+    acuteAbdomenOrOtherDigestive: 3,
+    comaStuporConfusionDelirium: 4,
     septicShock: 5,
     anaphylacticOrMixedShock: 5,
     liverFailure: 6,
-    acuteAbdomenOrOtherDigestive: 3,
-    severePancreatitis: 9,
-    comaStuporConfusionDelirium: 4,
     focalNeurologicalDeficit: 7,
+    severePancreatitis: 9,
     intracranialMassEffect: 10,
   },
 
@@ -796,27 +796,32 @@ export function summarizeSaps3(total: number): ScoreResult {
   const mortalityGlobal = calculateSaps3MortalityGlobal(total);
   const estimate = `Mortalidade estimada: ${mortalityLatAm}% (América Central e do Sul) | ${mortalityGlobal}% (Global)`;
 
-  // Triagem visual interna da aplicação para cores de alerta da interface
+  // Triagem visual interna da aplicação para rótulos e cores de alerta da interface
+  let label = 'Baixo risco';
   let tone: 'low' | 'medium' | 'high' | 'critical' = 'low';
   let guidance = 'Monitorização contínua na UTI e reavaliação clínica regular.';
 
   if (total <= 45) {
+    label = 'Baixo risco';
     tone = 'low';
     guidance = 'Monitorização contínua na UTI e reavaliação clínica regular.';
   } else if (total <= 60) {
+    label = 'Risco moderado';
     tone = 'medium';
     guidance = 'Monitorização hemodinâmica intensiva e suporte clínico direcionado.';
   } else if (total <= 75) {
+    label = 'Risco alto';
     tone = 'high';
     guidance = 'Suporte avançado a órgãos, vigilância contínua e intervenção médica intensiva.';
   } else {
+    label = 'Risco crítico';
     tone = 'critical';
     guidance = 'Risco crítico iminente; suporte orgânico múltiplo e revisão multidisciplinar imediata.';
   }
 
   return {
     total,
-    label: `Score SAPS 3: ${total} pts`,
+    label,
     tone,
     guidance,
     estimate,
@@ -960,13 +965,13 @@ export class App {
     /* Box I: Uso de drogas vasoativas antes da UTI */
     vasoactiveDrugsBeforeIcu: [
       { label: 'Não', value: false, color: 'verde' },
-      { label: 'Sim', value: true, color: 'laranja' },
+      { label: 'Sim', value: true, color: 'amarelo' },
     ],
 
     /* Box II: Tipo de admissão na UTI */
     plannedIcuAdmission: [
       { label: 'Planejada', value: true, color: 'verde' },
-      { label: 'Não planejada', value: false, color: 'laranja' },
+      { label: 'Não planejada', value: false, color: 'amarelo' },
     ],
 
     /* Box II: Status cirúrgico */
@@ -998,7 +1003,7 @@ export class App {
     bilirubin: [
       { label: '< 2.0', value: 1.0, color: 'verde' },
       { label: '2.0–< 6.0', value: 4.0, color: 'amarelo' },
-      { label: '≥ 6.0', value: 7.0, color: 'vermelho' },
+      { label: '≥ 6.0', value: 7.0, color: 'laranja' },
     ],
 
     /* Box III: Temperatura (°C) */
@@ -1031,7 +1036,7 @@ export class App {
     /* Box III: pH */
     ph: [
       { label: '> 7.25', value: 7.4, color: 'verde' },
-      { label: '≤ 7.25', value: 7.15, color: 'laranja' },
+      { label: '≤ 7.25', value: 7.15, color: 'amarelo' },
     ],
 
     /* Box III: Plaquetas (G/L ou mil/mm³) */
@@ -1039,7 +1044,7 @@ export class App {
       { label: '≥ 100 G/L', value: 250, color: 'verde' },
       { label: '50–< 100 G/L', value: 75, color: 'amarelo' },
       { label: '20–< 50 G/L', value: 35, color: 'laranja' },
-      { label: '< 20 G/L', value: 15, color: 'vermelho' },
+      { label: '< 20 G/L', value: 15, color: 'vermelho-escuro' },
     ],
 
     /* Box III: Pressão arterial sistólica (mmHg) */
@@ -1047,7 +1052,7 @@ export class App {
       { label: '≥ 120', value: 130, color: 'verde' },
       { label: '70–< 120', value: 95, color: 'amarelo' },
       { label: '40–< 70', value: 55, color: 'laranja' },
-      { label: '< 40', value: 35, color: 'vermelho' },
+      { label: '< 40', value: 35, color: 'vermelho-escuro' },
     ],
 
     /* Box III: Ventilação Mecânica */
@@ -1059,7 +1064,7 @@ export class App {
     /* Box III: Oxigenação com Ventilação Mecânica (PaO2/FiO2) */
     pao2Fio2Mv: [
       { label: '≥ 100', value: 250, color: 'laranja' },
-      { label: '< 100', value: 80, color: 'vermelho' },
+      { label: '< 100', value: 80, color: 'vermelho-escuro' },
     ],
 
     /* Box III: Oxigenação sem Ventilação Mecânica (PaO2) */

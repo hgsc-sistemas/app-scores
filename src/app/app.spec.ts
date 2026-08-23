@@ -470,7 +470,8 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
       expect(totalScore).toBe(152);
 
       const summary = summarizeSaps3(totalScore);
-      expect(summary.label).toContain('152');
+      expect(summary.label).toBe('Risco crítico');
+      expect(summary.total).toBe(152);
       expect(summary.tone).toBe('critical');
 
       const mortalityLatAm = Number(calculateSaps3MortalityCentralSouthAmerica(totalScore));

@@ -321,13 +321,13 @@
               Nenhuma
             </button>
 
-            <button type="button" class="option-button laranja"
+            <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().acuteInfections.nosocomial"
               (click)="toggleSaps3AcuteInfection('nosocomial')">
               Nosocomial / Hospitalar 
             </button>
 
-            <button type="button" class="option-button vermelho"
+            <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().acuteInfections.respiratory"
               (click)="toggleSaps3AcuteInfection('respiratory')">
               Respiratória 
@@ -350,6 +350,11 @@
               [class.selected]="saps3Values().admissionReasons.cardiacRhythmDisturbance"
               (click)="toggleSaps3AdmissionReason('cardiacRhythmDisturbance')">
               Distúrbio do ritmo 
+            </button>
+
+            <button type="button" class="option-button verde" [class.selected]="saps3Values().admissionReasons.seizures"
+              (click)="toggleSaps3AdmissionReason('seizures')">
+              Convulsão
             </button>
 
             <button type="button" class="option-button amarelo"
@@ -397,11 +402,6 @@
             </button>
 
             <!-- Neurológico -->
-            <button type="button" class="option-button verde"
-              [class.selected]="saps3Values().admissionReasons.seizures"
-              (click)="toggleSaps3AdmissionReason('seizures')">
-              Convulsão 
-            </button>
 
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().admissionReasons.comaStuporConfusionDelirium"
@@ -409,7 +409,7 @@
               Coma / estupor / confusão / delírio 
             </button>
 
-            <button type="button" class="option-button laranja"
+            <button type="button" class="option-button vermelho"
               [class.selected]="saps3Values().admissionReasons.focalNeurologicalDeficit"
               (click)="toggleSaps3AdmissionReason('focalNeurologicalDeficit')">
               Déficit neurológico focal 
@@ -630,13 +630,18 @@
         <p class="estimate">{{ news2Result().estimate }}</p>
       } @else {
         <div class="mortality-breakdown">
-          <div class="mortality-item primary-mortality">
-            <span class="mortality-badge"><mat-icon>flag</mat-icon> América Latina (Brasil)</span>
-            <span class="mortality-val">{{ saps3Result().mortalityLatAm }}%</span>
+          <div class="mortality-header">
+            <span class="mortality-subtitle">Probabilidade prevista de óbito hospitalar</span>
           </div>
-          <div class="mortality-item secondary-mortality">
-            <span class="mortality-badge"><mat-icon>public</mat-icon> Padrão Global</span>
-            <span class="mortality-val">{{ saps3Result().mortalityGlobal }}%</span>
+          <div class="mortality-items-grid">
+            <div class="mortality-item primary-mortality">
+              <span class="mortality-badge"><mat-icon>flag</mat-icon> América Latina (Brasil)</span>
+              <span class="mortality-val">{{ saps3Result().mortalityLatAm }}%</span>
+            </div>
+            <div class="mortality-item secondary-mortality">
+              <span class="mortality-badge"><mat-icon>public</mat-icon> Padrão Global</span>
+              <span class="mortality-val">{{ saps3Result().mortalityGlobal }}%</span>
+            </div>
           </div>
         </div>
       }
