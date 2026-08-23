@@ -84,6 +84,10 @@ h1 {
     margin-bottom: 1rem;
 }
 
+.mat-icon {
+    height: fit-content;
+}
+
 .score-tab {
     appearance: none;
     display: inline-flex;
@@ -226,9 +230,9 @@ h1 {
     display: block;
     content: '';
     position: relative;
-    top: -2.3rem;
-    left: -2px;
-    width: calc(100% + 5px);
+    top: -2.1rem;
+    left: -8px;
+    width: calc(100% + 19px);
     height: 3px;
     border-radius: 3px;
 }
@@ -404,7 +408,7 @@ h1 {
 }
 
 .saps3-form .option-button {
-    padding: 0.85rem 0.25rem;
+    padding: 0.85rem 0.8rem;
     font-size: 0.7rem;
 }
 
@@ -434,6 +438,7 @@ h1 {
     color: #ffffff;
     padding: 0.2rem 0.45rem;
     border-radius: 0.35rem;
+    white-space: nowrap;
 }
 
 .saps3-box-badge mat-icon {
@@ -606,11 +611,13 @@ h1 {
 @media (max-width: 400px) {
     .option-button {
         font-size: 0.6rem !important;
-        padding: 0.8rem 0.1rem !important;
+        padding: 0.8rem 0.4rem !important;
     }
 
     .option-button:after {
-        top: -1.9rem
+        top: -1.9rem;
+        left: -5px;
+        width: calc(100% + 10px);
     }
 }
 

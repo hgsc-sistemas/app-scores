@@ -27,6 +27,10 @@
     gap: 1rem;
 }
 
+.banner-container .mat-icon {
+    height: fit-content;
+}
+
 /* Logo */
 .banner-logo-wrapper {
     display: flex;

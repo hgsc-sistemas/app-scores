@@ -155,7 +155,7 @@
       <div class="score-table">
         <!-- ================= BOX I: PRÉ-UTI ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge"><mat-icon>person</mat-icon>Box I</span>
+          <span class="saps3-box-badge">Box I</span>
           <strong>Características Pré-UTI</strong>
         </div>
 
@@ -204,7 +204,7 @@
         <!-- Comorbidades Graves -->
         <div class="table-row">
           <div class="metric-label">Comorbidades Graves (Cumulativas • Selecione todas aplicáveis)</div>
-          <div class="option-group options-row">
+          <div class="option-group options-column">
             <button type="button" class="option-button verde"
               [class.selected]="hasNoSaps3Comorbidities()"
               (click)="clearSaps3Comorbidities()">
@@ -265,7 +265,7 @@
 
         <!-- ================= BOX II: CIRCUNSTÂNCIAS DA ADMISSÃO ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge"><mat-icon>medical_information</mat-icon>Box II</span>
+          <span class="saps3-box-badge">Box II</span>
           <strong>Circunstâncias da Admissão</strong>
         </div>
 
@@ -338,7 +338,7 @@
         <!-- Motivos da Admissão na UTI -->
         <div class="table-row">
           <div class="metric-label">Motivos da Admissão na UTI (Selecione todos aplicáveis)</div>
-          <div class="option-group">
+          <div class="option-group options-column">
             <button type="button" class="option-button verde"
               [class.selected]="hasNoSaps3AdmissionReasons()"
               (click)="clearSaps3AdmissionReasons()">
@@ -425,7 +425,7 @@
 
         <!-- ================= BOX III: FISIOLOGIA AGUDA ================= -->
         <div class="saps3-box-header">
-          <span class="saps3-box-badge"><mat-icon>monitor_heart</mat-icon>Box III</span>
+          <span class="saps3-box-badge">Box III</span>
           <strong>Variáveis Fisiológicas (Piores valores na 1ª hora na UTI)</strong>
         </div>
 
