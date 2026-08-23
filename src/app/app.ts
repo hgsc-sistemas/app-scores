@@ -720,8 +720,8 @@ export function getSaps3InfectionScore(
 
 /**
  * Cálculo oficial da Oxigenação no SAPS 3 com validação estrita:
- * - Se em ventilação mecânica: PaO2/FiO2 é OBRIGATÓRIO (PaO2/FiO2 < 100 => 11 pts; PaO2/FiO2 >= 100 => 7 pts).
- * - Se sem ventilação mecânica: PaO2 é OBRIGATÓRIO (PaO2 < 60 mmHg => 5 pts; PaO2 >= 60 mmHg => 0 pts).
+ * - Se em ventilação mecânica: PaO2/FiO2 é OBRIGATÓRIO (PaO2/FiO2 < 100 => 11 pts; PaO2/FiO2 >= 100 =.
+ * - Se sem ventilação mecânica: PaO2 é OBRIGATÓRIO (PaO2 < 60 mmHg => 5 pts; PaO2 >= 60 mmHg =.
  * Impede fallbacks silenciosos que possam mascarar ausência de dados clínicos.
  */
 export function getSaps3OxygenationScore(
@@ -934,120 +934,120 @@ export class App {
   public readonly saps3FieldOptions = {
     /* Box I: Idade */
     age: [
-      { label: '< 40 anos (0 pts)', value: 35, color: 'verde' },
-      { label: '40–59 anos (+5 pts)', value: 50, color: 'amarelo' },
-      { label: '60–69 anos (+9 pts)', value: 65, color: 'laranja' },
-      { label: '70–74 anos (+13 pts)', value: 72, color: 'vermelho' },
-      { label: '75–79 anos (+15 pts)', value: 77, color: 'vermelho-escuro' },
-      { label: '≥ 80 anos (+18 pts)', value: 82, color: 'vermelho-escuro' },
+      { label: '< 40 anos', value: 35, color: 'verde' },
+      { label: '40–59 anos', value: 50, color: 'amarelo' },
+      { label: '60–69 anos', value: 65, color: 'laranja' },
+      { label: '70–74 anos', value: 72, color: 'vermelho' },
+      { label: '75–79 anos', value: 77, color: 'vermelho-escuro' },
+      { label: '≥ 80 anos', value: 82, color: 'vermelho-escuro' },
     ],
 
     /* Box I: Tempo de permanência hospitalar antes da UTI */
     hospitalStayBeforeIcuDays: [
-      { label: '< 14 dias (0 pts)', value: 2, color: 'verde' },
-      { label: '14–27 dias (+6 pts)', value: 20, color: 'laranja' },
-      { label: '≥ 28 dias (+7 pts)', value: 30, color: 'vermelho' },
+      { label: '< 14 dias', value: 2, color: 'verde' },
+      { label: '14–27 dias', value: 20, color: 'laranja' },
+      { label: '≥ 28 dias', value: 30, color: 'vermelho' },
     ],
 
     /* Box I: Localização imediatamente antes da UTI */
     preIcuLocation: [
-      { label: 'Centro Cirúrgico (0 pts)', value: 'operativeRoom' as Saps3PreIcuLocation, color: 'verde' },
-      { label: 'Emergência (+5 pts)', value: 'emergencyRoom' as Saps3PreIcuLocation, color: 'amarelo' },
-      { label: 'Outra UTI (+7 pts)', value: 'otherIcu' as Saps3PreIcuLocation, color: 'laranja' },
-      { label: 'Outros locais / Enfermaria (+8 pts)', value: 'other' as Saps3PreIcuLocation, color: 'vermelho' },
+      { label: 'Centro Cirúrgico', value: 'operativeRoom' as Saps3PreIcuLocation, color: 'verde' },
+      { label: 'Emergência', value: 'emergencyRoom' as Saps3PreIcuLocation, color: 'amarelo' },
+      { label: 'Outra UTI', value: 'otherIcu' as Saps3PreIcuLocation, color: 'laranja' },
+      { label: 'Outros locais / Enfermaria', value: 'other' as Saps3PreIcuLocation, color: 'vermelho' },
     ],
 
     /* Box I: Uso de drogas vasoativas antes da UTI */
     vasoactiveDrugsBeforeIcu: [
-      { label: 'Não (0 pts)', value: false, color: 'verde' },
-      { label: 'Sim (+3 pts)', value: true, color: 'laranja' },
+      { label: 'Não', value: false, color: 'verde' },
+      { label: 'Sim', value: true, color: 'laranja' },
     ],
 
     /* Box II: Tipo de admissão na UTI */
     plannedIcuAdmission: [
-      { label: 'Planejada (0 pts)', value: true, color: 'verde' },
-      { label: 'Não planejada (+3 pts)', value: false, color: 'laranja' },
+      { label: 'Planejada', value: true, color: 'verde' },
+      { label: 'Não planejada', value: false, color: 'laranja' },
     ],
 
     /* Box II: Status cirúrgico */
     surgicalStatus: [
-      { label: 'Cirurgia programada (0 pts)', value: 'scheduledSurgery' as Saps3SurgicalStatus, color: 'verde' },
-      { label: 'Sem cirurgia (+5 pts)', value: 'noSurgery' as Saps3SurgicalStatus, color: 'amarelo' },
-      { label: 'Cirurgia de emergência (+6 pts)', value: 'emergencySurgery' as Saps3SurgicalStatus, color: 'laranja' },
+      { label: 'Cirurgia programada', value: 'scheduledSurgery' as Saps3SurgicalStatus, color: 'verde' },
+      { label: 'Sem cirurgia', value: 'noSurgery' as Saps3SurgicalStatus, color: 'amarelo' },
+      { label: 'Cirurgia de emergência', value: 'emergencySurgery' as Saps3SurgicalStatus, color: 'laranja' },
     ],
 
     /* Box II: Local anatômico da cirurgia */
     surgerySite: [
-      { label: 'Outros / Não cirúrgico (0 pts)', value: 'otherOrNone' as Saps3SurgerySite, color: 'verde' },
-      { label: 'Transplante (-11 pts)', value: 'transplantation' as Saps3SurgerySite, color: 'verde' },
-      { label: 'Trauma isolado/múltiplo (-8 pts)', value: 'trauma' as Saps3SurgerySite, color: 'verde' },
-      { label: 'CABG sem reparo valvar (-6 pts)', value: 'cabgWithoutValvularRepair' as Saps3SurgerySite, color: 'verde' },
-      { label: 'Neurocirurgia por AVC (+5 pts)', value: 'neurosurgeryForStroke' as Saps3SurgerySite, color: 'laranja' },
+      { label: 'Outros / Não cirúrgico', value: 'otherOrNone' as Saps3SurgerySite, color: 'verde' },
+      { label: 'Transplante', value: 'transplantation' as Saps3SurgerySite, color: 'verde' },
+      { label: 'Trauma isolado/múltiplo', value: 'trauma' as Saps3SurgerySite, color: 'verde' },
+      { label: 'CABG sem reparo valvar', value: 'cabgWithoutValvularRepair' as Saps3SurgerySite, color: 'verde' },
+      { label: 'Neurocirurgia por AVC', value: 'neurosurgeryForStroke' as Saps3SurgerySite, color: 'laranja' },
     ],
 
     /* Box III: Glasgow Coma Scale */
     gcs: [
-      { label: '13–15 (0 pts)', value: 15, color: 'verde' },
-      { label: '7–12 (+2 pts)', value: 10, color: 'amarelo' },
-      { label: '6 (+7 pts)', value: 6, color: 'laranja' },
-      { label: '5 (+10 pts)', value: 5, color: 'vermelho' },
-      { label: '3–4 (+15 pts)', value: 4, color: 'vermelho-escuro' },
+      { label: '13–15', value: 15, color: 'verde' },
+      { label: '7–12', value: 10, color: 'amarelo' },
+      { label: '6', value: 6, color: 'laranja' },
+      { label: '5', value: 5, color: 'vermelho' },
+      { label: '3–4', value: 4, color: 'vermelho-escuro' },
     ],
 
     /* Box III: Bilirrubina (mg/dL) */
     bilirubin: [
-      { label: '< 2.0 (0 pts)', value: 1.0, color: 'verde' },
-      { label: '2.0–< 6.0 (+4 pts)', value: 4.0, color: 'amarelo' },
-      { label: '≥ 6.0 (+5 pts)', value: 7.0, color: 'vermelho' },
+      { label: '< 2.0', value: 1.0, color: 'verde' },
+      { label: '2.0–< 6.0', value: 4.0, color: 'amarelo' },
+      { label: '≥ 6.0', value: 7.0, color: 'vermelho' },
     ],
 
     /* Box III: Temperatura (°C) */
     temperature: [
-      { label: '≥ 35.0 (0 pts)', value: 36.8, color: 'verde' },
-      { label: '< 35.0 (+7 pts)', value: 34.0, color: 'vermelho' },
+      { label: '≥ 35.0', value: 36.8, color: 'verde' },
+      { label: '< 35.0', value: 34.0, color: 'vermelho' },
     ],
 
     /* Box III: Creatinina (mg/dL) */
     creatinine: [
-      { label: '< 1.2 (0 pts)', value: 0.9, color: 'verde' },
-      { label: '1.2–< 2.0 (+2 pts)', value: 1.5, color: 'amarelo' },
-      { label: '2.0–< 3.5 (+7 pts)', value: 2.5, color: 'laranja' },
-      { label: '≥ 3.5 (+8 pts)', value: 4.0, color: 'vermelho' },
+      { label: '< 1.2', value: 0.9, color: 'verde' },
+      { label: '1.2–< 2.0', value: 1.5, color: 'amarelo' },
+      { label: '2.0–< 3.5', value: 2.5, color: 'laranja' },
+      { label: '≥ 3.5', value: 4.0, color: 'vermelho' },
     ],
 
     /* Box III: Frequência cardíaca (bpm) */
     heartRate: [
-      { label: '< 120 (0 pts)', value: 80, color: 'verde' },
-      { label: '120–159 (+5 pts)', value: 135, color: 'laranja' },
-      { label: '≥ 160 (+7 pts)', value: 165, color: 'vermelho' },
+      { label: '< 120', value: 80, color: 'verde' },
+      { label: '120–159', value: 135, color: 'laranja' },
+      { label: '≥ 160', value: 165, color: 'vermelho' },
     ],
 
     /* Box III: Leucócitos (G/L ou mil/mm³) */
     leukocytes: [
-      { label: '< 15 G/L (0 pts)', value: 8.0, color: 'verde' },
-      { label: '≥ 15 G/L (+2 pts)', value: 18.0, color: 'amarelo' },
+      { label: '< 15 G/L', value: 8.0, color: 'verde' },
+      { label: '≥ 15 G/L', value: 18.0, color: 'amarelo' },
     ],
 
     /* Box III: pH */
     ph: [
-      { label: '> 7.25 (0 pts)', value: 7.4, color: 'verde' },
-      { label: '≤ 7.25 (+3 pts)', value: 7.15, color: 'laranja' },
+      { label: '> 7.25', value: 7.4, color: 'verde' },
+      { label: '≤ 7.25', value: 7.15, color: 'laranja' },
     ],
 
     /* Box III: Plaquetas (G/L ou mil/mm³) */
     platelets: [
-      { label: '≥ 100 G/L (0 pts)', value: 250, color: 'verde' },
-      { label: '50–< 100 G/L (+5 pts)', value: 75, color: 'amarelo' },
-      { label: '20–< 50 G/L (+8 pts)', value: 35, color: 'laranja' },
-      { label: '< 20 G/L (+13 pts)', value: 15, color: 'vermelho' },
+      { label: '≥ 100 G/L', value: 250, color: 'verde' },
+      { label: '50–< 100 G/L', value: 75, color: 'amarelo' },
+      { label: '20–< 50 G/L', value: 35, color: 'laranja' },
+      { label: '< 20 G/L', value: 15, color: 'vermelho' },
     ],
 
     /* Box III: Pressão arterial sistólica (mmHg) */
     systolicBp: [
-      { label: '≥ 120 (0 pts)', value: 130, color: 'verde' },
-      { label: '70–< 120 (+3 pts)', value: 95, color: 'amarelo' },
-      { label: '40–< 70 (+8 pts)', value: 55, color: 'laranja' },
-      { label: '< 40 (+11 pts)', value: 35, color: 'vermelho' },
+      { label: '≥ 120', value: 130, color: 'verde' },
+      { label: '70–< 120', value: 95, color: 'amarelo' },
+      { label: '40–< 70', value: 55, color: 'laranja' },
+      { label: '< 40', value: 35, color: 'vermelho' },
     ],
 
     /* Box III: Ventilação Mecânica */
@@ -1058,14 +1058,14 @@ export class App {
 
     /* Box III: Oxigenação com Ventilação Mecânica (PaO2/FiO2) */
     pao2Fio2Mv: [
-      { label: '≥ 100 (+7 pts)', value: 250, color: 'laranja' },
-      { label: '< 100 (+11 pts)', value: 80, color: 'vermelho' },
+      { label: '≥ 100', value: 250, color: 'laranja' },
+      { label: '< 100', value: 80, color: 'vermelho' },
     ],
 
     /* Box III: Oxigenação sem Ventilação Mecânica (PaO2) */
     pao2Spontaneous: [
-      { label: '≥ 60 mmHg (0 pts)', value: 85, color: 'verde' },
-      { label: '< 60 mmHg (+5 pts)', value: 50, color: 'amarelo' },
+      { label: '≥ 60 mmHg', value: 85, color: 'verde' },
+      { label: '< 60 mmHg', value: 50, color: 'amarelo' },
     ],
   } as const;
 

@@ -208,43 +208,43 @@
             <button type="button" class="option-button verde"
               [class.selected]="hasNoSaps3Comorbidities()"
               (click)="clearSaps3Comorbidities()">
-              Nenhuma (0 pts)
+              Nenhuma
             </button>
 
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().cancerTherapy"
               (click)="toggleSaps3Comorbidity('cancerTherapy')">
-              Terapia contra câncer (+3 pts)
+              Terapia contra câncer
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().hematologicCancer"
               (click)="toggleSaps3Comorbidity('hematologicCancer')">
-              Câncer hematológico (+6 pts)
+              Câncer hematológico
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().chronicHeartFailureNYHA4"
               (click)="toggleSaps3Comorbidity('chronicHeartFailureNYHA4')">
-              Insuficiência cardíaca NYHA IV (+6 pts)
+              Insuficiência cardíaca NYHA IV
             </button>
 
             <button type="button" class="option-button vermelho"
               [class.selected]="saps3Values().cirrhosis"
               (click)="toggleSaps3Comorbidity('cirrhosis')">
-              Cirrose (+8 pts)
+              Cirrose
             </button>
 
             <button type="button" class="option-button vermelho"
               [class.selected]="saps3Values().aids"
               (click)="toggleSaps3Comorbidity('aids')">
-              AIDS (+8 pts)
+              AIDS 
             </button>
 
             <button type="button" class="option-button vermelho-escuro"
               [class.selected]="saps3Values().metastaticCancer"
               (click)="toggleSaps3Comorbidity('metastaticCancer')">
-              Câncer metastático (+11 pts)
+              Câncer metastático
             </button>
           </div>
         </div>
@@ -318,19 +318,19 @@
             <button type="button" class="option-button verde"
               [class.selected]="hasNoSaps3AcuteInfections()"
               (click)="clearSaps3AcuteInfections()">
-              Nenhuma (0 pts)
+              Nenhuma
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().acuteInfections.nosocomial"
               (click)="toggleSaps3AcuteInfection('nosocomial')">
-              Nosocomial / Hospitalar (+4 pts)
+              Nosocomial / Hospitalar 
             </button>
 
             <button type="button" class="option-button vermelho"
               [class.selected]="saps3Values().acuteInfections.respiratory"
               (click)="toggleSaps3AcuteInfection('respiratory')">
-              Respiratória (+5 pts)
+              Respiratória 
             </button>
           </div>
         </div>
@@ -342,83 +342,83 @@
             <button type="button" class="option-button verde"
               [class.selected]="hasNoSaps3AdmissionReasons()"
               (click)="clearSaps3AdmissionReasons()">
-              Nenhum / Outros (0 pts)
+              Nenhum / Outros
             </button>
 
             <!-- Cardiovascular -->
             <button type="button" class="option-button verde"
               [class.selected]="saps3Values().admissionReasons.cardiacRhythmDisturbance"
               (click)="toggleSaps3AdmissionReason('cardiacRhythmDisturbance')">
-              Distúrbio do ritmo (-5 pts)
+              Distúrbio do ritmo 
             </button>
 
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().admissionReasons.hypovolemicShockHemorrhagic"
               (click)="toggleSaps3AdmissionReason('hypovolemicShockHemorrhagic')">
-              Choque hipovolêmico hemorrágico (+3 pts)
+              Choque hipovolêmico hemorrágico 
             </button>
 
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().admissionReasons.hypovolemicShockNonHemorrhagic"
               (click)="toggleSaps3AdmissionReason('hypovolemicShockNonHemorrhagic')">
-              Choque hipovolêmico não hemorrágico (+3 pts)
+              Choque hipovolêmico não hemorrágico 
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().admissionReasons.septicShock"
               (click)="toggleSaps3AdmissionReason('septicShock')">
-              Choque séptico (+5 pts)
+              Choque séptico 
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().admissionReasons.anaphylacticOrMixedShock"
               (click)="toggleSaps3AdmissionReason('anaphylacticOrMixedShock')">
-              Choque anafilático / misto (+5 pts)
+              Choque anafilático / misto 
             </button>
 
             <!-- Hepático -->
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().admissionReasons.liverFailure"
               (click)="toggleSaps3AdmissionReason('liverFailure')">
-              Insuficiência hepática (+6 pts)
+              Insuficiência hepática 
             </button>
 
             <!-- Digestivo -->
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().admissionReasons.acuteAbdomenOrOtherDigestive"
               (click)="toggleSaps3AdmissionReason('acuteAbdomenOrOtherDigestive')">
-              Abdome agudo / outro digestivo (+3 pts)
+              Abdome agudo / outro digestivo 
             </button>
 
             <button type="button" class="option-button vermelho"
               [class.selected]="saps3Values().admissionReasons.severePancreatitis"
               (click)="toggleSaps3AdmissionReason('severePancreatitis')">
-              Pancreatite grave (+9 pts)
+              Pancreatite grave 
             </button>
 
             <!-- Neurológico -->
             <button type="button" class="option-button verde"
               [class.selected]="saps3Values().admissionReasons.seizures"
               (click)="toggleSaps3AdmissionReason('seizures')">
-              Convulsão (-4 pts)
+              Convulsão 
             </button>
 
             <button type="button" class="option-button amarelo"
               [class.selected]="saps3Values().admissionReasons.comaStuporConfusionDelirium"
               (click)="toggleSaps3AdmissionReason('comaStuporConfusionDelirium')">
-              Coma / estupor / confusão / delírio (+4 pts)
+              Coma / estupor / confusão / delírio 
             </button>
 
             <button type="button" class="option-button laranja"
               [class.selected]="saps3Values().admissionReasons.focalNeurologicalDeficit"
               (click)="toggleSaps3AdmissionReason('focalNeurologicalDeficit')">
-              Déficit neurológico focal (+7 pts)
+              Déficit neurológico focal 
             </button>
 
             <button type="button" class="option-button vermelho-escuro"
               [class.selected]="saps3Values().admissionReasons.intracranialMassEffect"
               (click)="toggleSaps3AdmissionReason('intracranialMassEffect')">
-              Efeito de massa intracraniana (+10 pts)
+              Efeito de massa intracraniana
             </button>
           </div>
         </div>
