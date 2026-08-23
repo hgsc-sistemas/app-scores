@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1787106596207,
+  "timestamp": 1787523968456,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -13,9 +13,9 @@
       "urls": [
         "/app-scores/favicon.ico",
         "/app-scores/index.html",
-        "/app-scores/main-2XDLWC5M.js",
+        "/app-scores/main-RZUOPDBI.js",
         "/app-scores/manifest.webmanifest",
-        "/app-scores/styles-5INURTSO.css"
+        "/app-scores/styles-JHKO452U.css"
       ],
       "patterns": []
     },
@@ -35,7 +35,10 @@
         "/app-scores/icons/icon-512x512.png",
         "/app-scores/icons/icon-72x72.png",
         "/app-scores/icons/icon-96x96.png",
-        "/app-scores/images/itga-icon.png"
+        "/app-scores/images/equipamento-ressonancia-magnetica.jpeg",
+        "/app-scores/images/fachada-hospital.jpeg",
+        "/app-scores/images/itga-icon.png",
+        "/app-scores/images/medicos-fazendo-cirurgia.jpeg"
       ],
       "patterns": []
     }
@@ -51,11 +54,14 @@
     "/app-scores/icons/icon-512x512.png": "f2b942bdc884cd2424d443f7d142039f1f8e2c97",
     "/app-scores/icons/icon-72x72.png": "9556b5d51c6f094619f5b918885422de74c6b10b",
     "/app-scores/icons/icon-96x96.png": "295f7732f8ad4135235d4749602509c661774404",
+    "/app-scores/images/equipamento-ressonancia-magnetica.jpeg": "dc8d53646ecda07f848ad2b01cdeb7a17c3a94ed",
+    "/app-scores/images/fachada-hospital.jpeg": "c735dd0bad4ab596148297ace5e96cb72712f6ef",
     "/app-scores/images/itga-icon.png": "46218a95451eb2651461878b6e9622ff872134c8",
-    "/app-scores/index.html": "e9fb495aaef7ea47d60992e16996542744a2c7c6",
-    "/app-scores/main-2XDLWC5M.js": "b32d36051f3ab056afd39532941e431e8d542a4b",
+    "/app-scores/images/medicos-fazendo-cirurgia.jpeg": "85bde04b23f8cff4651d3f685ad118bdb01490e8",
+    "/app-scores/index.html": "8603dc43f7a484fe379723ce28b1ab66a02f6e6c",
+    "/app-scores/main-RZUOPDBI.js": "94df1b69d132b6c6e4af8b13bf9a42d97463dc73",
     "/app-scores/manifest.webmanifest": "8e8780142c9fd829e047ed3e12d4bc4463630269",
-    "/app-scores/styles-5INURTSO.css": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    "/app-scores/styles-JHKO452U.css": "159c149209ece019e326c5d5993e6c4a3e48ce37"
   },
   "navigationUrls": [
     {
