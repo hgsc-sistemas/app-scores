@@ -54,16 +54,46 @@
             }
           </div>
         </div>
-
-        <div class="table-row">
-          <div class="metric-label">Saturação de O2</div>
+        <div class="table-row bool-row">
+          <div class="metric-label">Suporte de oxigênio</div>
           <div class="option-group">
-            @for (option of news2FieldOptions.oxygenSaturation; track option.label) {
+            @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
             <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().oxygenSaturation === option.value"
-              (click)="setNews2Value('oxygenSaturation', option.value)">
+              [class.selected]="news2Values().oxygenSupplement === option.value"
+              (click)="setNews2Value('oxygenSupplement', option.value)">
               {{ option.label }}
             </button>
+            }
+          </div>
+        </div>
+        <div class="table-row">
+          <div class="metric-label scale-toggle-row">
+            <span>Saturação de O2</span>
+            <button type="button" class="scale-toggle-btn"
+              [class.active]="news2Values().useSpO2Scale2"
+              (click)="toggleNews2SpO2Scale()"
+              title="Alternar entre Escala 1 (Padrão) e Escala 2 (DPOC / Hipercápnica)">
+              <mat-icon style="font-size: 0.95rem;">swap_horiz</mat-icon>
+              {{ news2Values().useSpO2Scale2 ? 'Escala 2 (DPOC/Hipercápnica)' : 'Escala 1 (Padrão)' }}
+            </button>
+          </div>
+          <div class="option-group">
+            @if (news2Values().useSpO2Scale2) {
+              @for (option of news2FieldOptions.oxygenSaturationScale2; track option.label) {
+              <button type="button" [class]="'option-button ' + option.color"
+                [class.selected]="news2Values().oxygenSaturation === option.value"
+                (click)="setNews2Value('oxygenSaturation', option.value)">
+                {{ option.label }}
+              </button>
+              }
+            } @else {
+              @for (option of news2FieldOptions.oxygenSaturationScale1; track option.label) {
+              <button type="button" [class]="'option-button ' + option.color"
+                [class.selected]="news2Values().oxygenSaturation === option.value"
+                (click)="setNews2Value('oxygenSaturation', option.value)">
+                {{ option.label }}
+              </button>
+              }
             }
           </div>
         </div>
@@ -114,19 +144,6 @@
             <button type="button" [class]="'option-button ' + option.color"
               [class.selected]="news2Values().consciousness === option.value"
               (click)="setNews2Value('consciousness', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <div class="table-row bool-row">
-          <div class="metric-label">Suporte de oxigênio</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().oxygenSupplement === option.value"
-              (click)="setNews2Value('oxygenSupplement', option.value)">
               {{ option.label }}
             </button>
             }

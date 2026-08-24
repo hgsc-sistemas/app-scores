@@ -128,6 +128,88 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
       expect(summary.label).toBe('Risco alto');
       expect(summary.tone).toBe('high');
     });
+
+    it('should correctly score SpO2 Scale 2 in room air', () => {
+      const baseValues = {
+        respiratoryRate: 16,
+        systolicBp: 120,
+        heartRate: 70,
+        temperature: 37.0,
+        consciousness: 'A' as const,
+        oxygenSupplement: false,
+        useSpO2Scale2: true,
+      };
+
+      // <= 83%: 3 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 82 }).total).toBe(3);
+      // 84-85%: 2 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 84 }).total).toBe(2);
+      // 86-87%: 1 pt
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 87 }).total).toBe(1);
+      // 88-92%: 0 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 90 }).total).toBe(0);
+      // 93-94% on room air: 0 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 94 }).total).toBe(0);
+      // 95-96% on room air: 0 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 96 }).total).toBe(0);
+      // >= 97% on room air: 0 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 98 }).total).toBe(0);
+    });
+
+    it('should correctly score SpO2 Scale 2 with supplemental oxygen', () => {
+      const baseValues = {
+        respiratoryRate: 16, // 0
+        systolicBp: 120, // 0
+        heartRate: 70, // 0
+        temperature: 37.0, // 0
+        consciousness: 'A' as const, // 0
+        oxygenSupplement: true, // +2 pts
+        useSpO2Scale2: true,
+      };
+
+      // <= 83%: 3 pts SpO2 + 2 pts O2 = 5 pts (hasRedScore = true)
+      const res83 = calculateNews2Score({ ...baseValues, oxygenSaturation: 83 });
+      expect(res83.total).toBe(5);
+      expect(res83.hasRedScore).toBe(true);
+
+      // 84-85%: 2 pts SpO2 + 2 pts O2 = 4 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 85 }).total).toBe(4);
+
+      // 86-87%: 1 pt SpO2 + 2 pts O2 = 3 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 86 }).total).toBe(3);
+
+      // 88-92%: 0 pts SpO2 + 2 pts O2 = 2 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 91 }).total).toBe(2);
+
+      // 93-94%: 1 pt SpO2 + 2 pts O2 = 3 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 93 }).total).toBe(3);
+
+      // 95-96%: 2 pts SpO2 + 2 pts O2 = 4 pts
+      expect(calculateNews2Score({ ...baseValues, oxygenSaturation: 95 }).total).toBe(4);
+
+      // >= 97%: 3 pts SpO2 + 2 pts O2 = 5 pts (hasRedScore = true)
+      const res98 = calculateNews2Score({ ...baseValues, oxygenSaturation: 98 });
+      expect(res98.total).toBe(5);
+      expect(res98.hasRedScore).toBe(true);
+    });
+
+    it('should reset oxygenSaturation to default score 0 value when toggling scales', () => {
+      const fixture = TestBed.createComponent(App);
+      const app = fixture.componentInstance;
+
+      expect(app.news2Values().useSpO2Scale2).toBe(false);
+      expect(app.news2Values().oxygenSaturation).toBe(96); // Scale 1 default (0 pts)
+
+      // Toggle to Scale 2
+      app.toggleNews2SpO2Scale();
+      expect(app.news2Values().useSpO2Scale2).toBe(true);
+      expect(app.news2Values().oxygenSaturation).toBe(90); // Scale 2 default (0 pts)
+
+      // Toggle back to Scale 1
+      app.toggleNews2SpO2Scale();
+      expect(app.news2Values().useSpO2Scale2).toBe(false);
+      expect(app.news2Values().oxygenSaturation).toBe(96); // Scale 1 default (0 pts)
+    });
   });
 
   /* ==========================================================================

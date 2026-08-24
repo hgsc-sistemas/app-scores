@@ -26,6 +26,7 @@ export interface News2Values {
   temperature: number;
   consciousness: 'A' | 'C' | 'V' | 'P' | 'U';
   oxygenSupplement: boolean;
+  useSpO2Scale2?: boolean;
 }
 
 /* ---------------------------------------------------------------------------
@@ -149,12 +150,30 @@ export const NEWS2_RULES = {
     { min: 25, minInclusive: true, score: 3 },
   ],
 
-  oxygenSaturation: [
+  oxygenSaturationScale1: [
     { max: 91, maxInclusive: true, score: 3 },
     { min: 92, minInclusive: true, max: 93, maxInclusive: true, score: 2 },
     { min: 94, minInclusive: true, max: 95, maxInclusive: true, score: 1 },
     { min: 96, minInclusive: true, score: 0 },
   ],
+
+  oxygenSaturationScale2: {
+    roomAir: [
+      { max: 83, maxInclusive: true, score: 3 },
+      { min: 84, minInclusive: true, max: 85, maxInclusive: true, score: 2 },
+      { min: 86, minInclusive: true, max: 87, maxInclusive: true, score: 1 },
+      { min: 88, minInclusive: true, score: 0 },
+    ],
+    supplementalOxygen: [
+      { max: 83, maxInclusive: true, score: 3 },
+      { min: 84, minInclusive: true, max: 85, maxInclusive: true, score: 2 },
+      { min: 86, minInclusive: true, max: 87, maxInclusive: true, score: 1 },
+      { min: 88, minInclusive: true, max: 92, maxInclusive: true, score: 0 },
+      { min: 93, minInclusive: true, max: 94, maxInclusive: true, score: 1 },
+      { min: 95, minInclusive: true, max: 96, maxInclusive: true, score: 2 },
+      { min: 97, minInclusive: true, score: 3 },
+    ],
+  },
 
   systolicBp: [
     { max: 90, maxInclusive: true, score: 3 },
@@ -362,6 +381,7 @@ export const NEWS2_DEFAULT: News2Values = {
   temperature: 37.0,
   consciousness: 'A',
   oxygenSupplement: false,
+  useSpO2Scale2: false,
 };
 
 export const SAPS3_DEFAULT: Saps3Values = {
@@ -446,10 +466,24 @@ export interface News2CalculationResult {
   hasRedScore: boolean;
 }
 
+export function getNews2OxygenSaturationScore(values: News2Values): number {
+  if (values.useSpO2Scale2) {
+    const ranges = values.oxygenSupplement
+      ? NEWS2_RULES.oxygenSaturationScale2.supplementalOxygen
+      : NEWS2_RULES.oxygenSaturationScale2.roomAir;
+    return getRangeScore(values.oxygenSaturation, ranges);
+  }
+
+  return getRangeScore(
+    values.oxygenSaturation,
+    NEWS2_RULES.oxygenSaturationScale1,
+  );
+}
+
 export function calculateNews2Score(values: News2Values): News2CalculationResult {
   const scores = [
     getRangeScore(values.respiratoryRate, NEWS2_RULES.respiratoryRate),
-    getRangeScore(values.oxygenSaturation, NEWS2_RULES.oxygenSaturation),
+    getNews2OxygenSaturationScore(values),
     getRangeScore(values.systolicBp, NEWS2_RULES.systolicBp),
     getRangeScore(values.heartRate, NEWS2_RULES.heartRate),
     getRangeScore(values.temperature, NEWS2_RULES.temperature),
@@ -897,6 +931,21 @@ export class App {
       { label: '94–95', value: 95, color: 'amarelo' },
       { label: '≥ 96', value: 96, color: 'verde' },
     ],
+    oxygenSaturationScale1: [
+      { label: '≤ 91', value: 91, color: 'vermelho' },
+      { label: '92–93', value: 92, color: 'laranja' },
+      { label: '94–95', value: 95, color: 'amarelo' },
+      { label: '≥ 96', value: 96, color: 'verde' },
+    ],
+    oxygenSaturationScale2: [
+      { label: '≤ 83', value: 83, color: 'vermelho' },
+      { label: '84–85', value: 84, color: 'laranja' },
+      { label: '86–87', value: 86, color: 'amarelo' },
+      { label: '88–92', value: 90, color: 'verde' },
+      { label: '93–94', value: 93, color: 'amarelo' },
+      { label: '95–96', value: 95, color: 'laranja' },
+      { label: '≥ 97', value: 97, color: 'vermelho' },
+    ],
     systolicBp: [
       { label: '≤ 90', value: 88, color: 'vermelho' },
       { label: '91–100', value: 95, color: 'laranja' },
@@ -1188,6 +1237,17 @@ export class App {
   /* ==========================================================================
    * GENERAL HELPERS
    * ======================================================================== */
+
+  public toggleNews2SpO2Scale(): void {
+    this.news2Values.update((current) => {
+      const nextUseScale2 = !current.useSpO2Scale2;
+      return {
+        ...current,
+        useSpO2Scale2: nextUseScale2,
+        oxygenSaturation: nextUseScale2 ? 90 : 96,
+      };
+    });
+  }
 
   public resetNews2(): void {
     this.news2Values.set(NEWS2_DEFAULT);
