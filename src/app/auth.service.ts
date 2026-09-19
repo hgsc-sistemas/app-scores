@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export interface AuthData {
   role: 'team' | 'admin';
@@ -117,6 +117,38 @@ export class AuthService {
   public getRole(): 'team' | 'admin' | null {
     const auth = this.currentUser();
     return auth ? auth.role : null;
+  }
+
+  /**
+   * Atualiza as senhas de equipe e/ou administrador no Firestore.
+   * Aponta para o documento config/passwords.
+   */
+  public async updatePasswords(
+    newTeamPassword?: string,
+    newAdminPassword?: string,
+  ): Promise<boolean> {
+    const updatePayload: Record<string, string> = {};
+
+    if (newTeamPassword && newTeamPassword.trim()) {
+      updatePayload['teamPassword'] = newTeamPassword.trim();
+    }
+
+    if (newAdminPassword && newAdminPassword.trim()) {
+      updatePayload['adminPassword'] = newAdminPassword.trim();
+    }
+
+    if (Object.keys(updatePayload).length === 0) {
+      return false;
+    }
+
+    try {
+      const docRef = doc(this.db, 'config', 'passwords');
+      await updateDoc(docRef, updatePayload);
+      return true;
+    } catch (error) {
+      console.error('Erro ao atualizar senhas no Firestore:', error);
+      return false;
+    }
   }
 
   private saveAuth(authData: AuthData): void {

@@ -2,10 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 1.5rem;
+  height: 100dvh;
+  padding: 0 1.5rem;
   background: radial-gradient(circle at 50% 0%, #eef4ff 0%, #f1f5f9 100%);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .login-card {
@@ -14,8 +18,10 @@
   background: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 1.25rem;
-  padding: 2.25rem 2rem;
-  box-shadow: 0 10px 30px -5px rgba(29, 94, 211, 0.08), 0 4px 10px -3px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  box-shadow:
+    0 10px 30px -5px rgba(29, 94, 211, 0.08),
+    0 4px 10px -3px rgba(0, 0, 0, 0.04);
 }
 
 .login-header {
@@ -23,7 +29,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
 }
 
 .container-logo {
@@ -32,15 +38,12 @@
   justify-content: center;
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(29, 94, 211, 0.12);
+  margin-bottom: 2rem;
 }
 
 .logo-itga-main {
-  width: 42px;
-  height: 42px;
+  width: 160px;
+  height: 70px;
   object-fit: contain;
 }
 

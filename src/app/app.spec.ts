@@ -210,6 +210,53 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
       expect(app.news2Values().useSpO2Scale2).toBe(false);
       expect(app.news2Values().oxygenSaturation).toBe(96); // Scale 1 default (0 pts)
     });
+
+    it('should open and close admin password modal properly', () => {
+      const fixture = TestBed.createComponent(App);
+      const app = fixture.componentInstance;
+
+      expect(app.isConfigModalOpen()).toBe(false);
+
+      app.openConfigModal();
+      expect(app.isConfigModalOpen()).toBe(true);
+      expect(app.newTeamPassword()).toBe('');
+      expect(app.newAdminPassword()).toBe('');
+
+      app.closeConfigModal();
+      expect(app.isConfigModalOpen()).toBe(false);
+    });
+
+    it('should go directly to calculator without presentation when logged in as admin', () => {
+      localStorage.setItem(
+        'hgsc_auth',
+        JSON.stringify({
+          role: 'admin',
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+        }),
+      );
+
+      const fixture = TestBed.createComponent(App);
+      const app = fixture.componentInstance;
+
+      expect(app.isAdmin()).toBe(true);
+      expect(app.showPresentation()).toBe(false); // Direto para a calculadora!
+    });
+
+    it('should show presentation when not logged in as admin', () => {
+      localStorage.setItem(
+        'hgsc_auth',
+        JSON.stringify({
+          role: 'team',
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+        }),
+      );
+
+      const fixture = TestBed.createComponent(App);
+      const app = fixture.componentInstance;
+
+      expect(app.isAdmin()).toBe(false);
+      expect(app.showPresentation()).toBe(true); // Passa pela apresentação inicial!
+    });
   });
 
   /* ==========================================================================

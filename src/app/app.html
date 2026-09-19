@@ -5,14 +5,22 @@
 } @else {
   <div class="app-shell">
   <header class="topbar">
+    <div class="topbar-actions">
+      @if (isAdmin()) {
+        <button type="button" class="admin-config-btn" (click)="openConfigModal()" title="Gerenciar senhas do sistema">
+          <mat-icon>settings</mat-icon>
+          <span>Configurações</span>
+        </button>
+      }
+      <button type="button" class="logout-btn" (click)="logout()" title="Sair da conta">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+      </button>
+    </div>
     <div class="container-logo"><img class="logo-itga-main" src="images/itga-icon.png" alt="Logo ITGA"></div>
     <div class="topbar-content">
       <div class="topbar-header-flex">
         <h1>Calculadora de escores</h1>
-        <button type="button" class="logout-btn" (click)="logout()" title="Sair da conta">
-          <mat-icon>logout</mat-icon>
-          <span>Sair</span>
-        </button>
       </div>
     </div>
     <p>Seleção rápida do score clínico para enfermaria (NEWS2) e UTI (SAPS 3).</p>
@@ -682,5 +690,92 @@
   </main>
 
   <app-hospital-banner (open)="openPresentation()" />
+
+  <!-- ====================================================================
+   * MODAL ADMINISTRATIVO: ALTERAÇÃO DE SENHAS
+   * ==================================================================== -->
+  @if (isConfigModalOpen()) {
+    <div class="modal-backdrop" (click)="closeConfigModal()">
+      <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <div class="modal-title-row">
+            <mat-icon class="modal-icon">admin_panel_settings</mat-icon>
+            <h2 id="modalTitle">Gerenciar Senhas de Acesso</h2>
+          </div>
+          <button type="button" class="close-modal-btn" (click)="closeConfigModal()" title="Fechar">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <p class="modal-description">
+          Como administrador, você pode redefinir as senhas de acesso da equipe clínica e do administrador diretamente no banco de dados.
+        </p>
+
+        @if (updateErrorMessage()) {
+          <div class="modal-error-banner" role="alert">
+            <mat-icon>error</mat-icon>
+            <span>{{ updateErrorMessage() }}</span>
+          </div>
+        }
+
+        <form (ngSubmit)="savePasswordChanges()" class="modal-form">
+          <div class="modal-form-group">
+            <label for="newTeamPasswordInput">Nova Senha da Equipe</label>
+            <div class="modal-input-wrapper">
+              <mat-icon class="modal-input-icon">group</mat-icon>
+              <input
+                id="newTeamPasswordInput"
+                type="text"
+                [ngModel]="newTeamPassword()"
+                (ngModelChange)="newTeamPassword.set($event)"
+                name="teamPassword"
+                placeholder="Deixe em branco para manter a atual"
+                autocomplete="off"
+                [disabled]="isUpdatingPasswords()" />
+            </div>
+          </div>
+
+          <div class="modal-form-group">
+            <label for="newAdminPasswordInput">Nova Senha de Administrador</label>
+            <div class="modal-input-wrapper">
+              <mat-icon class="modal-input-icon">shield</mat-icon>
+              <input
+                id="newAdminPasswordInput"
+                type="text"
+                [ngModel]="newAdminPassword()"
+                (ngModelChange)="newAdminPassword.set($event)"
+                name="adminPassword"
+                placeholder="Deixe em branco para manter a atual"
+                autocomplete="off"
+                [disabled]="isUpdatingPasswords()" />
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="modal-btn-cancel"
+              (click)="closeConfigModal()"
+              [disabled]="isUpdatingPasswords()">
+              Cancelar
+            </button>
+
+            <button
+              type="submit"
+              class="modal-btn-save"
+              [disabled]="isUpdatingPasswords()">
+              @if (isUpdatingPasswords()) {
+                <span class="spinner-small"></span>
+                <span>Salvando...</span>
+              } @else {
+                <mat-icon>save</mat-icon>
+                <span>Salvar Alterações</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
   </div>
 }

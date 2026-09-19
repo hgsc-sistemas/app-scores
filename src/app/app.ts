@@ -6,6 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
 import { HospitalBanner } from './hospital-banner/hospital-banner';
 import { AuthService } from './auth.service';
@@ -873,17 +874,29 @@ export function summarizeSaps3(total: number): ScoreResult {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HospitalPresentation, HospitalBanner, MatIcon],
+  imports: [HospitalPresentation, HospitalBanner, MatIcon, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  public readonly authService = inject(AuthService, { optional: true });
+
+  /** Signal computado para verificar se o usuário autenticado é administrador */
+  public readonly isAdmin = computed(() => this.authService?.getRole() === 'admin');
+
   /* ==========================================================================
    * PRESENTATION STATE
    * ======================================================================== */
 
-  public readonly showPresentation = signal<boolean>(true);
+  /**
+   * Apresentação inicial do hospital (onboarding).
+   * Administradores vão direto para a calculadora (showPresentation = false).
+   * Usuários da equipe passam pela apresentação inicial.
+   */
+  public readonly showPresentation = signal<boolean>(
+    this.authService?.getRole() !== 'admin',
+  );
   public readonly presentationMode = signal<'onboarding' | 'free'>('onboarding');
 
   public closePresentation(): void {
@@ -1251,7 +1264,60 @@ export class App {
     });
   }
 
-  private readonly authService = inject(AuthService, { optional: true });
+  /* ==========================================================================
+   * ADMIN PASSWORD MODAL STATE
+   * ======================================================================== */
+  public readonly isConfigModalOpen = signal<boolean>(false);
+  public readonly newTeamPassword = signal<string>('');
+  public readonly newAdminPassword = signal<string>('');
+  public readonly isUpdatingPasswords = signal<boolean>(false);
+  public readonly updateErrorMessage = signal<string>('');
+
+  public openConfigModal(): void {
+    this.newTeamPassword.set('');
+    this.newAdminPassword.set('');
+    this.updateErrorMessage.set('');
+    this.isConfigModalOpen.set(true);
+  }
+
+  public closeConfigModal(): void {
+    this.isConfigModalOpen.set(false);
+  }
+
+  public async savePasswordChanges(): Promise<void> {
+    const teamPwd = this.newTeamPassword().trim();
+    const adminPwd = this.newAdminPassword().trim();
+
+    if (!teamPwd && !adminPwd) {
+      this.updateErrorMessage.set('Informe ao menos uma nova senha para atualizar.');
+      return;
+    }
+
+    if (!this.authService) {
+      return;
+    }
+
+    this.isUpdatingPasswords.set(true);
+    this.updateErrorMessage.set('');
+
+    try {
+      const success = await this.authService.updatePasswords(
+        teamPwd || undefined,
+        adminPwd || undefined,
+      );
+
+      if (success) {
+        this.closeConfigModal();
+        alert('Senhas atualizadas com sucesso no banco de dados!');
+      } else {
+        this.updateErrorMessage.set('Falha ao atualizar as senhas. Tente novamente.');
+      }
+    } catch {
+      this.updateErrorMessage.set('Erro ao conectar ao Firestore. Verifique sua conexão.');
+    } finally {
+      this.isUpdatingPasswords.set(false);
+    }
+  }
 
   public logout(): void {
     this.authService?.logout();

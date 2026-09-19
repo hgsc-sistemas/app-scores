@@ -73,11 +73,44 @@ select {
     width: 100%;
 }
 
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.admin-config-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: #fff;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-config-btn mat-icon {
+    color: #1d5ed3
+}
+
+.admin-config-btn:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    transform: scale(1.02);
+}
+
+.admin-config-btn mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+}
+
 .logout-btn {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -95,7 +128,7 @@ select {
 .logout-btn:hover {
     background: #fee2e2;
     border-color: #f87171;
-    transform: translateY(-50%) scale(1.02);
+    transform: scale(1.02);
 }
 
 .logout-btn mat-icon {
@@ -742,6 +775,253 @@ h1 {
 @media (max-width: 600px) {
     .topbar-header-flex {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* ==========================================================================
+ * ADMIN PASSWORD MODAL
+ * ======================================================================== */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 9999;
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 1.25rem;
+    padding: 1.75rem 1.5rem;
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.25);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-icon {
+    color: #1d5ed3;
+    font-size: 1.35rem;
+    width: 1.35rem;
+    height: 1.35rem;
+}
+
+.modal-header h2 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.close-modal-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+    transition: color 0.15s ease;
+}
+
+.close-modal-btn:hover {
+    color: #0f172a;
+}
+
+.modal-description {
+    font-size: 0.82rem;
+    color: #64748b;
+    margin: 0 0 1.25rem;
+    line-height: 1.45;
+}
+
+.modal-error-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 1rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    color: #dc2626;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.modal-error-banner mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.modal-form-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+.modal-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.modal-input-icon {
+    position: absolute;
+    left: 0.75rem;
+    color: #94a3b8;
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    pointer-events: none;
+}
+
+.modal-input-wrapper input {
+    width: 100%;
+    padding: 0.7rem 0.75rem 0.7rem 2.4rem;
+    font-size: 0.9rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 0.5rem;
+    background: #f8fafc;
+    color: #0f172a;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.modal-input-wrapper input:focus {
+    border-color: #1d5ed3;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(29, 94, 211, 0.15);
+}
+
+.modal-input-wrapper input::placeholder {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+.modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.modal-btn-cancel {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.modal-btn-cancel:hover:not(:disabled) {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.modal-btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.15rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #1d5ed3 0%, #15459b 100%);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(29, 94, 211, 0.25);
+    transition: all 0.15s ease;
+}
+
+.modal-btn-save:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(29, 94, 211, 0.35);
+}
+
+.modal-btn-save:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.modal-btn-save mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.spinner-small {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spinSmall 0.7s linear infinite;
+}
+
+@keyframes spinSmall {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }

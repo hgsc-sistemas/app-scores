@@ -91,4 +91,9 @@ describe('AuthService & AuthGuard', () => {
     const result = TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
     expect(result.toString()).toContain('/login');
   });
+
+  it('should return false from updatePasswords if no passwords provided', async () => {
+    const result = await authService.updatePasswords('', '  ');
+    expect(result).toBe(false);
+  });
 });
