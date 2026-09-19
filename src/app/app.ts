@@ -2,11 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
 import { HospitalBanner } from './hospital-banner/hospital-banner';
+import { AuthService } from './auth.service';
 
 /* ============================================================================
  * TYPES & ENUMS
@@ -1247,6 +1249,12 @@ export class App {
         oxygenSaturation: nextUseScale2 ? 90 : 96,
       };
     });
+  }
+
+  private readonly authService = inject(AuthService, { optional: true });
+
+  public logout(): void {
+    this.authService?.logout();
   }
 
   public resetNews2(): void {

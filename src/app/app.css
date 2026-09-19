@@ -65,6 +65,45 @@ select {
     color: var(--color-text-muted);
 }
 
+.topbar-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.logout-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #ef4444;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #fee2e2;
+    border-color: #f87171;
+    transform: translateY(-50%) scale(1.02);
+}
+
+.logout-btn mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+}
+
 h1 {
     margin: 0.5rem 0 0.35rem;
     font-size: clamp(2rem, 5vw, 3rem);

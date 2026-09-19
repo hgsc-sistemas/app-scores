@@ -1,0 +1,62 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="container-logo">
+        <img class="logo-itga-main" src="images/itga-icon.png" alt="Logo ITGA">
+      </div>
+      <h1>Acesso Clínico</h1>
+      <p class="subtitle">Calculadoras Médicas Especializadas (NEWS2 &amp; SAPS 3)</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-banner" role="alert">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMessage() }}</span>
+      </div>
+    }
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="passwordInput">Senha de Acesso</label>
+        <div class="input-wrapper">
+          <mat-icon class="input-icon">lock</mat-icon>
+          <input
+            id="passwordInput"
+            name="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)"
+            placeholder="Digite a senha de equipe ou admin"
+            autocomplete="current-password"
+            [disabled]="isLoading()"
+            required />
+          <button
+            type="button"
+            class="toggle-visibility-btn"
+            (click)="togglePasswordVisibility()"
+            [title]="showPassword() ? 'Ocultar senha' : 'Exibir senha'"
+            tabindex="-1">
+            <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          <span>Autenticando...</span>
+        } @else {
+          <mat-icon>login</mat-icon>
+          <span>Entrar no Sistema</span>
+        }
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <div class="offline-badge">
+        <mat-icon>offline_pin</mat-icon>
+        <span>Acesso offline ativado por 15 dias após o login</span>
+      </div>
+    </div>
+  </div>
+</div>
