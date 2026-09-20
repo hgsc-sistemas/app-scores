@@ -40,8 +40,24 @@ export class AuthService {
   public readonly currentUser = signal<AuthData | null>(this.getStoredAuth());
 
   constructor() {
-    if (isPlatformBrowser(this.platformId) && this.isAuthenticated()) {
-      this.verifySessionStatus();
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.isAuthenticated()) {
+        this.verifySessionStatus();
+      }
+
+      // Executa verificação silenciosa sempre que o usuário retornar ao app (troca de abas, desbloqueio de celular, etc.)
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && this.isAuthenticated()) {
+          this.verifySessionStatus();
+        }
+      });
+
+      // Executa verificação silenciosa quando a internet for restabelecida
+      window.addEventListener('online', () => {
+        if (this.isAuthenticated()) {
+          this.verifySessionStatus();
+        }
+      });
     }
   }
 
@@ -185,7 +201,7 @@ export class AuthService {
    * força o logout remoto de aparelhos desatualizados.
    * Em caso de falha de conexão (offline), falha silenciosamente mantendo o funcionamento da PWA.
    */
-  private async verifySessionStatus(): Promise<void> {
+  public async verifySessionStatus(): Promise<void> {
     try {
       const current = this.getStoredAuth();
       if (!current) {

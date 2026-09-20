@@ -1300,9 +1300,11 @@ export class App {
 
   public resetNews2(): void {
     this.news2Values.set(NEWS2_DEFAULT);
+    this.authService?.verifySessionStatus();
   }
 
   public resetSaps3(): void {
     this.saps3Values.set(SAPS3_DEFAULT);
+    this.authService?.verifySessionStatus();
   }
 }
