@@ -46,6 +46,7 @@ describe('AuthService & AuthGuard', () => {
     const validData = {
       role: 'team' as const,
       expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 10, // 10 days in future
+      sessionTimestamp: Date.now(),
     };
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(validData));
 
@@ -56,6 +57,7 @@ describe('AuthService & AuthGuard', () => {
     const expiredData = {
       role: 'admin' as const,
       expiresAt: Date.now() - 1000, // 1 second in the past
+      sessionTimestamp: Date.now() - 2000,
     };
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(expiredData));
 
@@ -67,6 +69,7 @@ describe('AuthService & AuthGuard', () => {
     const validData = {
       role: 'admin' as const,
       expiresAt: Date.now() + 1000 * 60 * 60,
+      sessionTimestamp: Date.now(),
     };
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(validData));
 
@@ -80,6 +83,7 @@ describe('AuthService & AuthGuard', () => {
     const validData = {
       role: 'team' as const,
       expiresAt: Date.now() + 1000 * 60 * 60,
+      sessionTimestamp: Date.now(),
     };
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(validData));
 

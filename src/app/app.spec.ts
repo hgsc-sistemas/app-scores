@@ -232,6 +232,7 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
         JSON.stringify({
           role: 'admin',
           expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+          sessionTimestamp: Date.now(),
         }),
       );
 
@@ -248,6 +249,7 @@ describe('App & SAPS 3 Official Algorithm (Segunda Revisão)', () => {
         JSON.stringify({
           role: 'team',
           expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+          sessionTimestamp: Date.now(),
         }),
       );
 

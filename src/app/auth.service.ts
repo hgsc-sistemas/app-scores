@@ -7,6 +7,7 @@ import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 export interface AuthData {
   role: 'team' | 'admin';
   expiresAt: number;
+  sessionTimestamp: number;
 }
 
 export const FIREBASE_CONFIG = {
@@ -38,9 +39,15 @@ export class AuthService {
   /** Signal reativo com os dados da sessão do usuário atual */
   public readonly currentUser = signal<AuthData | null>(this.getStoredAuth());
 
+  constructor() {
+    if (isPlatformBrowser(this.platformId) && this.isAuthenticated()) {
+      this.verifySessionStatus();
+    }
+  }
+
   /**
    * Autentica o usuário validando a senha contra o documento config/passwords no Firestore.
-   * Se for válida, persiste a sessão no localStorage por 15 dias (para uso offline).
+   * Se for válida, persiste a sessão no localStorage por 15 dias com o sessionTimestamp atual (para uso offline).
    */
   public async login(password: string): Promise<boolean> {
     if (!password || !password.trim()) {
@@ -71,8 +78,9 @@ export class AuthService {
         return false;
       }
 
-      const expiresAt = Date.now() + AUTH_VALIDITY_DAYS * 24 * 60 * 60 * 1000;
-      const authData: AuthData = { role, expiresAt };
+      const sessionTimestamp = Date.now();
+      const expiresAt = sessionTimestamp + AUTH_VALIDITY_DAYS * 24 * 60 * 60 * 1000;
+      const authData: AuthData = { role, expiresAt, sessionTimestamp };
 
       this.saveAuth(authData);
       this.currentUser.set(authData);
@@ -121,33 +129,89 @@ export class AuthService {
 
   /**
    * Atualiza as senhas de equipe e/ou administrador no Firestore.
-   * Aponta para o documento config/passwords.
+   * Grava lastPasswordChange com o timestamp atual e atualiza a sessão local do administrador
+   * para evitar que ele próprio sofra logout remoto.
    */
   public async updatePasswords(
     newTeamPassword?: string,
     newAdminPassword?: string,
   ): Promise<boolean> {
-    const updatePayload: Record<string, string> = {};
+    const now = Date.now();
+    const updatePayload: Record<string, any> = {
+      lastPasswordChange: now,
+    };
+
+    let hasChanges = false;
 
     if (newTeamPassword && newTeamPassword.trim()) {
       updatePayload['teamPassword'] = newTeamPassword.trim();
+      hasChanges = true;
     }
 
     if (newAdminPassword && newAdminPassword.trim()) {
       updatePayload['adminPassword'] = newAdminPassword.trim();
+      hasChanges = true;
     }
 
-    if (Object.keys(updatePayload).length === 0) {
+    if (!hasChanges) {
       return false;
     }
 
     try {
       const docRef = doc(this.db, 'config', 'passwords');
       await updateDoc(docRef, updatePayload);
+
+      // Atualiza a sessão do administrador local com o novo timestamp
+      const current = this.currentUser();
+      if (current) {
+        const updatedAuth: AuthData = {
+          ...current,
+          sessionTimestamp: now,
+        };
+        this.saveAuth(updatedAuth);
+        this.currentUser.set(updatedAuth);
+      }
+
       return true;
     } catch (error) {
       console.error('Erro ao atualizar senhas no Firestore:', error);
       return false;
+    }
+  }
+
+  /**
+   * Verificação silenciosa de sessão com o Firestore.
+   * Se houver internet e a senha tiver sido alterada após a criação da sessão atual,
+   * força o logout remoto de aparelhos desatualizados.
+   * Em caso de falha de conexão (offline), falha silenciosamente mantendo o funcionamento da PWA.
+   */
+  private async verifySessionStatus(): Promise<void> {
+    try {
+      const current = this.getStoredAuth();
+      if (!current) {
+        return;
+      }
+
+      const docRef = doc(this.db, 'config', 'passwords');
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        return;
+      }
+
+      const data = docSnap.data();
+      const lastPasswordChange = data?.['lastPasswordChange'];
+
+      if (
+        typeof lastPasswordChange === 'number' &&
+        current.sessionTimestamp &&
+        lastPasswordChange > current.sessionTimestamp
+      ) {
+        console.warn('Senha alterada remotamente pelo administrador. Encerrando sessão local.');
+        this.logout();
+      }
+    } catch {
+      // Falha silenciosa para suporte offline contínuo (PWA)
     }
   }
 
@@ -184,7 +248,7 @@ export class AuthService {
       }
 
       return parsed;
-    } catch (err) {
+    } catch {
       localStorage.removeItem(AUTH_STORAGE_KEY);
       return null;
     }
