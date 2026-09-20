@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1789932377898,
+  "timestamp": 1789933397961,
   "index": "/app-scores/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/app-scores/favicon.ico",
         "/app-scores/index.html",
-        "/app-scores/main-3ABSZPC5.js",
+        "/app-scores/main-H64MDB4Z.js",
         "/app-scores/manifest.webmanifest",
         "/app-scores/styles-HCMNER72.css"
       ],
@@ -58,8 +58,8 @@
     "/app-scores/images/fachada-hospital.jpeg": "c735dd0bad4ab596148297ace5e96cb72712f6ef",
     "/app-scores/images/itga-icon.png": "46218a95451eb2651461878b6e9622ff872134c8",
     "/app-scores/images/medicos-fazendo-cirurgia.jpeg": "85bde04b23f8cff4651d3f685ad118bdb01490e8",
-    "/app-scores/index.html": "7722604aaa6c68ad760eb9195845bd63b956f16c",
-    "/app-scores/main-3ABSZPC5.js": "3519477521720c4104cbd9e71fd7064d11627bc3",
+    "/app-scores/index.html": "b15563a6a071083bdc55203491f390b50f5b1a49",
+    "/app-scores/main-H64MDB4Z.js": "91467d27fe31e68b31d6837e617dba4537f4d850",
     "/app-scores/manifest.webmanifest": "8e8780142c9fd829e047ed3e12d4bc4463630269",
     "/app-scores/styles-HCMNER72.css": "4b5bf6b515befc5ad28949a13b4ff9342910c0c2"
   },
