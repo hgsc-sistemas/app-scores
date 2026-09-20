@@ -1,781 +1,989 @@
 @if (showPresentation()) {
   <app-hospital-presentation
     [isInitialOnboarding]="presentationMode() === 'onboarding'"
-    (closed)="closePresentation()" />
+    (closed)="closePresentation()"
+  />
 } @else {
   <div class="app-shell">
-  <header class="topbar">
-    <div class="topbar-actions">
-      @if (isAdmin()) {
-        <button type="button" class="admin-config-btn" (click)="openConfigModal()" title="Gerenciar senhas do sistema">
-          <mat-icon>settings</mat-icon>
-          <span>Configurações</span>
+    <header class="topbar">
+      <div class="topbar-actions">
+        <button type="button" class="logout-btn" (click)="logout()" title="Sair da conta">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+        @if (isAdmin()) {
+          <button
+            type="button"
+            class="admin-config-btn"
+            (click)="openConfigModal()"
+            title="Gerenciar senhas do sistema"
+          >
+            <mat-icon>settings</mat-icon>
+          </button>
+        }
+      </div>
+      <div class="container-logo">
+        <img class="logo-itga-main" src="images/itga-icon.png" alt="Logo ITGA" />
+      </div>
+      <div class="topbar-content">
+        <div class="topbar-header-flex">
+          <h1>Calculadora de escores</h1>
+        </div>
+      </div>
+      <p>Seleção rápida do score clínico para enfermaria (NEWS2) e UTI (SAPS 3).</p>
+    </header>
+
+    <nav class="score-switcher" aria-label="Escolha do score">
+      @for (option of scoreOptions; track option.key) {
+        <button
+          type="button"
+          class="score-tab"
+          id="{{ option.key }}-tab"
+          [class.active]="selectedScore() === option.key"
+          (click)="selectedScore.set(option.key)"
+        >
+          <mat-icon class="tab-icon">{{ option.icon }}</mat-icon>
+          <span>{{ option.label }}</span>
         </button>
       }
-      <button type="button" class="logout-btn" (click)="logout()" title="Sair da conta">
-        <mat-icon>logout</mat-icon>
-        <span>Sair</span>
-      </button>
-    </div>
-    <div class="container-logo"><img class="logo-itga-main" src="images/itga-icon.png" alt="Logo ITGA"></div>
-    <div class="topbar-content">
-      <div class="topbar-header-flex">
-        <h1>Calculadora de escores</h1>
-      </div>
-    </div>
-    <p>Seleção rápida do score clínico para enfermaria (NEWS2) e UTI (SAPS 3).</p>
-  </header>
+    </nav>
 
-  <nav class="score-switcher" aria-label="Escolha do score">
-    @for (option of scoreOptions; track option.key) {
-    <button type="button" class="score-tab" id="{{ option.key }}-tab" [class.active]="selectedScore() === option.key"
-      (click)="selectedScore.set(option.key)">
-      <mat-icon class="tab-icon">{{ option.icon }}</mat-icon>
-      <span>{{ option.label }}</span>
-    </button>
-    }
-  </nav>
-
-  <main class="dashboard">
-    <!-- ====================================================================
+    <main class="dashboard">
+      <!-- ====================================================================
      * NEWS2 (Enfermaria)
      * ==================================================================== -->
-    @if (selectedScore() === 'news2') {
-    <section class="card form-card">
-      <div class="card-header">
-        <div>
-          <span class="mini-label">Enfermaria</span>
-          <h2>NEWS2</h2>
-        </div>
-        <button type="button" class="ghost-button" (click)="resetNews2()">
-          <mat-icon>restart_alt</mat-icon>
-          Resetar
-        </button>
-      </div>
-
-      <div class="score-table">
-        <div class="table-row">
-          <div class="metric-label">Frequência respiratória</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.respiratoryRate; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().respiratoryRate === option.value"
-              (click)="setNews2Value('respiratoryRate', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-        <div class="table-row bool-row">
-          <div class="metric-label">Suporte de oxigênio</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().oxygenSupplement === option.value"
-              (click)="setNews2Value('oxygenSupplement', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-        <div class="table-row">
-          <div class="metric-label scale-toggle-row">
-            <span>Saturação de O2</span>
-            <button type="button" class="scale-toggle-btn"
-              [class.active]="news2Values().useSpO2Scale2"
-              (click)="toggleNews2SpO2Scale()"
-              title="Alternar entre Escala 1 (Padrão) e Escala 2 (DPOC / Hipercápnica)">
-              <mat-icon style="font-size: 0.95rem;">swap_horiz</mat-icon>
-              {{ news2Values().useSpO2Scale2 ? 'Escala 2 (DPOC/Hipercápnica)' : 'Escala 1 (Padrão)' }}
-            </button>
-          </div>
-          <div class="option-group">
-            @if (news2Values().useSpO2Scale2) {
-              @for (option of news2FieldOptions.oxygenSaturationScale2; track option.label) {
-              <button type="button" [class]="'option-button ' + option.color"
-                [class.selected]="news2Values().oxygenSaturation === option.value"
-                (click)="setNews2Value('oxygenSaturation', option.value)">
-                {{ option.label }}
-              </button>
-              }
-            } @else {
-              @for (option of news2FieldOptions.oxygenSaturationScale1; track option.label) {
-              <button type="button" [class]="'option-button ' + option.color"
-                [class.selected]="news2Values().oxygenSaturation === option.value"
-                (click)="setNews2Value('oxygenSaturation', option.value)">
-                {{ option.label }}
-              </button>
-              }
-            }
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="metric-label">PA sistólica</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.systolicBp; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().systolicBp === option.value"
-              (click)="setNews2Value('systolicBp', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="metric-label">FC</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.heartRate; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().heartRate === option.value"
-              (click)="setNews2Value('heartRate', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="metric-label">Temperatura</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.temperature; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().temperature === option.value"
-              (click)="setNews2Value('temperature', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <div class="table-row">
-          <div class="metric-label">Nível de consciência</div>
-          <div class="option-group">
-            @for (option of news2FieldOptions.consciousness; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="news2Values().consciousness === option.value"
-              (click)="setNews2Value('consciousness', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-      </div>
-    </section>
-    }
-
-    <!-- ====================================================================
-     * SAPS 3 (UTI - Algoritmo Oficial)
-     * ==================================================================== -->
-    @if (selectedScore() === 'saps3') {
-    <section class="card form-card saps3-form">
-      <div class="card-header">
-        <div>
-          <span class="mini-label">UTI</span>
-          <h2>SAPS 3</h2>
-        </div>
-        <button type="button" class="ghost-button" (click)="resetSaps3()">
-          <mat-icon>restart_alt</mat-icon>
-          Resetar
-        </button>
-      </div>
-
-      <div class="score-table">
-        <!-- ================= BOX I: PRÉ-UTI ================= -->
-        <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box I</span>
-          <strong>Características Pré-UTI</strong>
-        </div>
-
-        <!-- Idade -->
-        <div class="table-row">
-          <div class="metric-label">Idade</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.age; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().age === option.value"
-              (click)="setSaps3Value('age', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Tempo de permanência hospitalar antes da UTI -->
-        <div class="table-row">
-          <div class="metric-label">Permanência hospitalar antes da UTI</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.hospitalStayBeforeIcuDays; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().hospitalStayBeforeIcuDays === option.value"
-              (click)="setSaps3Value('hospitalStayBeforeIcuDays', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Localização imediatamente antes da UTI -->
-        <div class="table-row">
-          <div class="metric-label">Localização antes da UTI</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.preIcuLocation; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().preIcuLocation === option.value"
-              (click)="setSaps3Value('preIcuLocation', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Comorbidades Graves -->
-        <div class="table-row">
-          <div class="metric-label">Comorbidades Graves (Cumulativas • Selecione todas aplicáveis)</div>
-          <div class="option-group options-column">
-            <button type="button" class="option-button verde"
-              [class.selected]="hasNoSaps3Comorbidities()"
-              (click)="clearSaps3Comorbidities()">
-              Nenhuma
-            </button>
-
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().cancerTherapy"
-              (click)="toggleSaps3Comorbidity('cancerTherapy')">
-              Terapia contra câncer
-            </button>
-
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().hematologicCancer"
-              (click)="toggleSaps3Comorbidity('hematologicCancer')">
-              Câncer hematológico
-            </button>
-
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().chronicHeartFailureNYHA4"
-              (click)="toggleSaps3Comorbidity('chronicHeartFailureNYHA4')">
-              Insuficiência cardíaca NYHA IV
-            </button>
-
-            <button type="button" class="option-button vermelho"
-              [class.selected]="saps3Values().cirrhosis"
-              (click)="toggleSaps3Comorbidity('cirrhosis')">
-              Cirrose
-            </button>
-
-            <button type="button" class="option-button vermelho"
-              [class.selected]="saps3Values().aids"
-              (click)="toggleSaps3Comorbidity('aids')">
-              AIDS 
-            </button>
-
-            <button type="button" class="option-button vermelho-escuro"
-              [class.selected]="saps3Values().metastaticCancer"
-              (click)="toggleSaps3Comorbidity('metastaticCancer')">
-              Câncer metastático
-            </button>
-          </div>
-        </div>
-
-        <!-- Terapia vasoativa antes da UTI -->
-        <div class="table-row bool-row">
-          <div class="metric-label">Uso de drogas vasoativas antes da UTI</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.vasoactiveDrugsBeforeIcu; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().vasoactiveDrugsBeforeIcu === option.value"
-              (click)="setSaps3Value('vasoactiveDrugsBeforeIcu', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- ================= BOX II: CIRCUNSTÂNCIAS DA ADMISSÃO ================= -->
-        <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box II</span>
-          <strong>Circunstâncias da Admissão</strong>
-        </div>
-
-        <!-- Tipo de admissão na UTI -->
-        <div class="table-row">
-          <div class="metric-label">Tipo de admissão na UTI</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.plannedIcuAdmission; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().plannedIcuAdmission === option.value"
-              (click)="setSaps3Value('plannedIcuAdmission', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Status cirúrgico -->
-        <div class="table-row">
-          <div class="metric-label">Status cirúrgico</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.surgicalStatus; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().surgicalStatus === option.value"
-              (click)="setSaps3Value('surgicalStatus', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Local anatômico da cirurgia -->
-        <div class="table-row">
-          <div class="metric-label">Local anatômico da cirurgia</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.surgerySite; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().surgerySite === option.value"
-              (click)="setSaps3Value('surgerySite', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Infecção aguda na admissão (Cumulativas) -->
-        <div class="table-row">
-          <div class="metric-label">Infecção aguda na admissão (Cumulativas • Selecione todas aplicáveis)</div>
-          <div class="option-group">
-            <button type="button" class="option-button verde"
-              [class.selected]="hasNoSaps3AcuteInfections()"
-              (click)="clearSaps3AcuteInfections()">
-              Nenhuma
-            </button>
-
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().acuteInfections.nosocomial"
-              (click)="toggleSaps3AcuteInfection('nosocomial')">
-              Nosocomial / Hospitalar 
-            </button>
-
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().acuteInfections.respiratory"
-              (click)="toggleSaps3AcuteInfection('respiratory')">
-              Respiratória 
-            </button>
-          </div>
-        </div>
-
-        <!-- Motivos da Admissão na UTI -->
-        <div class="table-row">
-          <div class="metric-label">Motivos da Admissão na UTI (Selecione todos aplicáveis)</div>
-          <div class="option-group options-column">
-            <button type="button" class="option-button verde"
-              [class.selected]="hasNoSaps3AdmissionReasons()"
-              (click)="clearSaps3AdmissionReasons()">
-              Nenhum / Outros
-            </button>
-
-            <!-- Cardiovascular -->
-            <button type="button" class="option-button verde"
-              [class.selected]="saps3Values().admissionReasons.cardiacRhythmDisturbance"
-              (click)="toggleSaps3AdmissionReason('cardiacRhythmDisturbance')">
-              Distúrbio do ritmo 
-            </button>
-
-            <button type="button" class="option-button verde" [class.selected]="saps3Values().admissionReasons.seizures"
-              (click)="toggleSaps3AdmissionReason('seizures')">
-              Convulsão
-            </button>
-
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().admissionReasons.hypovolemicShockHemorrhagic"
-              (click)="toggleSaps3AdmissionReason('hypovolemicShockHemorrhagic')">
-              Choque hipovolêmico hemorrágico 
-            </button>
-
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().admissionReasons.hypovolemicShockNonHemorrhagic"
-              (click)="toggleSaps3AdmissionReason('hypovolemicShockNonHemorrhagic')">
-              Choque hipovolêmico não hemorrágico 
-            </button>
-
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().admissionReasons.septicShock"
-              (click)="toggleSaps3AdmissionReason('septicShock')">
-              Choque séptico 
-            </button>
-
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().admissionReasons.anaphylacticOrMixedShock"
-              (click)="toggleSaps3AdmissionReason('anaphylacticOrMixedShock')">
-              Choque anafilático / misto 
-            </button>
-
-            <!-- Hepático -->
-            <button type="button" class="option-button laranja"
-              [class.selected]="saps3Values().admissionReasons.liverFailure"
-              (click)="toggleSaps3AdmissionReason('liverFailure')">
-              Insuficiência hepática 
-            </button>
-
-            <!-- Digestivo -->
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().admissionReasons.acuteAbdomenOrOtherDigestive"
-              (click)="toggleSaps3AdmissionReason('acuteAbdomenOrOtherDigestive')">
-              Abdome agudo / outro digestivo 
-            </button>
-
-            <button type="button" class="option-button vermelho"
-              [class.selected]="saps3Values().admissionReasons.severePancreatitis"
-              (click)="toggleSaps3AdmissionReason('severePancreatitis')">
-              Pancreatite grave 
-            </button>
-
-            <!-- Neurológico -->
-
-            <button type="button" class="option-button amarelo"
-              [class.selected]="saps3Values().admissionReasons.comaStuporConfusionDelirium"
-              (click)="toggleSaps3AdmissionReason('comaStuporConfusionDelirium')">
-              Coma / estupor / confusão / delírio 
-            </button>
-
-            <button type="button" class="option-button vermelho"
-              [class.selected]="saps3Values().admissionReasons.focalNeurologicalDeficit"
-              (click)="toggleSaps3AdmissionReason('focalNeurologicalDeficit')">
-              Déficit neurológico focal 
-            </button>
-
-            <button type="button" class="option-button vermelho-escuro"
-              [class.selected]="saps3Values().admissionReasons.intracranialMassEffect"
-              (click)="toggleSaps3AdmissionReason('intracranialMassEffect')">
-              Efeito de massa intracraniana
-            </button>
-          </div>
-        </div>
-
-        <!-- ================= BOX III: FISIOLOGIA AGUDA ================= -->
-        <div class="saps3-box-header">
-          <span class="saps3-box-badge">Box III</span>
-          <strong>Variáveis Fisiológicas (Piores valores na 1ª hora na UTI)</strong>
-        </div>
-
-        <!-- Glasgow Coma Scale -->
-        <div class="table-row">
-          <div class="metric-label">Glasgow Coma Scale (GCS)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.gcs; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().gcs === option.value"
-              (click)="setSaps3Value('gcs', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Bilirrubina total (mg/dL) -->
-        <div class="table-row">
-          <div class="metric-label">Bilirrubina total (mg/dL)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.bilirubin; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().bilirubin === option.value"
-              (click)="setSaps3Value('bilirubin', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Temperatura (°C) -->
-        <div class="table-row">
-          <div class="metric-label">Temperatura (°C)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.temperature; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().temperature === option.value"
-              (click)="setSaps3Value('temperature', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Creatinina sérica (mg/dL) -->
-        <div class="table-row">
-          <div class="metric-label">Creatinina sérica (mg/dL)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.creatinine; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().creatinine === option.value"
-              (click)="setSaps3Value('creatinine', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Frequência cardíaca (bpm) -->
-        <div class="table-row">
-          <div class="metric-label">Frequência cardíaca (bpm)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.heartRate; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().heartRate === option.value"
-              (click)="setSaps3Value('heartRate', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Leucócitos (G/L ou mil/mm³) -->
-        <div class="table-row">
-          <div class="metric-label">Leucócitos (G/L)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.leukocytes; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().leukocytes === option.value"
-              (click)="setSaps3Value('leukocytes', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- pH arterial -->
-        <div class="table-row">
-          <div class="metric-label">pH arterial</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.ph; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().ph === option.value"
-              (click)="setSaps3Value('ph', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Plaquetas (G/L ou mil/mm³) -->
-        <div class="table-row">
-          <div class="metric-label">Plaquetas (G/L)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.platelets; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().platelets === option.value"
-              (click)="setSaps3Value('platelets', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Pressão arterial sistólica (PAS - mmHg) -->
-        <div class="table-row">
-          <div class="metric-label">Pressão arterial sistólica (PAS - mmHg)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.systolicBp; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().systolicBp === option.value"
-              (click)="setSaps3Value('systolicBp', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Ventilação Mecânica -->
-        <div class="table-row bool-row">
-          <div class="metric-label">Ventilação Mecânica</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.mechanicalVentilation; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().mechanicalVentilation === option.value"
-              (click)="setSaps3Value('mechanicalVentilation', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Oxigenação Condicional -->
-        @if (saps3Values().mechanicalVentilation) {
-        <div class="table-row">
-          <div class="metric-label">PaO₂/FiO₂ (Com Ventilação Mecânica)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.pao2Fio2Mv; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().pao2Fio2 === option.value"
-              (click)="setSaps3Value('pao2Fio2', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-        } @else {
-        <div class="table-row">
-          <div class="metric-label">PaO₂ (Sem Ventilação Mecânica - Espontânea)</div>
-          <div class="option-group">
-            @for (option of saps3FieldOptions.pao2Spontaneous; track option.label) {
-            <button type="button" [class]="'option-button ' + option.color"
-              [class.selected]="saps3Values().pao2 === option.value"
-              (click)="setSaps3Value('pao2', option.value)">
-              {{ option.label }}
-            </button>
-            }
-          </div>
-        </div>
-        }
-      </div>
-    </section>
-    }
-
-    <!-- ====================================================================
-     * PAINEL DE RESULTADO CLÍNICO
-     * ==================================================================== -->
-    <aside class="card result-card"
-      [class.low]="selectedScore() === 'news2' ? news2Result().tone === 'low' : saps3Result().tone === 'low'"
-      [class.medium]="selectedScore() === 'news2' ? news2Result().tone === 'medium' : saps3Result().tone === 'medium'"
-      [class.high]="selectedScore() === 'news2' ? news2Result().tone === 'high' : saps3Result().tone === 'high'"
-      [class.critical]="selectedScore() === 'news2' ? news2Result().tone === 'critical' : saps3Result().tone === 'critical'">
-      <div class="result-topline">
-        <span class="mini-label"><mat-icon style="font-size: 0.95rem;">analytics</mat-icon>Resultado</span>
-        @if (selectedScore() === 'news2') {
-        <span class="result-tag">{{ news2Result().label }}</span>
-        } @else {
-        <span class="result-tag">{{ saps3Result().label }}</span>
-        }
-      </div>
-
-      <div class="score-value">
-        @if (selectedScore() === 'news2') {
-        {{ news2Result().total }}
-        } @else {
-        {{ saps3Result().total }}
-        }
-      </div>
-
       @if (selectedScore() === 'news2') {
-        <p class="estimate">{{ news2Result().estimate }}</p>
-      } @else {
-        <div class="mortality-breakdown">
-          <div class="mortality-header">
-            <span class="mortality-subtitle">Probabilidade prevista de óbito hospitalar</span>
-          </div>
-          <div class="mortality-items-grid">
-            <div class="mortality-item primary-mortality">
-              <span class="mortality-badge"><mat-icon>flag</mat-icon> América Latina (Brasil)</span>
-              <span class="mortality-val">{{ saps3Result().mortalityLatAm }}%</span>
+        <section class="card form-card">
+          <div class="card-header">
+            <div>
+              <span class="mini-label">Enfermaria</span>
+              <h2>NEWS2</h2>
             </div>
-            <div class="mortality-item secondary-mortality">
-              <span class="mortality-badge"><mat-icon>public</mat-icon> Padrão Global</span>
-              <span class="mortality-val">{{ saps3Result().mortalityGlobal }}%</span>
+            <button type="button" class="ghost-button" (click)="resetNews2()">
+              <mat-icon>restart_alt</mat-icon>
+              Resetar
+            </button>
+          </div>
+
+          <div class="score-table">
+            <div class="table-row">
+              <div class="metric-label">Frequência respiratória</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.respiratoryRate; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().respiratoryRate === option.value"
+                    (click)="setNews2Value('respiratoryRate', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+            <div class="table-row bool-row">
+              <div class="metric-label">Suporte de oxigênio</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.oxygenSupplement; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().oxygenSupplement === option.value"
+                    (click)="setNews2Value('oxygenSupplement', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+            <div class="table-row">
+              <div class="metric-label scale-toggle-row">
+                <span>Saturação de O2</span>
+                <button
+                  type="button"
+                  class="scale-toggle-btn"
+                  [class.active]="news2Values().useSpO2Scale2"
+                  (click)="toggleNews2SpO2Scale()"
+                  title="Alternar entre Escala 1 (Padrão) e Escala 2 (DPOC / Hipercápnica)"
+                >
+                  <mat-icon style="font-size: 0.95rem">swap_horiz</mat-icon>
+                  {{
+                    news2Values().useSpO2Scale2
+                      ? 'Escala 2 (DPOC/Hipercápnica)'
+                      : 'Escala 1 (Padrão)'
+                  }}
+                </button>
+              </div>
+              <div class="option-group">
+                @if (news2Values().useSpO2Scale2) {
+                  @for (option of news2FieldOptions.oxygenSaturationScale2; track option.label) {
+                    <button
+                      type="button"
+                      [class]="'option-button ' + option.color"
+                      [class.selected]="news2Values().oxygenSaturation === option.value"
+                      (click)="setNews2Value('oxygenSaturation', option.value)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                } @else {
+                  @for (option of news2FieldOptions.oxygenSaturationScale1; track option.label) {
+                    <button
+                      type="button"
+                      [class]="'option-button ' + option.color"
+                      [class.selected]="news2Values().oxygenSaturation === option.value"
+                      (click)="setNews2Value('oxygenSaturation', option.value)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                }
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="metric-label">PA sistólica</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.systolicBp; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().systolicBp === option.value"
+                    (click)="setNews2Value('systolicBp', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="metric-label">FC</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.heartRate; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().heartRate === option.value"
+                    (click)="setNews2Value('heartRate', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="metric-label">Temperatura</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.temperature; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().temperature === option.value"
+                    (click)="setNews2Value('temperature', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="table-row">
+              <div class="metric-label">Nível de consciência</div>
+              <div class="option-group">
+                @for (option of news2FieldOptions.consciousness; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="news2Values().consciousness === option.value"
+                    (click)="setNews2Value('consciousness', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       }
 
-      <div class="guidance-box">
-        <div class="guidance-title-row">
-          <mat-icon>assignment</mat-icon>
-          <strong>Conduta sugerida</strong>
+      <!-- ====================================================================
+     * SAPS 3 (UTI - Algoritmo Oficial)
+     * ==================================================================== -->
+      @if (selectedScore() === 'saps3') {
+        <section class="card form-card saps3-form">
+          <div class="card-header">
+            <div>
+              <span class="mini-label">UTI</span>
+              <h2>SAPS 3</h2>
+            </div>
+            <button type="button" class="ghost-button" (click)="resetSaps3()">
+              <mat-icon>restart_alt</mat-icon>
+              Resetar
+            </button>
+          </div>
+
+          <div class="score-table">
+            <!-- ================= BOX I: PRÉ-UTI ================= -->
+            <div class="saps3-box-header">
+              <span class="saps3-box-badge">Box I</span>
+              <strong>Características Pré-UTI</strong>
+            </div>
+
+            <!-- Idade -->
+            <div class="table-row">
+              <div class="metric-label">Idade</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.age; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().age === option.value"
+                    (click)="setSaps3Value('age', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Tempo de permanência hospitalar antes da UTI -->
+            <div class="table-row">
+              <div class="metric-label">Permanência hospitalar antes da UTI</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.hospitalStayBeforeIcuDays; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().hospitalStayBeforeIcuDays === option.value"
+                    (click)="setSaps3Value('hospitalStayBeforeIcuDays', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Localização imediatamente antes da UTI -->
+            <div class="table-row">
+              <div class="metric-label">Localização antes da UTI</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.preIcuLocation; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().preIcuLocation === option.value"
+                    (click)="setSaps3Value('preIcuLocation', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Comorbidades Graves -->
+            <div class="table-row">
+              <div class="metric-label">
+                Comorbidades Graves (Cumulativas • Selecione todas aplicáveis)
+              </div>
+              <div class="option-group options-column">
+                <button
+                  type="button"
+                  class="option-button verde"
+                  [class.selected]="hasNoSaps3Comorbidities()"
+                  (click)="clearSaps3Comorbidities()"
+                >
+                  Nenhuma
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().cancerTherapy"
+                  (click)="toggleSaps3Comorbidity('cancerTherapy')"
+                >
+                  Terapia contra câncer
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().hematologicCancer"
+                  (click)="toggleSaps3Comorbidity('hematologicCancer')"
+                >
+                  Câncer hematológico
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().chronicHeartFailureNYHA4"
+                  (click)="toggleSaps3Comorbidity('chronicHeartFailureNYHA4')"
+                >
+                  Insuficiência cardíaca NYHA IV
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho"
+                  [class.selected]="saps3Values().cirrhosis"
+                  (click)="toggleSaps3Comorbidity('cirrhosis')"
+                >
+                  Cirrose
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho"
+                  [class.selected]="saps3Values().aids"
+                  (click)="toggleSaps3Comorbidity('aids')"
+                >
+                  AIDS
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho-escuro"
+                  [class.selected]="saps3Values().metastaticCancer"
+                  (click)="toggleSaps3Comorbidity('metastaticCancer')"
+                >
+                  Câncer metastático
+                </button>
+              </div>
+            </div>
+
+            <!-- Terapia vasoativa antes da UTI -->
+            <div class="table-row bool-row">
+              <div class="metric-label">Uso de drogas vasoativas antes da UTI</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.vasoactiveDrugsBeforeIcu; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().vasoactiveDrugsBeforeIcu === option.value"
+                    (click)="setSaps3Value('vasoactiveDrugsBeforeIcu', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- ================= BOX II: CIRCUNSTÂNCIAS DA ADMISSÃO ================= -->
+            <div class="saps3-box-header">
+              <span class="saps3-box-badge">Box II</span>
+              <strong>Circunstâncias da Admissão</strong>
+            </div>
+
+            <!-- Tipo de admissão na UTI -->
+            <div class="table-row">
+              <div class="metric-label">Tipo de admissão na UTI</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.plannedIcuAdmission; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().plannedIcuAdmission === option.value"
+                    (click)="setSaps3Value('plannedIcuAdmission', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Status cirúrgico -->
+            <div class="table-row">
+              <div class="metric-label">Status cirúrgico</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.surgicalStatus; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().surgicalStatus === option.value"
+                    (click)="setSaps3Value('surgicalStatus', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Local anatômico da cirurgia -->
+            <div class="table-row">
+              <div class="metric-label">Local anatômico da cirurgia</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.surgerySite; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().surgerySite === option.value"
+                    (click)="setSaps3Value('surgerySite', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Infecção aguda na admissão (Cumulativas) -->
+            <div class="table-row">
+              <div class="metric-label">
+                Infecção aguda na admissão (Cumulativas • Selecione todas aplicáveis)
+              </div>
+              <div class="option-group">
+                <button
+                  type="button"
+                  class="option-button verde"
+                  [class.selected]="hasNoSaps3AcuteInfections()"
+                  (click)="clearSaps3AcuteInfections()"
+                >
+                  Nenhuma
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().acuteInfections.nosocomial"
+                  (click)="toggleSaps3AcuteInfection('nosocomial')"
+                >
+                  Nosocomial / Hospitalar
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().acuteInfections.respiratory"
+                  (click)="toggleSaps3AcuteInfection('respiratory')"
+                >
+                  Respiratória
+                </button>
+              </div>
+            </div>
+
+            <!-- Motivos da Admissão na UTI -->
+            <div class="table-row">
+              <div class="metric-label">
+                Motivos da Admissão na UTI (Selecione todos aplicáveis)
+              </div>
+              <div class="option-group options-column">
+                <button
+                  type="button"
+                  class="option-button verde"
+                  [class.selected]="hasNoSaps3AdmissionReasons()"
+                  (click)="clearSaps3AdmissionReasons()"
+                >
+                  Nenhum / Outros
+                </button>
+
+                <!-- Cardiovascular -->
+                <button
+                  type="button"
+                  class="option-button verde"
+                  [class.selected]="saps3Values().admissionReasons.cardiacRhythmDisturbance"
+                  (click)="toggleSaps3AdmissionReason('cardiacRhythmDisturbance')"
+                >
+                  Distúrbio do ritmo
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button verde"
+                  [class.selected]="saps3Values().admissionReasons.seizures"
+                  (click)="toggleSaps3AdmissionReason('seizures')"
+                >
+                  Convulsão
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().admissionReasons.hypovolemicShockHemorrhagic"
+                  (click)="toggleSaps3AdmissionReason('hypovolemicShockHemorrhagic')"
+                >
+                  Choque hipovolêmico hemorrágico
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().admissionReasons.hypovolemicShockNonHemorrhagic"
+                  (click)="toggleSaps3AdmissionReason('hypovolemicShockNonHemorrhagic')"
+                >
+                  Choque hipovolêmico não hemorrágico
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().admissionReasons.septicShock"
+                  (click)="toggleSaps3AdmissionReason('septicShock')"
+                >
+                  Choque séptico
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().admissionReasons.anaphylacticOrMixedShock"
+                  (click)="toggleSaps3AdmissionReason('anaphylacticOrMixedShock')"
+                >
+                  Choque anafilático / misto
+                </button>
+
+                <!-- Hepático -->
+                <button
+                  type="button"
+                  class="option-button laranja"
+                  [class.selected]="saps3Values().admissionReasons.liverFailure"
+                  (click)="toggleSaps3AdmissionReason('liverFailure')"
+                >
+                  Insuficiência hepática
+                </button>
+
+                <!-- Digestivo -->
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().admissionReasons.acuteAbdomenOrOtherDigestive"
+                  (click)="toggleSaps3AdmissionReason('acuteAbdomenOrOtherDigestive')"
+                >
+                  Abdome agudo / outro digestivo
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho"
+                  [class.selected]="saps3Values().admissionReasons.severePancreatitis"
+                  (click)="toggleSaps3AdmissionReason('severePancreatitis')"
+                >
+                  Pancreatite grave
+                </button>
+
+                <!-- Neurológico -->
+
+                <button
+                  type="button"
+                  class="option-button amarelo"
+                  [class.selected]="saps3Values().admissionReasons.comaStuporConfusionDelirium"
+                  (click)="toggleSaps3AdmissionReason('comaStuporConfusionDelirium')"
+                >
+                  Coma / estupor / confusão / delírio
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho"
+                  [class.selected]="saps3Values().admissionReasons.focalNeurologicalDeficit"
+                  (click)="toggleSaps3AdmissionReason('focalNeurologicalDeficit')"
+                >
+                  Déficit neurológico focal
+                </button>
+
+                <button
+                  type="button"
+                  class="option-button vermelho-escuro"
+                  [class.selected]="saps3Values().admissionReasons.intracranialMassEffect"
+                  (click)="toggleSaps3AdmissionReason('intracranialMassEffect')"
+                >
+                  Efeito de massa intracraniana
+                </button>
+              </div>
+            </div>
+
+            <!-- ================= BOX III: FISIOLOGIA AGUDA ================= -->
+            <div class="saps3-box-header">
+              <span class="saps3-box-badge">Box III</span>
+              <strong>Variáveis Fisiológicas (Piores valores na 1ª hora na UTI)</strong>
+            </div>
+
+            <!-- Glasgow Coma Scale -->
+            <div class="table-row">
+              <div class="metric-label">Glasgow Coma Scale (GCS)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.gcs; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().gcs === option.value"
+                    (click)="setSaps3Value('gcs', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Bilirrubina total (mg/dL) -->
+            <div class="table-row">
+              <div class="metric-label">Bilirrubina total (mg/dL)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.bilirubin; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().bilirubin === option.value"
+                    (click)="setSaps3Value('bilirubin', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Temperatura (°C) -->
+            <div class="table-row">
+              <div class="metric-label">Temperatura (°C)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.temperature; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().temperature === option.value"
+                    (click)="setSaps3Value('temperature', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Creatinina sérica (mg/dL) -->
+            <div class="table-row">
+              <div class="metric-label">Creatinina sérica (mg/dL)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.creatinine; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().creatinine === option.value"
+                    (click)="setSaps3Value('creatinine', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Frequência cardíaca (bpm) -->
+            <div class="table-row">
+              <div class="metric-label">Frequência cardíaca (bpm)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.heartRate; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().heartRate === option.value"
+                    (click)="setSaps3Value('heartRate', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Leucócitos (G/L ou mil/mm³) -->
+            <div class="table-row">
+              <div class="metric-label">Leucócitos (G/L)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.leukocytes; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().leukocytes === option.value"
+                    (click)="setSaps3Value('leukocytes', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- pH arterial -->
+            <div class="table-row">
+              <div class="metric-label">pH arterial</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.ph; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().ph === option.value"
+                    (click)="setSaps3Value('ph', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Plaquetas (G/L ou mil/mm³) -->
+            <div class="table-row">
+              <div class="metric-label">Plaquetas (G/L)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.platelets; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().platelets === option.value"
+                    (click)="setSaps3Value('platelets', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Pressão arterial sistólica (PAS - mmHg) -->
+            <div class="table-row">
+              <div class="metric-label">Pressão arterial sistólica (PAS - mmHg)</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.systolicBp; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().systolicBp === option.value"
+                    (click)="setSaps3Value('systolicBp', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Ventilação Mecânica -->
+            <div class="table-row bool-row">
+              <div class="metric-label">Ventilação Mecânica</div>
+              <div class="option-group">
+                @for (option of saps3FieldOptions.mechanicalVentilation; track option.label) {
+                  <button
+                    type="button"
+                    [class]="'option-button ' + option.color"
+                    [class.selected]="saps3Values().mechanicalVentilation === option.value"
+                    (click)="setSaps3Value('mechanicalVentilation', option.value)"
+                  >
+                    {{ option.label }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <!-- Oxigenação Condicional -->
+            @if (saps3Values().mechanicalVentilation) {
+              <div class="table-row">
+                <div class="metric-label">PaO₂/FiO₂ (Com Ventilação Mecânica)</div>
+                <div class="option-group">
+                  @for (option of saps3FieldOptions.pao2Fio2Mv; track option.label) {
+                    <button
+                      type="button"
+                      [class]="'option-button ' + option.color"
+                      [class.selected]="saps3Values().pao2Fio2 === option.value"
+                      (click)="setSaps3Value('pao2Fio2', option.value)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                </div>
+              </div>
+            } @else {
+              <div class="table-row">
+                <div class="metric-label">PaO₂ (Sem Ventilação Mecânica - Espontânea)</div>
+                <div class="option-group">
+                  @for (option of saps3FieldOptions.pao2Spontaneous; track option.label) {
+                    <button
+                      type="button"
+                      [class]="'option-button ' + option.color"
+                      [class.selected]="saps3Values().pao2 === option.value"
+                      (click)="setSaps3Value('pao2', option.value)"
+                    >
+                      {{ option.label }}
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- ====================================================================
+     * PAINEL DE RESULTADO CLÍNICO
+     * ==================================================================== -->
+      <aside
+        class="card result-card"
+        [class.low]="
+          selectedScore() === 'news2' ? news2Result().tone === 'low' : saps3Result().tone === 'low'
+        "
+        [class.medium]="
+          selectedScore() === 'news2'
+            ? news2Result().tone === 'medium'
+            : saps3Result().tone === 'medium'
+        "
+        [class.high]="
+          selectedScore() === 'news2'
+            ? news2Result().tone === 'high'
+            : saps3Result().tone === 'high'
+        "
+        [class.critical]="
+          selectedScore() === 'news2'
+            ? news2Result().tone === 'critical'
+            : saps3Result().tone === 'critical'
+        "
+      >
+        <div class="result-topline">
+          <span class="mini-label"
+            ><mat-icon style="font-size: 0.95rem">analytics</mat-icon>Resultado</span
+          >
+          @if (selectedScore() === 'news2') {
+            <span class="result-tag">{{ news2Result().label }}</span>
+          } @else {
+            <span class="result-tag">{{ saps3Result().label }}</span>
+          }
         </div>
+
+        <div class="score-value">
+          @if (selectedScore() === 'news2') {
+            {{ news2Result().total }}
+          } @else {
+            {{ saps3Result().total }}
+          }
+        </div>
+
         @if (selectedScore() === 'news2') {
-        <p>{{ news2Result().guidance }}</p>
+          <p class="estimate">{{ news2Result().estimate }}</p>
         } @else {
-        <p>{{ saps3Result().guidance }}</p>
+          <div class="mortality-breakdown">
+            <div class="mortality-header">
+              <span class="mortality-subtitle">Probabilidade prevista de óbito hospitalar</span>
+            </div>
+            <div class="mortality-items-grid">
+              <div class="mortality-item primary-mortality">
+                <span class="mortality-badge"
+                  ><mat-icon>flag</mat-icon> América Latina (Brasil)</span
+                >
+                <span class="mortality-val">{{ saps3Result().mortalityLatAm }}%</span>
+              </div>
+              <div class="mortality-item secondary-mortality">
+                <span class="mortality-badge"><mat-icon>public</mat-icon> Padrão Global</span>
+                <span class="mortality-val">{{ saps3Result().mortalityGlobal }}%</span>
+              </div>
+            </div>
+          </div>
         }
-      </div>
-    </aside>
-  </main>
 
-  <app-hospital-banner (open)="openPresentation()" />
+        <div class="guidance-box">
+          <div class="guidance-title-row">
+            <mat-icon>assignment</mat-icon>
+            <strong>Conduta sugerida</strong>
+          </div>
+          @if (selectedScore() === 'news2') {
+            <p>{{ news2Result().guidance }}</p>
+          } @else {
+            <p>{{ saps3Result().guidance }}</p>
+          }
+        </div>
+      </aside>
+    </main>
 
-  <!-- ====================================================================
+    <app-hospital-banner (open)="openPresentation()" />
+
+    <!-- ====================================================================
    * MODAL ADMINISTRATIVO: ALTERAÇÃO DE SENHAS
    * ==================================================================== -->
-  @if (isConfigModalOpen()) {
-    <div class="modal-backdrop" (click)="closeConfigModal()">
-      <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <div class="modal-header">
-          <div class="modal-title-row">
-            <mat-icon class="modal-icon">admin_panel_settings</mat-icon>
-            <h2 id="modalTitle">Gerenciar Senhas de Acesso</h2>
-          </div>
-          <button type="button" class="close-modal-btn" (click)="closeConfigModal()" title="Fechar">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-
-        <p class="modal-description">
-          Como administrador, você pode redefinir as senhas de acesso da equipe clínica e do administrador diretamente no banco de dados.
-        </p>
-
-        @if (updateErrorMessage()) {
-          <div class="modal-error-banner" role="alert">
-            <mat-icon>error</mat-icon>
-            <span>{{ updateErrorMessage() }}</span>
-          </div>
-        }
-
-        <form (ngSubmit)="savePasswordChanges()" class="modal-form">
-          <div class="modal-form-group">
-            <label for="newTeamPasswordInput">Nova Senha da Equipe</label>
-            <div class="modal-input-wrapper">
-              <mat-icon class="modal-input-icon">group</mat-icon>
-              <input
-                id="newTeamPasswordInput"
-                type="text"
-                [ngModel]="newTeamPassword()"
-                (ngModelChange)="newTeamPassword.set($event)"
-                name="teamPassword"
-                placeholder="Deixe em branco para manter a atual"
-                autocomplete="off"
-                [disabled]="isUpdatingPasswords()" />
+    @if (isConfigModalOpen()) {
+      <div class="modal-backdrop" (click)="closeConfigModal()">
+        <div
+          class="modal-card"
+          (click)="$event.stopPropagation()"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalTitle"
+        >
+          <div class="modal-header">
+            <div class="modal-title-row">
+              <mat-icon class="modal-icon">admin_panel_settings</mat-icon>
+              <h2 id="modalTitle">Gerenciar Senhas de Acesso</h2>
             </div>
-          </div>
-
-          <div class="modal-form-group">
-            <label for="newAdminPasswordInput">Nova Senha de Administrador</label>
-            <div class="modal-input-wrapper">
-              <mat-icon class="modal-input-icon">shield</mat-icon>
-              <input
-                id="newAdminPasswordInput"
-                type="text"
-                [ngModel]="newAdminPassword()"
-                (ngModelChange)="newAdminPassword.set($event)"
-                name="adminPassword"
-                placeholder="Deixe em branco para manter a atual"
-                autocomplete="off"
-                [disabled]="isUpdatingPasswords()" />
-            </div>
-          </div>
-
-          <div class="modal-actions">
             <button
               type="button"
-              class="modal-btn-cancel"
+              class="close-modal-btn"
               (click)="closeConfigModal()"
-              [disabled]="isUpdatingPasswords()">
-              Cancelar
-            </button>
-
-            <button
-              type="submit"
-              class="modal-btn-save"
-              [disabled]="isUpdatingPasswords()">
-              @if (isUpdatingPasswords()) {
-                <span class="spinner-small"></span>
-                <span>Salvando...</span>
-              } @else {
-                <mat-icon>save</mat-icon>
-                <span>Salvar Alterações</span>
-              }
+              title="Fechar"
+            >
+              <mat-icon>close</mat-icon>
             </button>
           </div>
-        </form>
+
+          <p class="modal-description">
+            Como administrador, você pode redefinir as senhas de acesso da equipe clínica e do
+            administrador diretamente no banco de dados.
+          </p>
+
+          @if (updateErrorMessage()) {
+            <div class="modal-error-banner" role="alert">
+              <mat-icon>error</mat-icon>
+              <span>{{ updateErrorMessage() }}</span>
+            </div>
+          }
+
+          <form (ngSubmit)="savePasswordChanges()" class="modal-form">
+            <div class="modal-form-group">
+              <label for="newTeamPasswordInput">Nova Senha da Equipe</label>
+              <div class="modal-input-wrapper">
+                <mat-icon class="modal-input-icon">group</mat-icon>
+                <input
+                  id="newTeamPasswordInput"
+                  type="text"
+                  [ngModel]="newTeamPassword()"
+                  (ngModelChange)="newTeamPassword.set($event)"
+                  name="teamPassword"
+                  placeholder="Deixe em branco para manter a atual"
+                  autocomplete="off"
+                  [disabled]="isUpdatingPasswords()"
+                />
+              </div>
+            </div>
+
+            <div class="modal-form-group">
+              <label for="newAdminPasswordInput">Nova Senha de Administrador</label>
+              <div class="modal-input-wrapper">
+                <mat-icon class="modal-input-icon">shield</mat-icon>
+                <input
+                  id="newAdminPasswordInput"
+                  type="text"
+                  [ngModel]="newAdminPassword()"
+                  (ngModelChange)="newAdminPassword.set($event)"
+                  name="adminPassword"
+                  placeholder="Deixe em branco para manter a atual"
+                  autocomplete="off"
+                  [disabled]="isUpdatingPasswords()"
+                />
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="modal-btn-cancel"
+                (click)="closeConfigModal()"
+                [disabled]="isUpdatingPasswords()"
+              >
+                Cancelar
+              </button>
+
+              <button type="submit" class="modal-btn-save" [disabled]="isUpdatingPasswords()">
+                @if (isUpdatingPasswords()) {
+                  <span class="spinner-small"></span>
+                  <span>Salvando...</span>
+                } @else {
+                  <mat-icon>save</mat-icon>
+                  <span>Salvar Alterações</span>
+                }
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  }
+    }
   </div>
 }
