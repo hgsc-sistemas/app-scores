@@ -1,15 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { HospitalPresentation } from './hospital-presentation/hospital-presentation';
 import { HospitalBanner } from './hospital-banner/hospital-banner';
 import { AuthService } from './auth.service';
+import Swal from 'sweetalert2';
 
 /* ============================================================================
  * TYPES & ENUMS
@@ -36,16 +31,9 @@ export interface News2Values {
  * SAPS 3 TYPES (ALGORITMO OFICIAL SAPS 3 OUTCOMES RESEARCH GROUP)
  * ------------------------------------------------------------------------- */
 
-export type Saps3PreIcuLocation =
-  | 'operativeRoom'
-  | 'emergencyRoom'
-  | 'otherIcu'
-  | 'other';
+export type Saps3PreIcuLocation = 'operativeRoom' | 'emergencyRoom' | 'otherIcu' | 'other';
 
-export type Saps3SurgicalStatus =
-  | 'scheduledSurgery'
-  | 'noSurgery'
-  | 'emergencySurgery';
+export type Saps3SurgicalStatus = 'scheduledSurgery' | 'noSurgery' | 'emergencySurgery';
 
 export type Saps3SurgerySite =
   | 'otherOrNone'
@@ -431,22 +419,17 @@ export const SAPS3_DEFAULT: Saps3Values = {
 /**
  * Avalia faixas numéricas de forma estrita, sem gaps e sem números mágicos de arredondamento.
  */
-export function getRangeScore(
-  value: number,
-  ranges: readonly ContinuousRange[],
-): number {
+export function getRangeScore(value: number, ranges: readonly ContinuousRange[]): number {
   if (value === undefined || value === null || isNaN(value)) {
     return 0;
   }
 
   for (const range of ranges) {
     const minSatisfied =
-      range.min === undefined ||
-      (range.minInclusive ? value >= range.min : value > range.min);
+      range.min === undefined || (range.minInclusive ? value >= range.min : value > range.min);
 
     const maxSatisfied =
-      range.max === undefined ||
-      (range.maxInclusive ? value <= range.max : value < range.max);
+      range.max === undefined || (range.maxInclusive ? value <= range.max : value < range.max);
 
     if (minSatisfied && maxSatisfied) {
       return range.score;
@@ -477,10 +460,7 @@ export function getNews2OxygenSaturationScore(values: News2Values): number {
     return getRangeScore(values.oxygenSaturation, ranges);
   }
 
-  return getRangeScore(
-    values.oxygenSaturation,
-    NEWS2_RULES.oxygenSaturationScale1,
-  );
+  return getRangeScore(values.oxygenSaturation, NEWS2_RULES.oxygenSaturationScale1);
 }
 
 export function calculateNews2Score(values: News2Values): News2CalculationResult {
@@ -518,7 +498,8 @@ export function summarizeNews2(result: News2CalculationResult): ScoreResult {
       total,
       label: 'Risco baixo-médio (Parâmetro Vermelho)',
       tone: 'medium',
-      guidance: 'Alerta de parâmetro extremo isolado (3 pontos). Avaliação urgente pela equipe e reavaliação mínima a cada 1 hora.',
+      guidance:
+        'Alerta de parâmetro extremo isolado (3 pontos). Avaliação urgente pela equipe e reavaliação mínima a cada 1 hora.',
       estimate: 'Gatilho clínico por valor extremo',
     };
   }
@@ -528,7 +509,8 @@ export function summarizeNews2(result: News2CalculationResult): ScoreResult {
       total,
       label: 'Risco moderado',
       tone: 'medium',
-      guidance: 'Avaliação médica urgente em no máximo 1 hora e aumento da frequência de monitorização.',
+      guidance:
+        'Avaliação médica urgente em no máximo 1 hora e aumento da frequência de monitorização.',
       estimate: 'Sinais de alerta em progressão',
     };
   }
@@ -537,7 +519,8 @@ export function summarizeNews2(result: News2CalculationResult): ScoreResult {
     total,
     label: 'Risco alto',
     tone: 'high',
-    guidance: 'Resposta de emergência; avaliação médica imediata e considerar transferência para leito de monitorização contínua ou UTI.',
+    guidance:
+      'Resposta de emergência; avaliação médica imediata e considerar transferência para leito de monitorização contínua ou UTI.',
     estimate: 'Necessita intervenção médica de emergência',
   };
 }
@@ -590,13 +573,7 @@ export function calculateSaps3Box2(values: Saps3Values): number {
   const surgerySiteScore = getSaps3SurgerySiteScore(values.surgerySite);
   const infectionScore = getSaps3InfectionScore(values.acuteInfections);
 
-  return (
-    admissionTypeScore +
-    reasonScore +
-    surgicalStatusScore +
-    surgerySiteScore +
-    infectionScore
-  );
+  return admissionTypeScore + reasonScore + surgicalStatusScore + surgerySiteScore + infectionScore;
 }
 
 /**
@@ -632,9 +609,7 @@ export function calculateSaps3Box3(values: Saps3Values): number {
  * HELPERS ESPECÍFICOS DO SAPS 3
  * ------------------------------------------------------------------------- */
 
-export function getSaps3PreIcuLocationScore(
-  location: Saps3PreIcuLocation,
-): number {
+export function getSaps3PreIcuLocationScore(location: Saps3PreIcuLocation): number {
   return SAPS3_RULES.preIcuLocation[location] ?? 0;
 }
 
@@ -677,9 +652,7 @@ export function getSaps3ComorbidityScore(values: Saps3Values): number {
  *    - Hemorrágico (+3) e Não hemorrágico (+3) acumulam-se (+6 se ambos).
  * 3. Demais motivos acumulam por acometimento sistêmico (Cardiovascular, Hepático, Digestivo, Neurológico).
  */
-export function getSaps3AdmissionReasonScore(
-  reasons: Saps3AdmissionReasons,
-): number {
+export function getSaps3AdmissionReasonScore(reasons: Saps3AdmissionReasons): number {
   let score = 0;
 
   const hasRhythm = !!reasons.cardiacRhythmDisturbance;
@@ -730,21 +703,15 @@ export function getSaps3AdmissionReasonScore(
   return score;
 }
 
-export function getSaps3SurgicalStatusScore(
-  status: Saps3SurgicalStatus,
-): number {
+export function getSaps3SurgicalStatusScore(status: Saps3SurgicalStatus): number {
   return SAPS3_RULES.surgicalStatus[status] ?? 0;
 }
 
-export function getSaps3SurgerySiteScore(
-  site: Saps3SurgerySite,
-): number {
+export function getSaps3SurgerySiteScore(site: Saps3SurgerySite): number {
   return SAPS3_RULES.surgerySite[site] ?? 0;
 }
 
-export function getSaps3InfectionScore(
-  infections: Saps3AcuteInfections,
-): number {
+export function getSaps3InfectionScore(infections: Saps3AcuteInfections): number {
   let score = 0;
   if (infections?.nosocomial) {
     score += SAPS3_RULES.acuteInfections.nosocomial;
@@ -765,11 +732,7 @@ export function getSaps3OxygenationScore(
   values: Pick<Saps3Values, 'mechanicalVentilation' | 'pao2Fio2' | 'pao2'>,
 ): number {
   if (values.mechanicalVentilation) {
-    if (
-      values.pao2Fio2 === undefined ||
-      values.pao2Fio2 === null ||
-      isNaN(values.pao2Fio2)
-    ) {
+    if (values.pao2Fio2 === undefined || values.pao2Fio2 === null || isNaN(values.pao2Fio2)) {
       return 0;
     }
     return values.pao2Fio2 < 100
@@ -777,11 +740,7 @@ export function getSaps3OxygenationScore(
       : SAPS3_RULES.oxygenation.mechanicalVentilation.gte100;
   }
 
-  if (
-    values.pao2 === undefined ||
-    values.pao2 === null ||
-    isNaN(values.pao2)
-  ) {
+  if (values.pao2 === undefined || values.pao2 === null || isNaN(values.pao2)) {
     return 0;
   }
 
@@ -853,7 +812,8 @@ export function summarizeSaps3(total: number): ScoreResult {
   } else {
     label = 'Risco crítico';
     tone = 'critical';
-    guidance = 'Risco crítico iminente; suporte orgânico múltiplo e revisão multidisciplinar imediata.';
+    guidance =
+      'Risco crítico iminente; suporte orgânico múltiplo e revisão multidisciplinar imediata.';
   }
 
   return {
@@ -894,9 +854,7 @@ export class App {
    * Administradores vão direto para a calculadora (showPresentation = false).
    * Usuários da equipe passam pela apresentação inicial.
    */
-  public readonly showPresentation = signal<boolean>(
-    this.authService?.getRole() !== 'admin',
-  );
+  public readonly showPresentation = signal<boolean>(this.authService?.getRole() !== 'admin');
   public readonly presentationMode = signal<'onboarding' | 'free'>('onboarding');
 
   public closePresentation(): void {
@@ -1023,7 +981,11 @@ export class App {
       { label: 'Centro Cirúrgico', value: 'operativeRoom' as Saps3PreIcuLocation, color: 'verde' },
       { label: 'Emergência', value: 'emergencyRoom' as Saps3PreIcuLocation, color: 'amarelo' },
       { label: 'Outra UTI', value: 'otherIcu' as Saps3PreIcuLocation, color: 'laranja' },
-      { label: 'Outros locais / Enfermaria', value: 'other' as Saps3PreIcuLocation, color: 'vermelho' },
+      {
+        label: 'Outros locais / Enfermaria',
+        value: 'other' as Saps3PreIcuLocation,
+        color: 'vermelho',
+      },
     ],
 
     /* Box I: Uso de drogas vasoativas antes da UTI */
@@ -1040,9 +1002,17 @@ export class App {
 
     /* Box II: Status cirúrgico */
     surgicalStatus: [
-      { label: 'Cirurgia programada', value: 'scheduledSurgery' as Saps3SurgicalStatus, color: 'verde' },
+      {
+        label: 'Cirurgia programada',
+        value: 'scheduledSurgery' as Saps3SurgicalStatus,
+        color: 'verde',
+      },
       { label: 'Sem cirurgia', value: 'noSurgery' as Saps3SurgicalStatus, color: 'amarelo' },
-      { label: 'Cirurgia de emergência', value: 'emergencySurgery' as Saps3SurgicalStatus, color: 'laranja' },
+      {
+        label: 'Cirurgia de emergência',
+        value: 'emergencySurgery' as Saps3SurgicalStatus,
+        color: 'laranja',
+      },
     ],
 
     /* Box II: Local anatômico da cirurgia */
@@ -1050,8 +1020,16 @@ export class App {
       { label: 'Outros / Não cirúrgico', value: 'otherOrNone' as Saps3SurgerySite, color: 'verde' },
       { label: 'Transplante', value: 'transplantation' as Saps3SurgerySite, color: 'verde' },
       { label: 'Trauma isolado/múltiplo', value: 'trauma' as Saps3SurgerySite, color: 'verde' },
-      { label: 'CABG sem reparo valvar', value: 'cabgWithoutValvularRepair' as Saps3SurgerySite, color: 'verde' },
-      { label: 'Neurocirurgia por AVC', value: 'neurosurgeryForStroke' as Saps3SurgerySite, color: 'laranja' },
+      {
+        label: 'CABG sem reparo valvar',
+        value: 'cabgWithoutValvularRepair' as Saps3SurgerySite,
+        color: 'verde',
+      },
+      {
+        label: 'Neurocirurgia por AVC',
+        value: 'neurosurgeryForStroke' as Saps3SurgerySite,
+        color: 'laranja',
+      },
     ],
 
     /* Box III: Glasgow Coma Scale */
@@ -1142,20 +1120,14 @@ export class App {
    * VALUE SETTERS
    * ======================================================================== */
 
-  public setNews2Value<K extends keyof News2Values>(
-    field: K,
-    value: News2Values[K],
-  ): void {
+  public setNews2Value<K extends keyof News2Values>(field: K, value: News2Values[K]): void {
     this.news2Values.update((current) => ({
       ...current,
       [field]: value,
     }));
   }
 
-  public setSaps3Value<K extends keyof Saps3Values>(
-    field: K,
-    value: Saps3Values[K],
-  ): void {
+  public setSaps3Value<K extends keyof Saps3Values>(field: K, value: Saps3Values[K]): void {
     this.saps3Values.update((current) => ({
       ...current,
       [field]: value,
@@ -1201,9 +1173,7 @@ export class App {
     );
   });
 
-  public toggleSaps3AdmissionReason(
-    reason: keyof Saps3AdmissionReasons,
-  ): void {
+  public toggleSaps3AdmissionReason(reason: keyof Saps3AdmissionReasons): void {
     this.saps3Values.update((current) => ({
       ...current,
       admissionReasons: {
@@ -1225,9 +1195,7 @@ export class App {
     return !Object.values(r).some(Boolean);
   });
 
-  public toggleSaps3AcuteInfection(
-    infection: keyof Saps3AcuteInfections,
-  ): void {
+  public toggleSaps3AcuteInfection(infection: keyof Saps3AcuteInfections): void {
     this.saps3Values.update((current) => ({
       ...current,
       acuteInfections: {
@@ -1308,7 +1276,14 @@ export class App {
 
       if (success) {
         this.closeConfigModal();
-        alert('Senhas atualizadas com sucesso no banco de dados!');
+        void Swal.fire({
+          icon: 'success',
+          title: 'Senhas atualizadas',
+          text: 'As senhas foram atualizadas com sucesso no banco de dados.',
+          confirmButtonText: 'Entendi',
+          timer: 3500,
+          timerProgressBar: true,
+        });
       } else {
         this.updateErrorMessage.set('Falha ao atualizar as senhas. Tente novamente.');
       }
